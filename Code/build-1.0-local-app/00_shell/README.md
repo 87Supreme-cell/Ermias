@@ -16,7 +16,7 @@ Do not change without owner approval.
 - Edge tool strips on **both** sides, 56 px wide. Left: Databases, Audit log. Right: Task chain, Project grade.
 - Each tab: icon on top, vertical label reading bottom to top, short status figure below (for example `4/5`, `8.1`). A warning-colored count of items that need the person sits under the tabs.
 - **One panel open per side.** Both sides can be open at once.
-- Panels **overlay** the center (they do not push it): 400 px wide, 104 px from the top, 96 px in from their side.
+- Panels **overlay** the center (they do not push it): 400 px wide, opening just below the header (164 px from the top in the reference), 96 px in from their side. They never cover the header.
 - A panel closes from its tab or its close button.
 - The center column takes all remaining width; the layout fills the window height.
 - New panels are added as tabs, never as new columns.
@@ -39,6 +39,7 @@ Panel contents come from sections 06–09. Status figures on tabs are read from 
 - [ ] Each panel closes from its tab and from its close button.
 - [ ] With all panels closed, PRIMARY FOCUS spans the full width between the strips.
 - [ ] Tabs are reachable by keyboard and announce expanded or collapsed.
+- [ ] An open panel never covers the header or the connections box.
 
 ## Escalate to owner when
 - Anything this README does not answer.

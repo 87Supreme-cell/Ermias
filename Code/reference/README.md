@@ -10,6 +10,7 @@ The complete approved design, exported from the design canvas.
 | `Settings.dc.html` | 4 · Settings: model providers |
 | `canvas.json` | Layout of the four screens on the canvas |
 | `assets/ermias-logo.png` | Logo |
+| `screenshots/` | Rendered screenshots of every screen and key state |
 
 How to read these files:
 - Markup sits inside `<x-dc>`. The `<script type="text/x-dc">` block at the bottom holds the screen's state and the theme table.

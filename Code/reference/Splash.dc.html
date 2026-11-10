@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Ermias — sign in</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:inherit}a:hover{opacity:.9}
+</style>
+</helmet>
+<div style="width: 100%; min-height: 100vh; box-sizing: border-box; padding: 48px 24px; background: {{t.bg}}; color: {{t.ink}}; font-family: Inter, system-ui, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 36px">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center">
+<div style="width: 400px; max-width: 100%; height: 180px; border-radius: 20px; overflow: hidden; background: #F6F7F6; border: 1px solid {{t.glassBorder}}">
+<img src="/_blob/d9a8a57164faa5d3e19a1b5b0ac82e31" alt="Ermias, local research and build app" style="width: 100%; height: 100%; object-fit: cover; object-position: center; display: block">
+</div>
+<p style="margin: 0; font-size: 20px; font-weight: 500; letter-spacing: 0.01em; color: {{t.ink}}">Your work, your way</p>
+</div>
+
+<sc-if value="{{locked}}" hint-placeholder-val="{{true}}">
+<form aria-label="Sign in" onSubmit="{{signIn}}" style="width: 420px; max-width: 100%; box-sizing: border-box; display: flex; flex-direction: column; gap: 14px; padding: 28px; border-radius: 20px; border: 1px solid {{t.glassBorder}}; background: {{t.glass}}; backdrop-filter: blur(18px) saturate(150%); -webkit-backdrop-filter: blur(18px) saturate(150%)">
+<h2 style="margin: 0; font-size: 20px; font-weight: 600; text-align: center">Sign in</h2>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="user" style="font-size: 13px; font-weight: 500">Username</label>
+<input id="user" type="text" autocomplete="username" style="font: inherit; font-size: 15px; min-height: 48px; box-sizing: border-box; width: 100%; padding: 0 14px; border-radius: 12px; border: 1px solid {{t.btnBorder}}; background: {{t.subtle}}; color: {{t.ink}}">
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="pass" style="font-size: 13px; font-weight: 500">Password</label>
+<input id="pass" type="password" autocomplete="current-password" style="font: inherit; font-size: 15px; min-height: 48px; box-sizing: border-box; width: 100%; padding: 0 14px; border-radius: 12px; border: 1px solid {{t.btnBorder}}; background: {{t.subtle}}; color: {{t.ink}}">
+</div>
+<button type="submit" style="font: inherit; font-size: 15px; font-weight: 600; min-height: 48px; width: 100%; border-radius: 12px; border: 1px solid {{t.accent}}; background: {{t.accent}}; color: {{t.onAccent}}; cursor: pointer">Sign in</button>
+<span style="font-size: 12px; color: {{t.muted}}; text-align: center">Checked on this machine. Nothing is sent anywhere.</span>
+</form>
+</sc-if>
+
+<sc-if value="{{unlocked}}" hint-placeholder-val="{{false}}">
+<div style="width: 100%; max-width: 1120px; display: flex; flex-direction: column; align-items: center; gap: 20px">
+<span style="display: inline-flex; align-items: center; gap: 8px; background: {{t.accentSoft}}; color: {{t.accentText}}; border-radius: 999px; padding: 6px 14px; font-size: 13px; font-weight: 500"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="m9 12 2 2 4-4"></path></svg>Signed in · sterile session ready</span>
+<nav aria-label="Projects" style="width: 100%; display: flex; flex-wrap: wrap; gap: 20px">
+<a href="#review" style="flex: 1 1 280px; min-width: 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 14px; padding: 24px; min-height: 220px; text-decoration: none; border-radius: 18px; border: 1px solid {{t.glassBorder}}; background: {{t.glass}}; color: {{t.ink}}; backdrop-filter: blur(18px) saturate(150%); -webkit-backdrop-filter: blur(18px) saturate(150%)">
+<span style="width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: {{t.accentSoft}}; color: {{t.accentText}}"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="5" rx="1"></rect><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"></path><path d="M10 12h4"></path></svg></span>
+<span style="font-size: 26px; font-weight: 600; letter-spacing: -0.01em">Review</span>
+<span style="font-size: 15px; line-height: 1.5; opacity: 0.85">Finished projects, read-only, each with its full audit trail.</span>
+<span style="margin-top: auto; font-family: 'JetBrains Mono', monospace; font-size: 12px; opacity: 0.8">12 completed</span>
+</a>
+<a href="Main.dc.html" style="flex: 1 1 280px; min-width: 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 14px; padding: 24px; min-height: 220px; text-decoration: none; border-radius: 18px; border: 1px solid {{t.glassBorder}}; background: {{t.glass}}; color: {{t.ink}}; backdrop-filter: blur(18px) saturate(150%); -webkit-backdrop-filter: blur(18px) saturate(150%)">
+<span style="width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: {{t.accentSoft}}; color: {{t.accentText}}"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg></span>
+<span style="font-size: 26px; font-weight: 600; letter-spacing: -0.01em">Resume</span>
+<span style="font-size: 15px; line-height: 1.5; opacity: 0.85">Projects in progress. Pick up exactly where the last step ended.</span>
+<span style="margin-top: auto; font-family: 'JetBrains Mono', monospace; font-size: 12px; opacity: 0.8">3 in progress · last: Code, step 4 of 5</span>
+</a>
+<a href="Kickoff.dc.html" style="flex: 1 1 280px; min-width: 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 14px; padding: 24px; min-height: 220px; text-decoration: none; border-radius: 18px; border: 1px solid {{t.accent}}; background: {{t.accent}}; color: {{t.onAccent}}; backdrop-filter: blur(18px) saturate(150%); -webkit-backdrop-filter: blur(18px) saturate(150%)">
+<span style="width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: {{t.onAccent}}; color: {{t.accent}}"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></span>
+<span style="font-size: 26px; font-weight: 600; letter-spacing: -0.01em">Research</span>
+<span style="font-size: 15px; line-height: 1.5; opacity: 0.85">Start a new project. Set the goal and agree the benchmarks first.</span>
+<span style="margin-top: auto; font-family: 'JetBrains Mono', monospace; font-size: 12px; opacity: 0.8">Opens project kickoff →</span>
+</a>
+</nav>
+<button type="button" onClick="{{lock}}" style="font: inherit; font-size: 13px; font-weight: 500; min-height: 44px; padding: 0 16px; border-radius: 10px; border: 1px solid {{t.btnBorder}}; background: {{t.btnBg}}; color: {{t.ink}}; cursor: pointer">Sign out</button>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["Blues","Cyberpunk","Sunburst","Earth tones"],"default":"Blues"},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { unlocked: false };
+  }
+  renderVals() {
+    const T = {
+      'Blues': {
+        bg: 'radial-gradient(900px 600px at 0% 0%, rgba(59,130,246,0.38), transparent 60%), radial-gradient(800px 600px at 100% 25%, rgba(14,165,233,0.30), transparent 60%), radial-gradient(700px 500px at 50% 100%, rgba(99,102,241,0.28), transparent 60%), #EEF3FB',
+        ink: '#0F1A2E', muted: '#4B5873', glass: 'rgba(255,255,255,0.55)', glassBorder: 'rgba(255,255,255,0.8)', solid: 'rgba(255,255,255,0.94)',
+        line: '#E1E7F1', track: '#E3EAF4', accent: '#1E4FD8', onAccent: '#FFFFFF', accentSoft: '#E4ECFF', accentText: '#163BA3',
+        warn: '#C2410C', warnSoft: '#FFF0E4', warnText: '#9A3412', subtle: 'rgba(241,245,251,0.75)', btnBg: 'rgba(255,255,255,0.75)', btnBorder: '#CFD9EA', bubble: '#E9EFF8', dashed: '#E0A27A',
+        invBg: '#0E2350', invInk: '#F2F6FF', invMuted: '#AFC0E0', invBorder: 'rgba(255,255,255,0.14)', invLine: 'rgba(255,255,255,0.12)', invBtn: 'rgba(255,255,255,0.08)', riskLocal: '#4ADE80', riskHybrid: '#FDBA74', riskExposed: '#F87171', swatch: 'linear-gradient(135deg, #3B82F6, #1E3A8A)', flyout: 'rgba(255,255,255,0.82)', shadow: '0 24px 60px rgba(15,26,46,0.22)', onWarn: '#FFFFFF'
+      },
+      'Cyberpunk': {
+        bg: 'radial-gradient(900px 600px at 6% 0%, rgba(255,43,214,0.34), transparent 60%), radial-gradient(800px 600px at 100% 18%, rgba(0,229,255,0.28), transparent 60%), radial-gradient(700px 500px at 55% 100%, rgba(124,58,237,0.36), transparent 60%), #0A0A12',
+        ink: '#EDEBFF', muted: '#B3AFD6', glass: 'rgba(24,22,46,0.55)', glassBorder: 'rgba(170,150,255,0.26)', solid: 'rgba(17,16,31,0.92)',
+        line: 'rgba(255,255,255,0.10)', track: 'rgba(255,255,255,0.12)', accent: '#00E5FF', onAccent: '#031418', accentSoft: 'rgba(0,229,255,0.14)', accentText: '#7DF3FF',
+        warn: '#FF4FB0', warnSoft: 'rgba(255,79,176,0.15)', warnText: '#FFA3D4', subtle: 'rgba(255,255,255,0.05)', btnBg: 'rgba(255,255,255,0.07)', btnBorder: 'rgba(255,255,255,0.20)', bubble: 'rgba(255,255,255,0.08)', dashed: 'rgba(255,79,176,0.6)',
+        invBg: '#F1EEFF', invInk: '#14112A', invMuted: '#4A4570', invBorder: 'rgba(20,17,42,0.16)', invLine: 'rgba(20,17,42,0.12)', invBtn: 'rgba(20,17,42,0.06)', riskLocal: '#15803D', riskHybrid: '#D97706', riskExposed: '#B91C1C', swatch: 'linear-gradient(135deg, #FF2BD6, #00E5FF)', flyout: 'rgba(22,20,42,0.84)', shadow: '0 24px 60px rgba(0,0,0,0.55), 0 0 0 1px rgba(0,229,255,0.15)', onWarn: '#1A0612'
+      },
+      'Sunburst': {
+        bg: 'radial-gradient(900px 600px at 0% 0%, rgba(255,183,3,0.42), transparent 60%), radial-gradient(800px 600px at 100% 28%, rgba(251,133,0,0.32), transparent 60%), radial-gradient(700px 500px at 40% 100%, rgba(255,99,72,0.28), transparent 60%), #FFF7EC',
+        ink: '#2A1606', muted: '#6B4626', glass: 'rgba(255,250,240,0.55)', glassBorder: 'rgba(255,255,255,0.8)', solid: 'rgba(255,253,248,0.95)',
+        line: '#F0E1CC', track: '#F3E4CF', accent: '#C2410C', onAccent: '#FFFFFF', accentSoft: '#FFE8D2', accentText: '#9A3412',
+        warn: '#9D174D', warnSoft: '#FCE4EC', warnText: '#831843', subtle: 'rgba(251,241,227,0.75)', btnBg: 'rgba(255,255,255,0.75)', btnBorder: '#EBD2B2', bubble: '#F8EAD7', dashed: '#D58AA6',
+        invBg: '#3A1C06', invInk: '#FFF4E6', invMuted: '#E6C7A6', invBorder: 'rgba(255,255,255,0.14)', invLine: 'rgba(255,255,255,0.12)', invBtn: 'rgba(255,255,255,0.08)', riskLocal: '#4ADE80', riskHybrid: '#FDBA74', riskExposed: '#F87171', swatch: 'linear-gradient(135deg, #FFB703, #FB5607)', flyout: 'rgba(255,251,244,0.85)', shadow: '0 24px 60px rgba(42,22,6,0.22)', onWarn: '#FFFFFF'
+      },
+      'Earth tones': {
+        bg: 'radial-gradient(900px 600px at 0% 0%, rgba(122,140,84,0.38), transparent 60%), radial-gradient(800px 600px at 100% 25%, rgba(181,101,64,0.30), transparent 60%), radial-gradient(700px 500px at 50% 100%, rgba(196,164,108,0.38), transparent 60%), #F1EBE0',
+        ink: '#2B2A22', muted: '#5C5748', glass: 'rgba(250,246,238,0.55)', glassBorder: 'rgba(255,255,255,0.7)', solid: 'rgba(252,249,243,0.95)',
+        line: '#E5DCCB', track: '#EAE2D3', accent: '#4D6B3C', onAccent: '#FFFFFF', accentSoft: '#E4ECD9', accentText: '#3A5230',
+        warn: '#A4471F', warnSoft: '#F7E5DA', warnText: '#863915', subtle: 'rgba(243,237,226,0.75)', btnBg: 'rgba(255,255,255,0.7)', btnBorder: '#D8CCB6', bubble: '#EEE7D9', dashed: '#D19A72',
+        invBg: '#2C3622', invInk: '#F4F1E8', invMuted: '#CDD0B8', invBorder: 'rgba(255,255,255,0.14)', invLine: 'rgba(255,255,255,0.12)', invBtn: 'rgba(255,255,255,0.08)', riskLocal: '#4ADE80', riskHybrid: '#FDBA74', riskExposed: '#F87171', swatch: 'linear-gradient(135deg, #7A8C54, #B56540)', flyout: 'rgba(251,248,241,0.85)', shadow: '0 24px 60px rgba(43,42,34,0.22)', onWarn: '#FFFFFF'
+      }
+    };
+    const names = ['Blues', 'Cyberpunk', 'Sunburst', 'Earth tones'];
+    const current = this.props.theme ?? 'Blues';
+    const t = T[current] ?? T['Blues'];
+    return {
+      t,
+      locked: !this.state.unlocked,
+      unlocked: this.state.unlocked,
+      signIn: (e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ unlocked: true }); },
+      lock: () => this.setState({ unlocked: false })
+    };
+  }
+}
+</script>
+</body>
+</html>

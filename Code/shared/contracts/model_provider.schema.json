@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ermias/model_provider",
+  "title": "model_provider",
+  "description": "A model provider in Settings.",
+  "$comment": "DRAFT. Owner approval required before implementation.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "kind": {
+      "enum": [
+        "local",
+        "cloud"
+      ]
+    },
+    "endpoint": {
+      "type": "string",
+      "description": "Local providers must point at this machine (127.0.0.1 or localhost)."
+    },
+    "model": {
+      "type": "string"
+    },
+    "is_default": {
+      "type": "boolean"
+    },
+    "api_key_ref": {
+      "type": "string",
+      "description": "Reference to the encrypted key. The key itself is never stored here."
+    },
+    "ask_before_every_call": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "name",
+    "kind"
+  ]
+}

@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Ermias workbench</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:inherit}a:hover{opacity:.8}
+</style>
+</helmet>
+<div style="position: relative; width: 100%; min-height: 100vh; box-sizing: border-box; padding: 20px; background: {{t.bg}}; color: {{t.ink}}; font-family: Inter, system-ui, sans-serif; font-size: 14px; line-height: 1.45; display: flex; flex-direction: column; gap: 16px">
+
+<header style="display: flex; flex-direction: column; gap: 10px; background: {{t.glass}}; border: 1px solid {{t.glassBorder}}; border-radius: 14px; padding: 10px 12px 10px 16px; backdrop-filter: blur(18px) saturate(150%); -webkit-backdrop-filter: blur(18px) saturate(150%)">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px">
+<div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap">
+<span style="font-size: 18px; font-weight: 600; letter-spacing: -0.01em">Ermias</span>
+<span style="display: inline-flex; align-items: center; gap: 8px; background: {{t.accentSoft}}; color: {{t.accentText}}; border-radius: 999px; padding: 4px 12px; font-size: 13px; font-weight: 500"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="m9 12 2 2 4-4"></path></svg>Sterile session · state verified · key present</span>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 6px 18px; flex: 1 1 480px; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 12px; color: {{t.muted}}">
+<span>Model <span style="color: {{t.ink}}">Olmo-3-7B-Instruct · Q4 · hash a1f3…9c ✓</span></span>
+<span>Memory <span style="color: {{t.ink}}">9.8 / 16 GB</span></span>
+<span>CPU <span style="color: {{t.ink}}">42%</span></span>
+<span>Network <span style="color: {{t.ink}}">loopback only · 1 external call</span></span>
+<span>Clock <span style="color: {{t.ink}}">2026-11-10 10:43</span></span>
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px">
+<div style="display: flex; align-items: center; gap: 8px">
+<div role="group" aria-label="Theme" style="display: flex; gap: 2px">
+<sc-for list="{{themes}}" as="item" hint-placeholder-count="4">
+<button type="button" aria-label="{{item.label}} theme" aria-pressed="{{item.pressed}}" onClick="{{item.pick}}" style="width: 36px; height: 44px; padding: 0; border: none; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center"><span style="width: 20px; height: 20px; border-radius: 50%; background: {{item.swatch}}; box-shadow: {{item.ring}}"></span></button>
+</sc-for>
+</div>
+<button type="button" style="font: inherit; font-weight: 500; min-height: 44px; padding: 0 14px; border-radius: 10px; border: 1px solid {{t.btnBorder}}; background: {{t.btnBg}}; color: {{t.ink}}; cursor: pointer; display: inline-flex; align-items: center; gap: 8px"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>Briefing room</button>
+<a href="Settings.dc.html" aria-label="Settings" style="width: 44px; height: 44px; padding: 0; border-radius: 10px; border: 1px solid {{t.btnBorder}}; background: {{t.btnBg}}; color: {{t.ink}}; cursor: pointer; text-decoration: none; box-sizing: border-box; display: inline-flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg></a>
+</div>
+<div style="flex: 1 1 420px; display: flex; justify-content: center">
+<div role="group" aria-label="External connections" style="display: flex; align-items: center; gap: 4px; flex-wrap: wrap; background: {{t.invBg}}; color: {{t.invInk}}; border: 1px solid {{t.invBorder}}; border-radius: 12px; padding: 4px 4px 4px 14px">
+<span style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: {{t.invMuted}}; margin-right: 6px">Connections</span>
+<span title="Local only. Not openable." style="font-size: 13px; font-weight: 600; min-height: 44px; padding: 0 12px; display: inline-flex; align-items: center; gap: 8px"><svg aria-hidden="true" width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="4.5" fill="{{t.riskLocal}}"></circle></svg>4 Local</span>
+<button type="button" aria-expanded="{{conn.hybridExpanded}}" onClick="{{conn.hybridToggle}}" style="font: inherit; font-size: 13px; font-weight: 600; min-height: 44px; padding: 0 12px; border-radius: 9px; border: 1px solid {{conn.hybridBorder}}; background: {{conn.hybridBg}}; color: {{t.invInk}}; cursor: pointer; display: inline-flex; align-items: center; gap: 8px"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 10 10"><path d="M5 0.5 9.5 5 5 9.5 0.5 5z" fill="{{t.riskHybrid}}"></path></svg>2 Hybrid<svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg></button>
+<button type="button" aria-expanded="{{conn.exposedExpanded}}" onClick="{{conn.exposedToggle}}" style="font: inherit; font-size: 13px; font-weight: 600; min-height: 44px; padding: 0 12px; border-radius: 9px; border: 1px solid {{conn.exposedBorder}}; background: {{conn.exposedBg}}; color: {{t.invInk}}; cursor: pointer; display: inline-flex; align-items: center; gap: 8px"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 10 10"><path d="M5 0.5 9.6 9.3H0.4z" fill="{{t.riskExposed}}"></path></svg>1 Exposed<svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg></button>
+</div>
+</div>
+<div aria-hidden="true" style="flex: 0 1 236px"></div>
+</div>
+</header>
+
+<div style="flex: 1 1 auto; display: flex; flex-wrap: wrap; gap: 16px; align-items: stretch">
+
+<nav aria-label="Left tool strip" style="flex: 0 0 56px; display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 10px 0; background: {{t.glass}}; border: 1px solid {{t.glassBorder}}; border-radius: 14px; backdrop-filter: blur(18px) saturate(150%); -webkit-backdrop-filter: blur(18px) saturate(150%)">
+<button type="button" aria-label="Databases" aria-expanded="{{tabs.db.expanded}}" onClick="{{tabs.db.toggle}}" style="width: 44px; padding: 14px 0; border-radius: 10px; border: 1px solid {{tabs.db.border}}; background: {{tabs.db.bg}}; color: {{tabs.db.fg}}; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 10px; font: inherit"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M3 5v14a9 3 0 0 0 18 0V5"></path><path d="M3 12a9 3 0 0 0 18 0"></path></svg><span style="writing-mode: vertical-rl; transform: rotate(180deg); font-size: 12px; font-weight: 600; letter-spacing: 0.04em; white-space: nowrap">Databases</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500">4/5</span></button>
+<button type="button" aria-label="Audit log" aria-expanded="{{tabs.log.expanded}}" onClick="{{tabs.log.toggle}}" style="width: 44px; padding: 14px 0; border-radius: 10px; border: 1px solid {{tabs.log.border}}; background: {{tabs.log.bg}}; color: {{tabs.log.fg}}; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 10px; font: inherit"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13"></path><path d="M8 12h13"></path><path d="M8 18h13"></path><path d="M3 6h.01"></path><path d="M3 12h.01"></path><path d="M3 18h.01"></path></svg><span style="writing-mode: vertical-rl; transform: rotate(180deg); font-size: 12px; font-weight: 600; letter-spacing: 0.04em; white-space: nowrap">Audit log</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500">5</span></button>
+<span title="Items that need you" style="margin-top: 4px; min-width: 22px; height: 22px; border-radius: 11px; background: {{t.warn}}; color: {{t.onWarn}}; font-size: 11px; font-weight: 600; display: flex; align-items: center; justify-content: center">2</span>
+</nav>
+
+<main style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+<section style="flex: 1 1 auto; min-height: 600px; background: {{t.solid}}; border: 1px solid {{t.glassBorder}}; border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap">
+<h2 style="margin: 0; font-size: 15px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; display: flex; align-items: center; gap: 8px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18"></path><path d="M9 21V9"></path></svg>Primary focus</h2>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: {{t.muted}}">3,840 of 32,768 tokens</span>
+</div>
+<div style="height: 6px; background: {{t.track}}; border-radius: 3px"><div style="width: 12%; height: 6px; background: {{t.accent}}; border-radius: 3px"></div></div>
+
+<div style="flex: 1 1 auto; display: flex; flex-wrap: wrap; gap: 16px">
+<div style="flex: 999 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+<div style="align-self: flex-end; max-width: 80%; background: {{t.bubble}}; border-radius: 12px; padding: 12px 14px">What do our sources require before personal data is stored in a local database?</div>
+
+<div style="display: flex; flex-direction: column; gap: 12px; border: 1px solid {{t.line}}; border-radius: 12px; padding: 14px">
+<span style="font-size: 12px; color: {{t.muted}}">Olmo-3-7B-Instruct · every sentence carries its source</span>
+<p style="margin: 0">Store only the fields the task needs, and record why each one is kept. <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: {{t.accentText}}; background: {{t.accentSoft}}; border-radius: 6px; padding: 2px 6px; white-space: nowrap">laws · 1182</span></p>
+<p style="margin: 0">Encrypt the database file at rest and keep the key off the machine. <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: {{t.accentText}}; background: {{t.accentSoft}}; border-radius: 6px; padding: 2px 6px; white-space: nowrap">principles · 0417</span></p>
+<p style="margin: 0; background: {{t.warnSoft}}; border-radius: 8px; padding: 6px 8px">Log every read of a personal record to the local audit table. <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: {{t.accentText}}; background: {{t.accentSoft}}; border-radius: 6px; padding: 2px 6px; white-space: nowrap">practices · 2290</span> <span style="font-size: 12px; font-weight: 500; color: {{t.warnText}}; white-space: nowrap">▲ samples disagreed 2 of 5</span></p>
+</div>
+</div>
+
+<div style="flex: 0 1 250px; min-width: 0; display: flex; flex-direction: column; gap: 12px; border-left: 1px solid {{t.line}}; padding-left: 16px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<h3 style="margin: 0; font-size: 13px; font-weight: 600">Files in context</h3>
+<div style="display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 12px"><span>laws · 1182</span><span style="color: {{t.muted}}">×1.0</span></div>
+<div style="display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 12px"><span>principles · 0417</span><span style="color: {{t.muted}}">×0.8</span></div>
+<div style="display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 12px"><span>principles · 0419</span><span style="color: {{t.muted}}">×0.8</span></div>
+<div style="display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 12px"><span>practices · 2290</span><span style="color: {{t.muted}}">×0.6</span></div>
+<div style="display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 12px"><span>practices · 2291</span><span style="color: {{t.muted}}">×0.6</span></div>
+<div style="display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 12px"><span>tools · 0093</span><span style="color: {{t.muted}}">×0.4</span></div>
+<div style="display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 12px; border-top: 1px dashed {{t.line}}; padding-top: 6px"><span>scope-memo.pdf</span><span style="color: {{t.warnText}}">one-off · unranked</span></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<h3 style="margin: 0; font-size: 13px; font-weight: 600">Drift flags</h3>
+<div style="font-size: 12px; color: {{t.warnText}}; background: {{t.warnSoft}}; border-radius: 8px; padding: 4px 8px">Claim 3 · samples disagreed</div>
+<div style="font-size: 12px; color: {{t.muted}}; background: {{t.subtle}}; border-radius: 8px; padding: 4px 8px">Scope · on task</div>
+<div style="font-size: 12px; color: {{t.muted}}; background: {{t.subtle}}; border-radius: 8px; padding: 4px 8px">Sources · all claims cited</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<h3 style="margin: 0; font-size: 13px; font-weight: 600">Steps</h3>
+<span style="font-size: 12px; color: {{t.muted}}">✓ Select databases</span>
+<span style="font-size: 12px; color: {{t.muted}}">✓ Retrieve and rank</span>
+<span style="font-size: 12px; color: {{t.muted}}">✓ Gate check</span>
+<span style="font-size: 12px; font-weight: 500; color: {{t.accentText}}">● Draft answer</span>
+<span style="font-size: 12px; color: {{t.muted}}">○ Human review</span>
+</div>
+</div>
+</div>
+</section>
+
+<section style="background: {{t.solid}}; border: 1px solid {{t.glassBorder}}; border-radius: 14px; padding: 12px 16px; display: flex; flex-direction: column; gap: 10px">
+<label for="msg" style="font-size: 13px; font-weight: 500">Message</label>
+<div style="display: flex; gap: 10px; align-items: stretch">
+<button type="button" aria-label="Attach a one-off document" style="flex: 0 0 auto; width: 44px; min-height: 44px; padding: 0; border-radius: 10px; border: 1px solid {{t.btnBorder}}; background: {{t.btnBg}}; color: {{t.ink}}; cursor: pointer; display: inline-flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></button>
+<textarea id="msg" rows="2" placeholder="Ask a question of the selected databases" style="flex: 1 1 auto; min-width: 0; font: inherit; box-sizing: border-box; resize: vertical; border: 1px solid {{t.btnBorder}}; border-radius: 10px; padding: 10px 12px; background: {{t.subtle}}; color: {{t.ink}}"></textarea>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center">
+<label for="api" style="font-size: 12px; color: {{t.muted}}">Model</label>
+<select id="api" style="font: inherit; font-size: 13px; min-height: 44px; border: 1px solid {{t.btnBorder}}; border-radius: 10px; padding: 0 10px; background: {{t.subtle}}; color: {{t.ink}}"><option>Local · Olmo-3-7B-Instruct</option><option>External · data only</option></select>
+<label for="tools" style="font-size: 12px; color: {{t.muted}}">Tools</label>
+<select id="tools" style="font: inherit; font-size: 13px; min-height: 44px; border: 1px solid {{t.btnBorder}}; border-radius: 10px; padding: 0 10px; background: {{t.subtle}}; color: {{t.ink}}"><option>search, get_source</option><option>search only</option></select>
+<button type="button" style="margin-left: auto; font: inherit; font-weight: 600; min-height: 44px; padding: 0 22px; border-radius: 10px; border: 1px solid {{t.accent}}; background: {{t.accent}}; color: {{t.onAccent}}; cursor: pointer">Send</button>
+</div>
+</section>
+</main>
+
+<nav aria-label="Right tool strip" style="flex: 0 0 56px; display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 10px 0; background: {{t.glass}}; border: 1px solid {{t.glassBorder}}; border-radius: 14px; backdrop-filter: blur(18px) saturate(150%); -webkit-backdrop-filter: blur(18px) saturate(150%)">
+<button type="button" aria-label="Task chain" aria-expanded="{{tabs.tasks.expanded}}" onClick="{{tabs.tasks.toggle}}" style="width: 44px; padding: 14px 0; border-radius: 10px; border: 1px solid {{tabs.tasks.border}}; background: {{tabs.tasks.bg}}; color: {{tabs.tasks.fg}}; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 10px; font: inherit"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m3 17 2 2 4-4"></path><path d="m3 7 2 2 4-4"></path><path d="M13 6h8"></path><path d="M13 12h8"></path><path d="M13 18h8"></path></svg><span style="writing-mode: vertical-rl; transform: rotate(180deg); font-size: 12px; font-weight: 600; letter-spacing: 0.04em; white-space: nowrap">Task chain</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500">4/5</span></button>
+<button type="button" aria-label="Project grade" aria-expanded="{{tabs.grade.expanded}}" onClick="{{tabs.grade.toggle}}" style="width: 44px; padding: 14px 0; border-radius: 10px; border: 1px solid {{tabs.grade.border}}; background: {{tabs.grade.bg}}; color: {{tabs.grade.fg}}; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 10px; font: inherit"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"></circle><path d="M15.48 12.89 17 22l-5-3-5 3 1.52-9.11"></path></svg><span style="writing-mode: vertical-rl; transform: rotate(180deg); font-size: 12px; font-weight: 600; letter-spacing: 0.04em; white-space: nowrap">Project grade</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500">8.1</span></button>
+<span title="Items that need you" style="margin-top: 4px; min-width: 22px; height: 22px; border-radius: 11px; background: {{t.warn}}; color: {{t.onWarn}}; font-size: 11px; font-weight: 600; display: flex; align-items: center; justify-content: center">2</span>
+</nav>
+
+</div>
+
+<sc-if value="{{tabs.db.open}}" hint-placeholder-val="{{false}}">
+<section aria-label="Active databases" style="position: absolute; top: 164px; left: 96px; z-index: 20; width: 400px; max-width: calc(100% - 136px); max-height: calc(100% - 144px); overflow: auto; box-sizing: border-box; background: {{t.flyout}}; border: 1px solid {{t.glassBorder}}; border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 12px; backdrop-filter: blur(22px) saturate(160%); -webkit-backdrop-filter: blur(22px) saturate(160%); box-shadow: {{t.shadow}}">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 8px">
+<h2 style="margin: 0; font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 8px"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M3 5v14a9 3 0 0 0 18 0V5"></path><path d="M3 12a9 3 0 0 0 18 0"></path></svg>Active databases</h2>
+<div style="display: flex; align-items: center; gap: 6px"><span style="font-size: 12px; color: {{t.muted}}">rank · weight · grade</span><button type="button" aria-label="Close active databases" onClick="{{tabs.db.close}}" style="width: 44px; height: 44px; padding: 0; border-radius: 10px; border: 1px solid {{t.btnBorder}}; background: {{t.btnBg}}; color: {{t.ink}}; cursor: pointer; display: inline-flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px; padding: 10px; border: 1px solid {{t.line}}; border-radius: 10px; background: {{t.subtle}}">
+<div style="display: flex; align-items: center; gap: 8px">
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: {{t.muted}}; width: 16px">1</span>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; flex: 1">laws.db</span>
+<span style="font-size: 12px; font-weight: 500; color: {{t.accentText}}; background: {{t.accentSoft}}; border-radius: 6px; padding: 2px 8px">9/10</span>
+<button type="button" aria-pressed="true" style="font: inherit; font-size: 12px; font-weight: 500; min-width: 44px; min-height: 28px; border-radius: 6px; border: 1px solid {{t.accent}}; background: {{t.accent}}; color: {{t.onAccent}}; cursor: pointer">On</button>
+</div>
+<div style="display: flex; align-items: center; gap: 8px; padding-left: 24px">
+<div style="flex: 1; height: 6px; background: {{t.track}}; border-radius: 3px"><div style="width: 100%; height: 6px; background: {{t.accent}}; border-radius: 3px"></div></div>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: {{t.muted}}">1.0</span>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 6px; padding: 10px; border: 1px solid {{t.line}}; border-radius: 10px; background: {{t.subtle}}">
+<div style="display: flex; align-items: center; gap: 8px">
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: {{t.muted}}; width: 16px">2</span>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; flex: 1">principles.db</span>
+<span style="font-size: 12px; font-weight: 500; color: {{t.accentText}}; background: {{t.accentSoft}}; border-radius: 6px; padding: 2px 8px">8/10</span>
+<button type="button" aria-pressed="true" style="font: inherit; font-size: 12px; font-weight: 500; min-width: 44px; min-height: 28px; border-radius: 6px; border: 1px solid {{t.accent}}; background: {{t.accent}}; color: {{t.onAccent}}; cursor: pointer">On</button>
+</div>
+<div style="display: flex; align-items: center; gap: 8px; padding-left: 24px">
+<div style="flex: 1; height: 6px; background: {{t.track}}; border-radius: 3px"><div style="width: 80%; height: 6px; background: {{t.accent}}; border-radius: 3px"></div></div>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: {{t.muted}}">0.8</span>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 6px; padding: 10px; border: 1px solid {{t.line}}; border-radius: 10px; background: {{t.subtle}}">
+<div style="display: flex; align-items: center; gap: 8px">
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: {{t.muted}}; width: 16px">3</span>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; flex: 1">practices.db</span>
+<span style="font-size: 12px; font-weight: 500; color: {{t.accentText}}; background: {{t.accentSoft}}; border-radius: 6px; padding: 2px 8px">7/10</span>
+<button type="button" aria-pressed="true" style="font: inherit; font-size: 12px; font-weight: 500; min-width: 44px; min-height: 28px; border-radius: 6px; border: 1px solid {{t.accent}}; background: {{t.accent}}; color: {{t.onAccent}}; cursor: pointer">On</button>
+</div>
+<div style="display: flex; align-items: center; gap: 8px; padding-left: 24px">
+<div style="flex: 1; height: 6px; background: {{t.track}}; border-radius: 3px"><div style="width: 60%; height: 6px; background: {{t.accent}}; border-radius: 3px"></div></div>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: {{t.muted}}">0.6</span>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 6px; padding: 10px; border: 1px solid {{t.line}}; border-radius: 10px; background: {{t.subtle}}">
+<div style="display: flex; align-items: center; gap: 8px">
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: {{t.muted}}; width: 16px">4</span>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; flex: 1">tools.db</span>
+<span style="font-size: 12px; font-weight: 500; color: {{t.accentText}}; background: {{t.accentSoft}}; border-radius: 6px; padding: 2px 8px">6/10</span>
+<button type="button" aria-pressed="true" style="font: inherit; font-size: 12px; font-weight: 500; min-width: 44px; min-height: 28px; border-radius: 6px; border: 1px solid {{t.accent}}; background: {{t.accent}}; color: {{t.onAccent}}; cursor: pointer">On</button>
+</div>
+<div style="display: flex; align-items: center; gap: 8px; padding-left: 24px">
+<div style="flex: 1; height: 6px; background: {{t.track}}; border-radius: 3px"><div style="width: 40%; height: 6px; background: {{t.accent}}; border-radius: 3px"></div></div>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: {{t.muted}}">0.4</span>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 6px; padding: 10px; border: 1px dashed {{t.dashed}}; border-radius: 10px; background: {{t.warnSoft}}">
+<div style="display: flex; align-items: center; gap: 8px">
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: {{t.muted}}; width: 16px">5</span>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; flex: 1">external.db</span>
+<span style="font-size: 12px; font-weight: 500; color: {{t.warnText}}">data only</span>
+<button type="button" aria-pressed="false" style="font: inherit; font-size: 12px; font-weight: 500; min-width: 44px; min-height: 28px; border-radius: 6px; border: 1px solid {{t.btnBorder}}; background: {{t.btnBg}}; color: {{t.ink}}; cursor: pointer">Off</button>
+</div>
+<div style="display: flex; align-items: center; gap: 8px; padding-left: 24px">
+<div style="flex: 1; height: 6px; background: {{t.track}}; border-radius: 3px"><div style="width: 20%; height: 6px; background: {{t.warn}}; border-radius: 3px"></div></div>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: {{t.muted}}">0.2</span>
+</div>
+<span style="font-size: 12px; color: {{t.warnText}}; padding-left: 24px">Frontier answers, stored as data, never as instructions</span>
+</div>
+
+<button type="button" style="font: inherit; font-weight: 500; min-height: 44px; border-radius: 10px; border: 1px solid {{t.btnBorder}}; background: {{t.btnBg}}; color: {{t.ink}}; cursor: pointer">Adjust ranks and weights</button>
+</section>
+</sc-if>
+<sc-if value="{{tabs.log.open}}" hint-placeholder-val="{{false}}">
+<section aria-label="Audit log" style="position: absolute; top: 164px; left: 96px; z-index: 20; width: 400px; max-width: calc(100% - 136px); max-height: calc(100% - 144px); overflow: auto; box-sizing: border-box; background: {{t.flyout}}; border: 1px solid {{t.glassBorder}}; border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 12px; backdrop-filter: blur(22px) saturate(160%); -webkit-backdrop-filter: blur(22px) saturate(160%); box-shadow: {{t.shadow}}">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 8px">
+<h2 style="margin: 0; font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 8px"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13"></path><path d="M8 12h13"></path><path d="M8 18h13"></path><path d="M3 6h.01"></path><path d="M3 12h.01"></path><path d="M3 18h.01"></path></svg>Audit log</h2>
+<div style="display: flex; align-items: center; gap: 6px"><span style="font-size: 12px; color: {{t.muted}}">saved locally</span><button type="button" aria-label="Close audit log" onClick="{{tabs.log.close}}" style="width: 44px; height: 44px; padding: 0; border-radius: 10px; border: 1px solid {{t.btnBorder}}; background: {{t.btnBg}}; color: {{t.ink}}; cursor: pointer; display: inline-flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button></div>
+</div>
+<div style="display: flex; flex-direction: column; font-size: 13px">
+<a href="#log-1" style="display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid {{t.line}}; color: {{t.ink}}; text-decoration: none"><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: {{t.muted}}">10:42:18</span><span>Gate passed · search(laws.db)</span></a>
+<a href="#log-2" style="display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid {{t.line}}; color: {{t.ink}}; text-decoration: none"><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: {{t.muted}}">10:42:19</span><span>Retrieved 6 chunks from 3 databases</span></a>
+<a href="#log-3" style="display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid {{t.line}}; color: {{t.warnText}}; text-decoration: none"><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: {{t.muted}}">10:42:31</span><span>Gate rejected · write_file outside allowlist</span></a>
+<a href="#log-4" style="display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid {{t.line}}; color: {{t.warnText}}; text-decoration: none"><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: {{t.muted}}">10:43:02</span><span>Left machine · question only · 412 tokens · frontier API</span></a>
+<a href="#log-5" style="display: flex; gap: 10px; padding: 8px 0; color: {{t.ink}}; text-decoration: none"><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: {{t.muted}}">10:43:05</span><span>External answer stored as data · rank 5</span></a>
+</div>
+<a href="#log" style="font-size: 13px; font-weight: 500; color: {{t.accentText}}">Open full log</a>
+</section>
+</sc-if>
+<sc-if value="{{tabs.tasks.open}}" hint-placeholder-val="{{false}}">
+<section aria-label="Task chain" style="position: absolute; top: 164px; right: 96px; z-index: 20; width: 400px; max-width: calc(100% - 136px); max-height: calc(100% - 144px); overflow: auto; box-sizing: border-box; background: {{t.flyout}}; border: 1px solid {{t.glassBorder}}; border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 12px; backdrop-filter: blur(22px) saturate(160%); -webkit-backdrop-filter: blur(22px) saturate(160%); box-shadow: {{t.shadow}}">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 8px">
+<h2 style="margin: 0; font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 8px"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m3 17 2 2 4-4"></path><path d="m3 7 2 2 4-4"></path><path d="M13 6h8"></path><path d="M13 12h8"></path><path d="M13 18h8"></path></svg>Task chain</h2>
+<div style="display: flex; align-items: center; gap: 6px"><span style="font-size: 12px; color: {{t.muted}}">Engineering → Code → Tech data</span><button type="button" aria-label="Close task chain" onClick="{{tabs.tasks.close}}" style="width: 44px; height: 44px; padding: 0; border-radius: 10px; border: 1px solid {{t.btnBorder}}; background: {{t.btnBg}}; color: {{t.ink}}; cursor: pointer; display: inline-flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; align-items: center; gap: 10px; padding: 10px; border: 1px solid {{t.line}}; border-radius: 10px; background: {{t.subtle}}"><span style="width: 10px; height: 10px; border-radius: 50%; background: {{t.accent}}"></span><div style="display: flex; flex-direction: column"><span style="font-weight: 500">Engineering</span><span style="font-size: 12px; color: {{t.muted}}">Requirements set · done</span></div></div>
+<div style="display: flex; align-items: center; gap: 10px; padding: 10px; border: 1px solid {{t.accent}}; border-radius: 10px; background: {{t.accentSoft}}"><span style="width: 10px; height: 10px; border-radius: 50%; border: 2px solid {{t.accent}}; box-sizing: border-box"></span><div style="display: flex; flex-direction: column"><span style="font-weight: 500">Code</span><span style="font-size: 12px; color: {{t.muted}}">In progress · step 4 of 5</span></div></div>
+<div style="display: flex; align-items: center; gap: 10px; padding: 10px; border: 1px solid {{t.line}}; border-radius: 10px; background: {{t.subtle}}"><span style="width: 10px; height: 10px; border-radius: 50%; border: 2px solid {{t.muted}}; box-sizing: border-box"></span><div style="display: flex; flex-direction: column"><span style="font-weight: 500">Tech data</span><span style="font-size: 12px; color: {{t.muted}}">Waiting on review</span></div></div>
+</div>
+</section>
+</sc-if>
+<sc-if value="{{tabs.grade.open}}" hint-placeholder-val="{{false}}">
+<section aria-label="Project grade" style="position: absolute; top: 164px; right: 96px; z-index: 20; width: 400px; max-width: calc(100% - 136px); max-height: calc(100% - 144px); overflow: auto; box-sizing: border-box; background: {{t.flyout}}; border: 1px solid {{t.glassBorder}}; border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 12px; backdrop-filter: blur(22px) saturate(160%); -webkit-backdrop-filter: blur(22px) saturate(160%); box-shadow: {{t.shadow}}">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 8px">
+<h2 style="margin: 0; font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 8px"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"></circle><path d="M15.48 12.89 17 22l-5-3-5 3 1.52-9.11"></path></svg>Project grade</h2>
+<div style="display: flex; align-items: center; gap: 6px"><span style="font-size: 12px; color: {{t.muted}}">updates each step</span><button type="button" aria-label="Close project grade" onClick="{{tabs.grade.close}}" style="width: 44px; height: 44px; padding: 0; border-radius: 10px; border: 1px solid {{t.btnBorder}}; background: {{t.btnBg}}; color: {{t.ink}}; cursor: pointer; display: inline-flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button></div>
+</div>
+<div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap">
+<span style="font-size: 40px; font-weight: 600; letter-spacing: -0.02em">8.1</span>
+<span style="font-size: 14px; color: {{t.muted}}">/ 10</span>
+<span style="font-size: 12px; font-weight: 500; color: {{t.accentText}}; background: {{t.accentSoft}}; border-radius: 6px; padding: 2px 8px">+0.3 since last milestone</span>
+</div>
+<div style="display: flex; flex-direction: column; font-size: 13px">
+<div style="display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid {{t.line}}"><span>Source quality (weighted rubric)</span><span style="font-family: 'JetBrains Mono', monospace">8.4</span></div>
+<div style="display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid {{t.line}}"><span>Claims with a source</span><span style="font-family: 'JetBrains Mono', monospace">12 / 12</span></div>
+<div style="display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid {{t.line}}"><span>Sample agreement</span><span style="font-family: 'JetBrains Mono', monospace">11 / 12</span></div>
+<div style="display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid {{t.line}}"><span>Gate calls passed</span><span style="font-family: 'JetBrains Mono', monospace">41 / 42</span></div>
+<div style="display: flex; justify-content: space-between; padding: 7px 0"><span>External data share</span><span style="font-family: 'JetBrains Mono', monospace">6%</span></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px; background: {{t.warnSoft}}; border-radius: 10px; padding: 10px">
+<span style="font-size: 13px; font-weight: 600; color: {{t.warnText}}">Needs you</span>
+<span style="font-size: 12px; color: {{t.warnText}}">1 rejected gate call · 1 claim with split samples</span>
+<button type="button" style="font: inherit; font-weight: 500; min-height: 44px; border-radius: 10px; border: 1px solid {{t.warn}}; background: {{t.btnBg}}; color: {{t.warnText}}; cursor: pointer">Review now</button>
+</div>
+</section>
+</sc-if>
+<sc-if value="{{conn.hybridOpen}}" hint-placeholder-val="{{false}}">
+<section aria-label="Hybrid connections" style="position: absolute; top: 156px; left: 50%; transform: translateX(-50%); z-index: 30; width: 560px; max-width: calc(100% - 40px); box-sizing: border-box; background: {{t.invBg}}; color: {{t.invInk}}; border: 1px solid {{t.invBorder}}; border-radius: 16px; padding: 16px; box-shadow: {{t.shadow}}">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; padding-bottom: 6px">
+<h2 style="margin: 0; font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 8px"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 10 10"><path d="M5 0.5 9.5 5 5 9.5 0.5 5z" fill="{{t.riskHybrid}}"></path></svg>Hybrid connections</h2>
+<div style="display: flex; align-items: center; gap: 8px"><span style="font-size: 12px; color: {{t.invMuted}}">internet allowed · not active</span><button type="button" aria-label="Close hybrid connections" onClick="{{conn.close}}" style="width: 44px; height: 44px; padding: 0; border-radius: 10px; border: 1px solid {{t.invBorder}}; background: {{t.invBtn}}; color: {{t.invInk}}; cursor: pointer; display: inline-flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px; padding: 12px 0; border-top: 1px solid {{t.invLine}}">
+<div style="display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap"><span style="font-weight: 600">Frontier API</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: {{t.invMuted}}">[provider endpoint]</span></div>
+<div style="display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12px; color: {{t.invMuted}}"><span>Allowed by you · 2026-11-10 09:12</span><span>Idle since 10:43:05</span><span>Answers stored as data only</span></div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap"><button type="button" style="font: inherit; font-size: 12px; font-weight: 500; min-height: 36px; padding: 0 12px; border-radius: 8px; border: 1px solid {{t.invBorder}}; background: {{t.invBtn}}; color: {{t.invInk}}; cursor: pointer">Revoke</button><button type="button" style="font: inherit; font-size: 12px; font-weight: 500; min-height: 36px; padding: 0 12px; border-radius: 8px; border: 1px solid {{t.invBorder}}; background: {{t.invBtn}}; color: {{t.invInk}}; cursor: pointer">Open in audit log</button></div>
+</div><div style="display: flex; flex-direction: column; gap: 6px; padding: 12px 0; border-top: 1px solid {{t.invLine}}">
+<div style="display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap"><span style="font-weight: 600">Package mirror</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: {{t.invMuted}}">[package registry]</span></div>
+<div style="display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12px; color: {{t.invMuted}}"><span>Allowed for pinned installs</span><span>Idle · last used 2026-11-09</span><span>Hash-checked downloads</span></div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap"><button type="button" style="font: inherit; font-size: 12px; font-weight: 500; min-height: 36px; padding: 0 12px; border-radius: 8px; border: 1px solid {{t.invBorder}}; background: {{t.invBtn}}; color: {{t.invInk}}; cursor: pointer">Revoke</button><button type="button" style="font: inherit; font-size: 12px; font-weight: 500; min-height: 36px; padding: 0 12px; border-radius: 8px; border: 1px solid {{t.invBorder}}; background: {{t.invBtn}}; color: {{t.invInk}}; cursor: pointer">Open in audit log</button></div>
+</div></section>
+</sc-if>
+<sc-if value="{{conn.exposedOpen}}" hint-placeholder-val="{{false}}">
+<section aria-label="Exposed connection" style="position: absolute; top: 156px; left: 50%; transform: translateX(-50%); z-index: 30; width: 560px; max-width: calc(100% - 40px); box-sizing: border-box; background: {{t.invBg}}; color: {{t.invInk}}; border: 1px solid {{t.invBorder}}; border-radius: 16px; padding: 16px; box-shadow: {{t.shadow}}">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; padding-bottom: 6px">
+<h2 style="margin: 0; font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 8px"><svg aria-hidden="true" width="11" height="11" viewBox="0 0 10 10"><path d="M5 0.5 9.6 9.3H0.4z" fill="{{t.riskExposed}}"></path></svg>Exposed connection</h2>
+<div style="display: flex; align-items: center; gap: 8px"><span style="font-size: 12px; color: {{t.invMuted}}">active · data leaving the machine</span><button type="button" aria-label="Close exposed connection" onClick="{{conn.close}}" style="width: 44px; height: 44px; padding: 0; border-radius: 10px; border: 1px solid {{t.invBorder}}; background: {{t.invBtn}}; color: {{t.invInk}}; cursor: pointer; display: inline-flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px; padding: 12px 0; border-top: 1px solid {{t.invLine}}">
+<div style="display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap"><span style="font-weight: 600">Frontier API session</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: {{t.invMuted}}">[provider endpoint]</span></div>
+<div style="display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12px; color: {{t.invMuted}}"><span>Process: retriever-bridge</span><span>Sent: question only · 412 tokens</span><span>Received: 1 answer → external.db (rank 5)</span><span>Approved by you · 10:43:01</span><span>Encrypted (TLS)</span></div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap"><button type="button" style="font: inherit; font-size: 12px; font-weight: 500; min-height: 36px; padding: 0 12px; border-radius: 8px; border: 1px solid {{t.invBorder}}; background: {{t.invBtn}}; color: {{t.invInk}}; cursor: pointer">End connection</button><button type="button" style="font: inherit; font-size: 12px; font-weight: 500; min-height: 36px; padding: 0 12px; border-radius: 8px; border: 1px solid {{t.invBorder}}; background: {{t.invBtn}}; color: {{t.invInk}}; cursor: pointer">Open in audit log</button></div>
+</div></section>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["Blues","Cyberpunk","Sunburst","Earth tones"],"default":"Blues"},"$preview":{"width":1440,"height":1040}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { theme: null, left: null, right: null, conn: null };
+  }
+  renderVals() {
+    const T = {
+      'Blues': {
+        bg: 'radial-gradient(900px 600px at 0% 0%, rgba(59,130,246,0.38), transparent 60%), radial-gradient(800px 600px at 100% 25%, rgba(14,165,233,0.30), transparent 60%), radial-gradient(700px 500px at 50% 100%, rgba(99,102,241,0.28), transparent 60%), #EEF3FB',
+        ink: '#0F1A2E', muted: '#4B5873', glass: 'rgba(255,255,255,0.55)', glassBorder: 'rgba(255,255,255,0.8)', solid: 'rgba(255,255,255,0.94)',
+        line: '#E1E7F1', track: '#E3EAF4', accent: '#1E4FD8', onAccent: '#FFFFFF', accentSoft: '#E4ECFF', accentText: '#163BA3',
+        warn: '#C2410C', warnSoft: '#FFF0E4', warnText: '#9A3412', subtle: 'rgba(241,245,251,0.75)', btnBg: 'rgba(255,255,255,0.75)', btnBorder: '#CFD9EA', bubble: '#E9EFF8', dashed: '#E0A27A',
+        invBg: '#0E2350', invInk: '#F2F6FF', invMuted: '#AFC0E0', invBorder: 'rgba(255,255,255,0.14)', invLine: 'rgba(255,255,255,0.12)', invBtn: 'rgba(255,255,255,0.08)', riskLocal: '#4ADE80', riskHybrid: '#FDBA74', riskExposed: '#F87171', swatch: 'linear-gradient(135deg, #3B82F6, #1E3A8A)', flyout: 'rgba(255,255,255,0.82)', shadow: '0 24px 60px rgba(15,26,46,0.22)', onWarn: '#FFFFFF'
+      },
+      'Cyberpunk': {
+        bg: 'radial-gradient(900px 600px at 6% 0%, rgba(255,43,214,0.34), transparent 60%), radial-gradient(800px 600px at 100% 18%, rgba(0,229,255,0.28), transparent 60%), radial-gradient(700px 500px at 55% 100%, rgba(124,58,237,0.36), transparent 60%), #0A0A12',
+        ink: '#EDEBFF', muted: '#B3AFD6', glass: 'rgba(24,22,46,0.55)', glassBorder: 'rgba(170,150,255,0.26)', solid: 'rgba(17,16,31,0.92)',
+        line: 'rgba(255,255,255,0.10)', track: 'rgba(255,255,255,0.12)', accent: '#00E5FF', onAccent: '#031418', accentSoft: 'rgba(0,229,255,0.14)', accentText: '#7DF3FF',
+        warn: '#FF4FB0', warnSoft: 'rgba(255,79,176,0.15)', warnText: '#FFA3D4', subtle: 'rgba(255,255,255,0.05)', btnBg: 'rgba(255,255,255,0.07)', btnBorder: 'rgba(255,255,255,0.20)', bubble: 'rgba(255,255,255,0.08)', dashed: 'rgba(255,79,176,0.6)',
+        invBg: '#F1EEFF', invInk: '#14112A', invMuted: '#4A4570', invBorder: 'rgba(20,17,42,0.16)', invLine: 'rgba(20,17,42,0.12)', invBtn: 'rgba(20,17,42,0.06)', riskLocal: '#15803D', riskHybrid: '#D97706', riskExposed: '#B91C1C', swatch: 'linear-gradient(135deg, #FF2BD6, #00E5FF)', flyout: 'rgba(22,20,42,0.84)', shadow: '0 24px 60px rgba(0,0,0,0.55), 0 0 0 1px rgba(0,229,255,0.15)', onWarn: '#1A0612'
+      },
+      'Sunburst': {
+        bg: 'radial-gradient(900px 600px at 0% 0%, rgba(255,183,3,0.42), transparent 60%), radial-gradient(800px 600px at 100% 28%, rgba(251,133,0,0.32), transparent 60%), radial-gradient(700px 500px at 40% 100%, rgba(255,99,72,0.28), transparent 60%), #FFF7EC',
+        ink: '#2A1606', muted: '#6B4626', glass: 'rgba(255,250,240,0.55)', glassBorder: 'rgba(255,255,255,0.8)', solid: 'rgba(255,253,248,0.95)',
+        line: '#F0E1CC', track: '#F3E4CF', accent: '#C2410C', onAccent: '#FFFFFF', accentSoft: '#FFE8D2', accentText: '#9A3412',
+        warn: '#9D174D', warnSoft: '#FCE4EC', warnText: '#831843', subtle: 'rgba(251,241,227,0.75)', btnBg: 'rgba(255,255,255,0.75)', btnBorder: '#EBD2B2', bubble: '#F8EAD7', dashed: '#D58AA6',
+        invBg: '#3A1C06', invInk: '#FFF4E6', invMuted: '#E6C7A6', invBorder: 'rgba(255,255,255,0.14)', invLine: 'rgba(255,255,255,0.12)', invBtn: 'rgba(255,255,255,0.08)', riskLocal: '#4ADE80', riskHybrid: '#FDBA74', riskExposed: '#F87171', swatch: 'linear-gradient(135deg, #FFB703, #FB5607)', flyout: 'rgba(255,251,244,0.85)', shadow: '0 24px 60px rgba(42,22,6,0.22)', onWarn: '#FFFFFF'
+      },
+      'Earth tones': {
+        bg: 'radial-gradient(900px 600px at 0% 0%, rgba(122,140,84,0.38), transparent 60%), radial-gradient(800px 600px at 100% 25%, rgba(181,101,64,0.30), transparent 60%), radial-gradient(700px 500px at 50% 100%, rgba(196,164,108,0.38), transparent 60%), #F1EBE0',
+        ink: '#2B2A22', muted: '#5C5748', glass: 'rgba(250,246,238,0.55)', glassBorder: 'rgba(255,255,255,0.7)', solid: 'rgba(252,249,243,0.95)',
+        line: '#E5DCCB', track: '#EAE2D3', accent: '#4D6B3C', onAccent: '#FFFFFF', accentSoft: '#E4ECD9', accentText: '#3A5230',
+        warn: '#A4471F', warnSoft: '#F7E5DA', warnText: '#863915', subtle: 'rgba(243,237,226,0.75)', btnBg: 'rgba(255,255,255,0.7)', btnBorder: '#D8CCB6', bubble: '#EEE7D9', dashed: '#D19A72',
+        invBg: '#2C3622', invInk: '#F4F1E8', invMuted: '#CDD0B8', invBorder: 'rgba(255,255,255,0.14)', invLine: 'rgba(255,255,255,0.12)', invBtn: 'rgba(255,255,255,0.08)', riskLocal: '#4ADE80', riskHybrid: '#FDBA74', riskExposed: '#F87171', swatch: 'linear-gradient(135deg, #7A8C54, #B56540)', flyout: 'rgba(251,248,241,0.85)', shadow: '0 24px 60px rgba(43,42,34,0.22)', onWarn: '#FFFFFF'
+      }
+    };
+    const names = ['Blues', 'Cyberpunk', 'Sunburst', 'Earth tones'];
+    const current = this.state.theme ?? this.props.theme ?? 'Blues';
+    const t = T[current] ?? T['Blues'];
+    const themes = names.map((n) => ({
+      label: n,
+      swatch: T[n].swatch,
+      pressed: n === current ? 'true' : 'false',
+      ring: n === current ? '0 0 0 2px ' + t.glass + ', 0 0 0 4px ' + t.ink : '0 0 0 1px ' + t.btnBorder,
+      pick: () => this.setState({ theme: n })
+    }));
+    // Edge tool strips: one panel open per side, overlaying the primary focus.
+    const sideOf = { db: 'left', log: 'left', tasks: 'right', grade: 'right' };
+    const tabs = {};
+    Object.keys(sideOf).forEach((key) => {
+      const side = sideOf[key];
+      const open = this.state[side] === key;
+      tabs[key] = {
+        open,
+        expanded: open ? 'true' : 'false',
+        bg: open ? t.accent : t.btnBg,
+        fg: open ? t.onAccent : t.ink,
+        border: open ? t.accent : t.btnBorder,
+        toggle: () => this.setState({ [side]: open ? null : key }),
+        close: () => this.setState({ [side]: null })
+      };
+    });
+    // Connections monitor: only hybrid and exposed tiers can be opened.
+    const c = this.state.conn;
+    const tier = (k) => ({
+      [k + 'Open']: c === k,
+      [k + 'Expanded']: c === k ? 'true' : 'false',
+      [k + 'Bg']: c === k ? t.invBtn : 'transparent',
+      [k + 'Border']: c === k ? t.invBorder : 'transparent',
+      [k + 'Toggle']: () => this.setState({ conn: c === k ? null : k })
+    });
+    const conn = Object.assign({ close: () => this.setState({ conn: null }) }, tier('hybrid'), tier('exposed'));
+    return { t, themes, tabs, conn };
+  }
+}
+</script>
+</body>
+</html>

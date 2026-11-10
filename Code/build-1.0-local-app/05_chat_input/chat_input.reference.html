@@ -1,0 +1,14 @@
+<section style="background: {{t.solid}}; border: 1px solid {{t.glassBorder}}; border-radius: 14px; padding: 12px 16px; display: flex; flex-direction: column; gap: 10px">
+<label for="msg" style="font-size: 13px; font-weight: 500">Message</label>
+<div style="display: flex; gap: 10px; align-items: stretch">
+<button type="button" aria-label="Attach a one-off document" style="flex: 0 0 auto; width: 44px; min-height: 44px; padding: 0; border-radius: 10px; border: 1px solid {{t.btnBorder}}; background: {{t.btnBg}}; color: {{t.ink}}; cursor: pointer; display: inline-flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></button>
+<textarea id="msg" rows="2" placeholder="Ask a question of the selected databases" style="flex: 1 1 auto; min-width: 0; font: inherit; box-sizing: border-box; resize: vertical; border: 1px solid {{t.btnBorder}}; border-radius: 10px; padding: 10px 12px; background: {{t.subtle}}; color: {{t.ink}}"></textarea>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center">
+<label for="api" style="font-size: 12px; color: {{t.muted}}">Model</label>
+<select id="api" style="font: inherit; font-size: 13px; min-height: 44px; border: 1px solid {{t.btnBorder}}; border-radius: 10px; padding: 0 10px; background: {{t.subtle}}; color: {{t.ink}}"><option>Local · Olmo-3-7B-Instruct</option><option>External · data only</option></select>
+<label for="tools" style="font-size: 12px; color: {{t.muted}}">Tools</label>
+<select id="tools" style="font: inherit; font-size: 13px; min-height: 44px; border: 1px solid {{t.btnBorder}}; border-radius: 10px; padding: 0 10px; background: {{t.subtle}}; color: {{t.ink}}"><option>search, get_source</option><option>search only</option></select>
+<button type="button" style="margin-left: auto; font: inherit; font-weight: 600; min-height: 44px; padding: 0 22px; border-radius: 10px; border: 1px solid {{t.accent}}; background: {{t.accent}}; color: {{t.onAccent}}; cursor: pointer">Send</button>
+</div>
+</section>

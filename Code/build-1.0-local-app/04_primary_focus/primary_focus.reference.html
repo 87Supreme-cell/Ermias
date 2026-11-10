@@ -1,0 +1,47 @@
+<section style="flex: 1 1 auto; min-height: 600px; background: {{t.solid}}; border: 1px solid {{t.glassBorder}}; border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap">
+<h2 style="margin: 0; font-size: 15px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; display: flex; align-items: center; gap: 8px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18"></path><path d="M9 21V9"></path></svg>Primary focus</h2>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: {{t.muted}}">3,840 of 32,768 tokens</span>
+</div>
+<div style="height: 6px; background: {{t.track}}; border-radius: 3px"><div style="width: 12%; height: 6px; background: {{t.accent}}; border-radius: 3px"></div></div>
+
+<div style="flex: 1 1 auto; display: flex; flex-wrap: wrap; gap: 16px">
+<div style="flex: 999 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+<div style="align-self: flex-end; max-width: 80%; background: {{t.bubble}}; border-radius: 12px; padding: 12px 14px">What do our sources require before personal data is stored in a local database?</div>
+
+<div style="display: flex; flex-direction: column; gap: 12px; border: 1px solid {{t.line}}; border-radius: 12px; padding: 14px">
+<span style="font-size: 12px; color: {{t.muted}}">Olmo-3-7B-Instruct · every sentence carries its source</span>
+<p style="margin: 0">Store only the fields the task needs, and record why each one is kept. <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: {{t.accentText}}; background: {{t.accentSoft}}; border-radius: 6px; padding: 2px 6px; white-space: nowrap">laws · 1182</span></p>
+<p style="margin: 0">Encrypt the database file at rest and keep the key off the machine. <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: {{t.accentText}}; background: {{t.accentSoft}}; border-radius: 6px; padding: 2px 6px; white-space: nowrap">principles · 0417</span></p>
+<p style="margin: 0; background: {{t.warnSoft}}; border-radius: 8px; padding: 6px 8px">Log every read of a personal record to the local audit table. <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: {{t.accentText}}; background: {{t.accentSoft}}; border-radius: 6px; padding: 2px 6px; white-space: nowrap">practices · 2290</span> <span style="font-size: 12px; font-weight: 500; color: {{t.warnText}}; white-space: nowrap">▲ samples disagreed 2 of 5</span></p>
+</div>
+</div>
+
+<div style="flex: 0 1 250px; min-width: 0; display: flex; flex-direction: column; gap: 12px; border-left: 1px solid {{t.line}}; padding-left: 16px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<h3 style="margin: 0; font-size: 13px; font-weight: 600">Files in context</h3>
+<div style="display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 12px"><span>laws · 1182</span><span style="color: {{t.muted}}">×1.0</span></div>
+<div style="display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 12px"><span>principles · 0417</span><span style="color: {{t.muted}}">×0.8</span></div>
+<div style="display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 12px"><span>principles · 0419</span><span style="color: {{t.muted}}">×0.8</span></div>
+<div style="display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 12px"><span>practices · 2290</span><span style="color: {{t.muted}}">×0.6</span></div>
+<div style="display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 12px"><span>practices · 2291</span><span style="color: {{t.muted}}">×0.6</span></div>
+<div style="display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 12px"><span>tools · 0093</span><span style="color: {{t.muted}}">×0.4</span></div>
+<div style="display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 12px; border-top: 1px dashed {{t.line}}; padding-top: 6px"><span>scope-memo.pdf</span><span style="color: {{t.warnText}}">one-off · unranked</span></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<h3 style="margin: 0; font-size: 13px; font-weight: 600">Drift flags</h3>
+<div style="font-size: 12px; color: {{t.warnText}}; background: {{t.warnSoft}}; border-radius: 8px; padding: 4px 8px">Claim 3 · samples disagreed</div>
+<div style="font-size: 12px; color: {{t.muted}}; background: {{t.subtle}}; border-radius: 8px; padding: 4px 8px">Scope · on task</div>
+<div style="font-size: 12px; color: {{t.muted}}; background: {{t.subtle}}; border-radius: 8px; padding: 4px 8px">Sources · all claims cited</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<h3 style="margin: 0; font-size: 13px; font-weight: 600">Steps</h3>
+<span style="font-size: 12px; color: {{t.muted}}">✓ Select databases</span>
+<span style="font-size: 12px; color: {{t.muted}}">✓ Retrieve and rank</span>
+<span style="font-size: 12px; color: {{t.muted}}">✓ Gate check</span>
+<span style="font-size: 12px; font-weight: 500; color: {{t.accentText}}">● Draft answer</span>
+<span style="font-size: 12px; color: {{t.muted}}">○ Human review</span>
+</div>
+</div>
+</div>
+</section>

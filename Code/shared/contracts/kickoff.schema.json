@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ermias/kickoff",
+  "title": "kickoff",
+  "description": "Answers from project kickoff.",
+  "$comment": "DRAFT. Owner approval required before implementation.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "goal": {
+      "type": "string"
+    },
+    "deliverable": {
+      "type": "string"
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "benchmarks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "text": {
+            "type": "string"
+          },
+          "recommended": {
+            "type": "boolean"
+          },
+          "approved": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "text",
+          "approved"
+        ]
+      }
+    },
+    "assumptions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "goal",
+    "deliverable",
+    "benchmarks"
+  ]
+}

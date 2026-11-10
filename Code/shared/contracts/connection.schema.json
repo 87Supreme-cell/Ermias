@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ermias/connection",
+  "title": "connection",
+  "description": "One observed connection in the connections monitor.",
+  "$comment": "DRAFT. Owner approval required before implementation.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "destination": {
+      "type": "string"
+    },
+    "process": {
+      "type": "string"
+    },
+    "tier": {
+      "enum": [
+        "local",
+        "hybrid",
+        "exposed"
+      ]
+    },
+    "sent": {
+      "type": "string"
+    },
+    "received": {
+      "type": "string"
+    },
+    "approved_by": {
+      "type": "string"
+    },
+    "approved_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "encrypted": {
+      "type": "boolean"
+    },
+    "since": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "name",
+    "destination",
+    "tier"
+  ]
+}

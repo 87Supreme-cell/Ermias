@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ermias/database_entry",
+  "title": "database_entry",
+  "description": "One source database in the catalog.",
+  "$comment": "DRAFT. Owner approval required before implementation.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "path": {
+      "type": "string",
+      "description": "Local folder in Build 1.0."
+    },
+    "rank": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "weight": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "active": {
+      "type": "boolean"
+    },
+    "external": {
+      "type": "boolean",
+      "description": "True for cloud answers. Always data only, ranked last."
+    },
+    "sha256": {
+      "type": "string"
+    },
+    "rubric": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "provenance": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2
+        },
+        "license": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2
+        },
+        "pii": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2
+        },
+        "reproducible": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2
+        },
+        "audit": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2
+        }
+      },
+      "required": [
+        "provenance",
+        "license",
+        "pii",
+        "reproducible",
+        "audit"
+      ]
+    },
+    "graded_by": {
+      "type": "string"
+    },
+    "graded_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "name",
+    "path",
+    "rank",
+    "weight",
+    "active",
+    "external",
+    "sha256"
+  ]
+}

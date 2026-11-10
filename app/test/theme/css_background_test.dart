@@ -6,7 +6,9 @@ import 'package:flutter/painting.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 Map<String, dynamic> _themes() {
-  final json = jsonDecode(File('assets/themes.json').readAsStringSync()) as Map<String, dynamic>;
+  final json = jsonDecode(
+    File('assets/themes.json').readAsStringSync(),
+  ) as Map<String, dynamic>;
   return json['themes'] as Map<String, dynamic>;
 }
 
@@ -26,7 +28,9 @@ void main() {
   });
 
   test('parses a 135deg swatch gradient', () {
-    final g = parseCssLinearGradient('linear-gradient(135deg, #3B82F6, #1E3A8A)');
+    final g = parseCssLinearGradient(
+      'linear-gradient(135deg, #3B82F6, #1E3A8A)',
+    );
     expect(g.colors, const [Color(0xFF3B82F6), Color(0xFF1E3A8A)]);
     expect(g.begin, Alignment.topLeft);
     expect(g.end, Alignment.bottomRight);
@@ -35,13 +39,25 @@ void main() {
   test('every theme background and swatch parses', () {
     for (final entry in _themes().entries) {
       final t = entry.value as Map<String, dynamic>;
-      expect(() => parseCssBackground(t['bg'] as String), returnsNormally, reason: entry.key);
-      expect(() => parseCssLinearGradient(t['swatch'] as String), returnsNormally, reason: entry.key);
+      expect(
+        () => parseCssBackground(t['bg'] as String),
+        returnsNormally,
+        reason: entry.key,
+      );
+      expect(
+        () => parseCssLinearGradient(t['swatch'] as String),
+        returnsNormally,
+        reason: entry.key,
+      );
     }
   });
 
   test('rejects backgrounds without a solid base color last', () {
-    expect(() => parseCssBackground('radial-gradient(10px 10px at 0% 0%, #000000, transparent 50%)'),
-        throwsFormatException);
+    expect(
+      () => parseCssBackground(
+        'radial-gradient(10px 10px at 0% 0%, #000000, transparent 50%)',
+      ),
+      throwsFormatException,
+    );
   });
 }

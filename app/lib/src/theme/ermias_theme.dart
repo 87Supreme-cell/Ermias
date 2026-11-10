@@ -9,25 +9,52 @@ import 'css_shadow.dart';
 
 /// Every key a theme in `Code/shared/themes.json` must define, no more.
 const themeKeys = {
-  'bg', 'ink', 'muted', 'glass', 'glassBorder', 'solid', 'line', 'track',
-  'accent', 'onAccent', 'accentSoft', 'accentText',
-  'warn', 'onWarn', 'warnSoft', 'warnText', 'dashed',
-  'subtle', 'btnBg', 'btnBorder', 'bubble', 'flyout', 'shadow', 'swatch',
-  'invBg', 'invInk', 'invMuted', 'invBorder', 'invLine', 'invBtn',
-  'riskLocal', 'riskHybrid', 'riskExposed',
+  'bg',
+  'ink',
+  'muted',
+  'glass',
+  'glassBorder',
+  'solid',
+  'line',
+  'track',
+  'accent',
+  'onAccent',
+  'accentSoft',
+  'accentText',
+  'warn',
+  'onWarn',
+  'warnSoft',
+  'warnText',
+  'dashed',
+  'subtle',
+  'btnBg',
+  'btnBorder',
+  'bubble',
+  'flyout',
+  'shadow',
+  'swatch',
+  'invBg',
+  'invInk',
+  'invMuted',
+  'invBorder',
+  'invLine',
+  'invBtn',
+  'riskLocal',
+  'riskHybrid',
+  'riskExposed',
 };
 
 /// One color theme, typed. Key meanings: `Code/shared/README.md`.
 @immutable
 class ErmiasTheme {
   ErmiasTheme._(this.name, Map<String, String> v)
-      : bg = parseCssBackground(v['bg']!),
-        swatch = parseCssLinearGradient(v['swatch']!),
-        shadow = parseCssShadow(v['shadow']!),
-        _colors = Map.unmodifiable({
-          for (final key in themeKeys.difference({'bg', 'swatch', 'shadow'}))
-            key: parseCssColor(v[key]!),
-        });
+    : bg = parseCssBackground(v['bg']!),
+      swatch = parseCssLinearGradient(v['swatch']!),
+      shadow = parseCssShadow(v['shadow']!),
+      _colors = Map.unmodifiable({
+        for (final key in themeKeys.difference({'bg', 'swatch', 'shadow'}))
+          key: parseCssColor(v[key]!),
+      });
 
   /// Builds a theme, rejecting missing, unknown or non-string keys.
   factory ErmiasTheme.fromJson(String name, Map<String, Object?> json) {
@@ -35,11 +62,13 @@ class ErmiasTheme {
     final unknown = json.keys.toSet().difference(themeKeys);
     if (missing.isNotEmpty || unknown.isNotEmpty) {
       throw FormatException(
-          'Theme "$name": missing ${missing.toList()}, unknown ${unknown.toList()}');
+        'Theme "$name": missing ${missing.toList()}, unknown ${unknown.toList()}',
+      );
     }
     final values = <String, String>{};
     for (final MapEntry(:key, :value) in json.entries) {
-      if (value is! String) throw FormatException('Theme "$name": "$key" is not a string');
+      if (value is! String)
+        throw FormatException('Theme "$name": "$key" is not a string');
       values[key] = value;
     }
     return ErmiasTheme._(name, values);

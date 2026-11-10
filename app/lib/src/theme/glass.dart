@@ -43,15 +43,32 @@ class GlassSurface extends StatelessWidget {
   }
 }
 
-ui.ImageFilter _filter(double blur, double saturation) => ui.ImageFilter.compose(
+ui.ImageFilter _filter(double blur, double saturation) =>
+    ui.ImageFilter.compose(
       outer: ui.ColorFilter.matrix(_saturate(saturation)),
       inner: ui.ImageFilter.blur(sigmaX: blur, sigmaY: blur),
     );
 
 /// CSS `saturate()` as a 4×5 color matrix (Filter Effects spec).
 List<double> _saturate(double s) => [
-      0.213 + 0.787 * s, 0.715 - 0.715 * s, 0.072 - 0.072 * s, 0, 0,
-      0.213 - 0.213 * s, 0.715 + 0.285 * s, 0.072 - 0.072 * s, 0, 0,
-      0.213 - 0.213 * s, 0.715 - 0.715 * s, 0.072 + 0.928 * s, 0, 0,
-      0, 0, 0, 1, 0,
-    ];
+  0.213 + 0.787 * s,
+  0.715 - 0.715 * s,
+  0.072 - 0.072 * s,
+  0,
+  0,
+  0.213 - 0.213 * s,
+  0.715 + 0.285 * s,
+  0.072 - 0.072 * s,
+  0,
+  0,
+  0.213 - 0.213 * s,
+  0.715 - 0.715 * s,
+  0.072 + 0.928 * s,
+  0,
+  0,
+  0,
+  0,
+  0,
+  1,
+  0,
+];

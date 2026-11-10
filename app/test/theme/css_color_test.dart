@@ -9,13 +9,17 @@ void main() {
   });
 
   test('parses rgba with fractional alpha', () {
-    expect(parseCssColor('rgba(255,255,255,0.55)'),
-        const Color.fromRGBO(255, 255, 255, 0.55));
+    expect(
+      parseCssColor('rgba(255,255,255,0.55)'),
+      const Color.fromRGBO(255, 255, 255, 0.55),
+    );
   });
 
   test('tolerates spaces inside rgba', () {
-    expect(parseCssColor(' rgba(0, 229, 255, 0.14) '),
-        const Color.fromRGBO(0, 229, 255, 0.14));
+    expect(
+      parseCssColor(' rgba(0, 229, 255, 0.14) '),
+      const Color.fromRGBO(0, 229, 255, 0.14),
+    );
   });
 
   test('parses transparent', () {
@@ -23,7 +27,14 @@ void main() {
   });
 
   test('rejects syntax outside the supported subset', () {
-    for (final bad in ['hsl(1,2%,3%)', '#FFF', 'rgba(300,0,0,1)', 'rgba(0,0,0,2)', 'red', '']) {
+    for (final bad in [
+      'hsl(1,2%,3%)',
+      '#FFF',
+      'rgba(300,0,0,1)',
+      'rgba(0,0,0,2)',
+      'red',
+      '',
+    ]) {
       expect(() => parseCssColor(bad), throwsFormatException, reason: bad);
     }
   });

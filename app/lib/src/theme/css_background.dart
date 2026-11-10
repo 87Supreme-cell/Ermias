@@ -31,7 +31,8 @@ class CssBackground {
 }
 
 final _radial = RegExp(
-    r'^radial-gradient\(\s*(\S+)\s+(\S+)\s+at\s+(\d+(?:\.\d+)?)%\s+(\d+(?:\.\d+)?)%\s*,(.*)\)$');
+  r'^radial-gradient\(\s*(\S+)\s+(\S+)\s+at\s+(\d+(?:\.\d+)?)%\s+(\d+(?:\.\d+)?)%\s*,(.*)\)$',
+);
 final _linear = RegExp(r'^linear-gradient\(\s*135deg\s*,(.*)\)$');
 final _stopColor = RegExp(r'^(.*\S)\s+(\d+(?:\.\d+)?)%$');
 
@@ -48,7 +49,8 @@ RadialGlow _parseGlow(String layer) {
   final m = _radial.firstMatch(layer);
   if (m == null) throw FormatException('Unsupported background layer', layer);
   final stops = splitTopLevelCommas(m.group(5)!);
-  if (stops.length != 2) throw FormatException('Expected color, transparent N%', layer);
+  if (stops.length != 2)
+    throw FormatException('Expected color, transparent N%', layer);
   final fade = _stopColor.firstMatch(stops[1]);
   if (fade == null || fade.group(1) != 'transparent') {
     throw FormatException('Expected the glow to fade to transparent', layer);
@@ -56,7 +58,9 @@ RadialGlow _parseGlow(String layer) {
   return RadialGlow(
     radii: Size(parsePx(m.group(1)!), parsePx(m.group(2)!)),
     center: FractionalOffset(
-        double.parse(m.group(3)!) / 100, double.parse(m.group(4)!) / 100),
+      double.parse(m.group(3)!) / 100,
+      double.parse(m.group(4)!) / 100,
+    ),
     color: parseCssColor(stops[0]),
     stop: double.parse(fade.group(2)!) / 100,
   );
@@ -67,7 +71,8 @@ LinearGradient parseCssLinearGradient(String input) {
   final m = _linear.firstMatch(input.trim());
   if (m == null) throw FormatException('Unsupported linear gradient', input);
   final colors = splitTopLevelCommas(m.group(1)!).map(parseCssColor).toList();
-  if (colors.length < 2) throw FormatException('Gradient needs two colors', input);
+  if (colors.length < 2)
+    throw FormatException('Gradient needs two colors', input);
   return LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,

@@ -2,7 +2,8 @@ import 'dart:ui';
 
 final _hex6 = RegExp(r'^#([0-9a-fA-F]{6})$');
 final _rgba = RegExp(
-    r'^rgba\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d*\.?\d+)\s*\)$');
+  r'^rgba\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d*\.?\d+)\s*\)$',
+);
 
 /// Parses the CSS color subset used by `themes.json`: `#RRGGBB`,
 /// `rgba(r,g,b,a)` and `transparent`.
@@ -14,7 +15,8 @@ Color parseCssColor(String input) {
   if (value == 'transparent') return const Color(0x00000000);
 
   final hex = _hex6.firstMatch(value);
-  if (hex != null) return Color(0xFF000000 | int.parse(hex.group(1)!, radix: 16));
+  if (hex != null)
+    return Color(0xFF000000 | int.parse(hex.group(1)!, radix: 16));
 
   final rgba = _rgba.firstMatch(value);
   if (rgba == null) throw FormatException('Unsupported CSS color', input);

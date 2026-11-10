@@ -7,15 +7,26 @@ import 'package:flutter_test/flutter_test.dart';
 
 /// The 01_themes acceptance tests, automated for every theme.
 void main() {
-  final catalog = ThemeCatalog.fromJsonString(File('assets/themes.json').readAsStringSync());
+  final catalog = ThemeCatalog.fromJsonString(
+    File('assets/themes.json').readAsStringSync(),
+  );
 
   test('contrast math matches WCAG reference values', () {
-    expect(contrastRatio(const Color(0xFF000000), const Color(0xFFFFFFFF)), closeTo(21, 0.01));
-    expect(contrastRatio(const Color(0xFF777777), const Color(0xFFFFFFFF)), closeTo(4.48, 0.01));
+    expect(
+      contrastRatio(const Color(0xFF000000), const Color(0xFFFFFFFF)),
+      closeTo(21, 0.01),
+    );
+    expect(
+      contrastRatio(const Color(0xFF777777), const Color(0xFFFFFFFF)),
+      closeTo(4.48, 0.01),
+    );
   });
 
   test('composite blends a translucent color over its base', () {
-    final c = composite(const Color.fromRGBO(255, 255, 255, 0.5), const Color(0xFF000000));
+    final c = composite(
+      const Color.fromRGBO(255, 255, 255, 0.5),
+      const Color(0xFF000000),
+    );
     expect((c.r * 255).round(), 128);
     expect(c.a, 1);
   });

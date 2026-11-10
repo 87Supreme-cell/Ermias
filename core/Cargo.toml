@@ -1,0 +1,20 @@
+[package]
+name = "ermias_core"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.98"
+publish = false
+description = "Ermias core: system resources and file integrity, called from the Flutter app."
+license = "MIT"
+
+[lib]
+crate-type = ["cdylib", "staticlib", "lib"]
+
+# Every dependency is pinned exactly and recorded in ../DEPENDENCIES.md.
+[dependencies]
+flutter_rust_bridge = "=2.13.0"
+sha2 = "=0.11.1"
+sysinfo = { version = "=0.40.1", default-features = false, features = ["system"] }
+
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(frb_expand)'] }

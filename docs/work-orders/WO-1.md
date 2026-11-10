@@ -1,8 +1,8 @@
 # WO-1 · Shell, themes and header — Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
-**Status:** Planned · **Branch:** `wo-1/shell-themes-header` · **PRs:** one per section (01, 00, 02) + one docs PR
+**Status:** Complete, smoke test passed 2026-11-10 · **Branches (stacked):** `wo-1/01-themes` → `wo-1/00-shell` → `wo-1/02-header` · **PRs:** one per section; docs and smoke results ride with 02
 
 **Goal:** A running Ermias desktop window showing the workbench frame (header, both edge tool strips, overlay panels, center placeholder) in all four themes, with live clock, memory and CPU from a Rust core, and a real SHA-256 model hash check. Everything not yet built is labeled `MOCK`.
 
@@ -82,7 +82,7 @@ DECISION_LOG.md                        HUMAN / CLAUDE decisions
 
 **Interfaces:** Produces `app/assets/themes.json`, registered as an asset in `pubspec.yaml`.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 ```dart
 // app/test/theme/theme_source_test.dart
@@ -99,8 +99,8 @@ void main() {
 }
 ```
 
-- [ ] **Step 2:** `cd app && flutter test test/theme/theme_source_test.dart` → FAIL (asset missing).
-- [ ] **Step 3:** Apply D-013 to `Code/shared/themes.json`:
+- [x] **Step 2:** `cd app && flutter test test/theme/theme_source_test.dart` → FAIL (asset missing).
+- [x] **Step 3:** Apply D-013 to `Code/shared/themes.json`:
 
 | Theme | warn | onWarn | warnText | warnSoft | dashed |
 |---|---|---|---|---|---|
@@ -108,8 +108,8 @@ void main() {
 | Earth tones | `#D9A62E` | `#2B2A22` | `#6B4A0E` | `#F8EDCF` | `#B8891F` |
 
   Record D-013 and D-015 in `DESIGN_DECISIONS.md` with date and reason. Copy the file to `app/assets/themes.json`; add the asset to `pubspec.yaml`; delete the counter-app sample and its test.
-- [ ] **Step 4:** Re-run → PASS. `flutter analyze` → no issues.
-- [ ] **Step 5:** Commit `feat(themes): scaffold Flutter app and yellow warning colors (D-013)`.
+- [x] **Step 4:** Re-run → PASS. `flutter analyze` → no issues.
+- [x] **Step 5:** Commit `feat(themes): scaffold Flutter app and yellow warning colors (D-013)`.
 
 ### Task 2: CSS color and shadow parsing
 
@@ -117,7 +117,7 @@ void main() {
 
 **Interfaces:** Produces `Color parseCssColor(String input)` (throws `FormatException` for anything outside hex6, `rgba(r,g,b,a)`, `transparent`); `List<BoxShadow> parseCssShadow(String input)` (comma-separated layers; `x y blur [spread] color`).
 
-- [ ] **Step 1: Write the failing tests**
+- [x] **Step 1: Write the failing tests**
 
 ```dart
 test('parses hex', () => expect(parseCssColor('#1E4FD8'), const Color(0xFF1E4FD8)));
@@ -135,7 +135,7 @@ test('parses a two-layer shadow', () {
 });
 ```
 
-- [ ] **Step 2:** Run → FAIL (undefined). **Step 3:** Implement with anchored regexes; reject rather than guess. **Step 4:** Run → PASS. **Step 5:** Commit `feat(themes): parse CSS colors and shadows`.
+- [x] **Step 2:** Run → FAIL (undefined). **Step 3:** Implement with anchored regexes; reject rather than guess. **Step 4:** Run → PASS. **Step 5:** Commit `feat(themes): parse CSS colors and shadows`.
 
 ### Task 3: CSS backgrounds (glow gradients and swatches)
 
@@ -143,9 +143,9 @@ test('parses a two-layer shadow', () {
 
 **Interfaces:** Produces `CssBackground parseCssBackground(String input)` → `CssBackground(List<RadialGlow> glows, Color base)` with `RadialGlow(Size radii, FractionalOffset center, Color color, double stop)`; `LinearGradient parseCssLinearGradient(String input)` for swatches (`135deg`). `ThemeBackgroundPainter(CssBackground)` paints the base color, then each glow as an ellipse-scaled `RadialGradient`.
 
-- [ ] **Step 1: Failing test:** parse the Blues `bg`; expect 3 glows, the first at `FractionalOffset(0, 0)`, radii `Size(900, 600)`, alpha 0.38, stop 0.60, base `#EEF3FB`. Every theme's `bg` and `swatch` parses without throwing.
-- [ ] **Steps 2–4:** FAIL → implement (split on top-level commas outside parentheses) → PASS.
-- [ ] **Step 5:** Commit `feat(themes): parse glow backgrounds and swatch gradients`.
+- [x] **Step 1: Failing test:** parse the Blues `bg`; expect 3 glows, the first at `FractionalOffset(0, 0)`, radii `Size(900, 600)`, alpha 0.38, stop 0.60, base `#EEF3FB`. Every theme's `bg` and `swatch` parses without throwing.
+- [x] **Steps 2–4:** FAIL → implement (split on top-level commas outside parentheses) → PASS.
+- [x] **Step 5:** Commit `feat(themes): parse glow backgrounds and swatch gradients`.
 
 ### Task 4: Typed theme catalog and acceptance tests
 
@@ -157,7 +157,7 @@ test('parses a two-layer shadow', () {
 - `double contrastRatio(Color a, Color b)`, `Color composite(Color over, Color base)` (pure functions, WCAG relative luminance).
 - `ThemeScope.of(context) → ErmiasTheme`; `ErmiasType.text(...)` and `ErmiasType.data(...)` (Monaco + fallbacks); `GlassSurface({required Widget child, bool flyout = false})`.
 
-- [ ] **Step 1: Failing tests**
+- [x] **Step 1: Failing tests**
 
 ```dart
 test('loads the four locked themes in order, Blues first', () {
@@ -187,8 +187,8 @@ for (final name in catalog.names) {
 
 Plus: removing `warn` from a theme makes `fromJson` throw.
 
-- [ ] **Step 2:** Run → FAIL. **Step 3:** Implement. **Step 4:** All PASS for all four themes. If any pair fails, stop and log a drift flag below; colors change only with the owner.
-- [ ] **Step 5:** Commit `feat(themes): typed theme catalog with automated contrast checks`. Open PR "01 · Themes".
+- [x] **Step 2:** Run → FAIL. **Step 3:** Implement. **Step 4:** All PASS for all four themes. If any pair fails, stop and log a drift flag below; colors change only with the owner.
+- [x] **Step 5:** Commit `feat(themes): typed theme catalog with automated contrast checks`. Open PR "01 · Themes".
 
 ---
 
@@ -216,7 +216,7 @@ class ShellState {
 }
 ```
 
-- [ ] **Step 1: Failing tests** (the 00_shell acceptance tests)
+- [x] **Step 1: Failing tests** (the 00_shell acceptance tests)
 
 ```dart
 test('opening Audit log replaces Databases on the left', () {
@@ -241,7 +241,7 @@ test('toggle never mutates the original', () {
 });
 ```
 
-- [ ] **Steps 2–5:** FAIL → implement → PASS → commit `feat(shell): immutable panel state`.
+- [x] **Steps 2–5:** FAIL → implement → PASS → commit `feat(shell): immutable panel state`.
 
 ### Task 6: Strips, tabs, overlay panels, center placeholder
 
@@ -249,7 +249,7 @@ test('toggle never mutates the original', () {
 
 **Interfaces:** Consumes `ShellState`, `ThemeScope`, `GlassSurface`. Produces `Workbench({required ShellState state, required ValueChanged<ShellState> onChanged, required Widget header})`. Tab figures (`4/5`, `5`, `4/5`, `8.1`) and needs-you counts come from `MockData` and display a visible `MOCK` tag.
 
-- [ ] **Step 1: Failing widget tests** (1440×1040 surface, Blues):
+- [x] **Step 1: Failing widget tests** (1440×1040 surface, Blues):
   - tap Databases then Audit log → only the Audit log panel is present;
   - tap Databases and Project grade → both panels present;
   - each panel closes from its tab and from its close button (semantics label `Close <panel>`);
@@ -257,7 +257,7 @@ test('toggle never mutates the original', () {
   - each tab is a semantic button with `expanded` state, reachable by Tab, toggled by Enter;
   - every tab hit area ≥ 44×44;
   - panel top equals the strips' top (D-026); panel width 400, 96 px from its side; opening a panel does not change the center's size.
-- [ ] **Step 2:** FAIL. **Step 3:** Implement: panels in a `Stack` over the center; strips are `GlassSurface`; icons from the reference SVG paths at stroke 1.8. **Step 4:** PASS. **Step 5:** Commit `feat(shell): edge strips and overlay panels on mock data`. Open PR "00 · Shell".
+- [x] **Step 2:** FAIL. **Step 3:** Implement: panels in a `Stack` over the center; strips are `GlassSurface`; icons from the reference SVG paths at stroke 1.8. **Step 4:** PASS. **Step 5:** Commit `feat(shell): edge strips and overlay panels on mock data`. Open PR "00 · Shell".
 
 ---
 
@@ -277,7 +277,7 @@ pub fn sha256_file(path: String) -> Result<String, String>;   // lowercase hex
 pub fn verify_pinned(path: String, expected_hex: String) -> Result<bool, String>;
 ```
 
-- [ ] **Step 1: Failing Rust tests**
+- [x] **Step 1: Failing Rust tests**
 
 ```rust
 #[test]
@@ -304,8 +304,8 @@ fn memory_snapshot_is_sane() {
 }
 ```
 
-- [ ] **Step 2:** `~/.cargo/bin/cargo test --manifest-path core/Cargo.toml` → FAIL. **Step 3:** Implement; hash with a streaming 64 KiB buffer (model files are several GB). **Step 4:** PASS. Install `flutter_rust_bridge_codegen@2.13.0`, generate bindings, `flutter build macos --debug` succeeds.
-- [ ] **Step 5:** Commit `feat(core): Rust system and hashing core over flutter_rust_bridge`.
+- [x] **Step 2:** `~/.cargo/bin/cargo test --manifest-path core/Cargo.toml` → FAIL. **Step 3:** Implement; hash with a streaming 64 KiB buffer (model files are several GB). **Step 4:** PASS. Install `flutter_rust_bridge_codegen@2.13.0`, generate bindings, `flutter build macos --debug` succeeds.
+- [x] **Step 5:** Commit `feat(core): Rust system and hashing core over flutter_rust_bridge`.
 
 ### Task 8: Header
 
@@ -325,13 +325,13 @@ class MockAuditSink implements AuditSink { /* MOCK until section 07 */ }
 
 Model identity (name, quantization, path, pinned hash), session pill text, network summary and connection counts come from `MockData` and are tagged `MOCK` on screen. Tests use a `FakeResourceSource`.
 
-- [ ] **Step 1: Failing widget tests** (the 02_header_status acceptance tests):
+- [x] **Step 1: Failing widget tests** (the 02_header_status acceptance tests):
   - two readings from the fake source → memory, CPU and clock text update;
   - `checkModel` → mismatch shows warning color + "hash mismatch" text + triangle symbol, and `MockAuditSink` received one entry with `needsHuman: true`;
   - the gear opens the Settings route (placeholder "Settings · built in WO-3");
   - tapping a swatch re-themes every surface without restarting (01 acceptance test);
   - the connections box is centered in row 2 and uses `inv*` colors; Local is not a button, Hybrid and Exposed are.
-- [ ] **Steps 2–4:** FAIL → implement → PASS. **Step 5:** Commit `feat(header): live resources, model hash check, theme switch`. Open PR "02 · Header".
+- [x] **Steps 2–4:** FAIL → implement → PASS. **Step 5:** Commit `feat(header): live resources, model hash check, theme switch`. Open PR "02 · Header".
 
 ---
 
@@ -341,11 +341,11 @@ Model identity (name, quantization, path, pinned hash), session pill text, netwo
 
 **Files:** Create `app/integration_test/smoke_test.dart`, `docs/screenshots/wo-1-*.png`, `docs/ARCHITECTURE.md`; Modify `README.md`, this file.
 
-- [ ] **Step 1:** `smoke_test.dart` launches the real app (Rust-backed source), waits 3 s and asserts clock and CPU changed, opens each panel pair, switches through all four themes, alters the mock model file and asserts the mismatch state, capturing a screenshot at each step.
-- [ ] **Step 2:** `flutter test integration_test -d macos` PASS; `flutter test`, `cargo test`, `flutter analyze`, `cargo clippy -- -D warnings` all clean.
-- [ ] **Step 3:** Compare screenshots with `Code/reference/screenshots/04–11`; log every visible difference as a drift flag.
-- [ ] **Step 4:** Rewrite `README.md`: what Ermias is and why (first screen), screenshot, status by work order, architecture, security model, build and test commands, reviewer index.
-- [ ] **Step 5:** Record results below; commit `docs: WO-1 smoke test, screenshots and README`. Open PR "WO-1 · Docs".
+- [x] **Step 1:** `smoke_test.dart` launches the real app (Rust-backed source), waits 3 s and asserts clock and CPU changed, opens each panel pair, switches through all four themes, alters the mock model file and asserts the mismatch state, capturing a screenshot at each step.
+- [x] **Step 2:** `flutter test integration_test -d macos` PASS; `flutter test`, `cargo test`, `flutter analyze`, `cargo clippy -- -D warnings` all clean.
+- [x] **Step 3:** Compare screenshots with `Code/reference/screenshots/04–11`; log every visible difference as a drift flag.
+- [x] **Step 4:** Rewrite `README.md`: what Ermias is and why (first screen), screenshot, status by work order, architecture, security model, build and test commands, reviewer index.
+- [x] **Step 5:** Record results below; commit `docs: WO-1 smoke test, screenshots and README`. Open PR "WO-1 · Docs".
 
 ---
 
@@ -358,7 +358,25 @@ Model identity (name, quantization, path, pinned hash), session pill text, netwo
 | F-3 | 2026-11-10 | Locked fonts Inter + JetBrains Mono replaced by Monaco. | Owner decision D-015; recorded in `DESIGN_DECISIONS.md` in Task 1. |
 | F-4 | 2026-11-10 | Header session pill text predates password sign-in. | Shown as `MOCK` until sign-in exists (WO-3). |
 | F-5 | 2026-11-10 | `audit_event` contract has no HUMAN/CLAUDE actor or hash chain. | Deferred to WO-4 (D-006); WO-1 uses `MockAuditSink`. |
+| F-6 | 2026-11-10 | **Monaco has a single weight.** The locked type scale (600 headings, 700 PRIMARY FOCUS) renders at regular weight, so hierarchy is flatter than the reference. Monaco is also ~30% wider than Inter. | **Owner to decide:** keep Monaco everywhere, or Monaco for data and a bold-capable system font for headings. |
+| F-7 | 2026-11-10 | Execution deviated from plan: build backend changed to native assets (D-036); `Workbench.onChanged` takes an update function (D-032); Rust readings return `Result` because `sysinfo` 0.40 can fail to initialise. | Recorded; plan interfaces superseded by the code. |
+| F-8 | 2026-11-10 | Windows and Linux targets are scaffolded but **not built or tested**; their minimum window size is not set. | macOS only in WO-1. Cross-platform build is a later work order. |
+| F-9 | 2026-11-10 | Hybrid/Exposed connection windows, Briefing room behavior and theme persistence are not built. | Section 03 (WO-2), open questions 6 and 8. Shown as MOCK or "not yet available". |
 
 ## Smoke test results
 
-_Recorded at the end of WO-1._
+**2026-11-10 · PASS** · macOS (Apple silicon), Flutter 3.47.5, Rust 1.98.1 · `flutter test integration_test -d macos`
+
+| Check | Spec | Result |
+|---|---|---|
+| Memory, CPU and clock update live from the Rust core | 02 | PASS · 6 readings in ~10 s |
+| Model SHA-256 matches its pin and shows ✓ | 02 | PASS |
+| Changing the model file fails visibly and logs a needs-human entry | 02 | PASS · `model_hash_mismatch` recorded |
+| Gear opens Settings; Back returns | 02 | PASS |
+| One panel per side; both sides open together; tabs and close buttons close | 00 | PASS |
+| All four themes switch without a restart | 01 | PASS |
+| Screenshots | — | `docs/screenshots/01–07` |
+
+Automated suites at the same commit: `flutter test` 101 passing · `cargo test` 8 passing · `flutter analyze` and `cargo clippy -D warnings` clean.
+
+Compared with `Code/reference/screenshots/04–11`: layout, glass, strips, panel positions and the connections box match. Differences are logged above (F-6 type weight, F-9 not-yet-built controls).

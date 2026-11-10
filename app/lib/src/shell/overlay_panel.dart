@@ -6,7 +6,7 @@ import '../mock/mock_data.dart';
 import '../theme/glass.dart';
 import '../theme/theme_scope.dart';
 import '../theme/typography.dart';
-import 'layout.dart';
+import '../widgets/ermias_button.dart';
 import 'shell_state.dart';
 import 'strip_tab.dart';
 
@@ -17,6 +17,10 @@ import 'strip_tab.dart';
   PanelId.taskChain => ('Task chain', mockTaskChainPath),
   PanelId.projectGrade => ('Project grade', 'updates each step'),
 };
+
+/// Below this header width the subtitle is dropped and the title truncates.
+/// A 400 px panel has a 368 px header, so the full layout is the default.
+const _wideHeaderWidth = 340.0;
 
 /// Overlay panel chrome: title, subtitle, close button and a scrolling body.
 class OverlayPanel extends StatelessWidget {
@@ -33,8 +37,6 @@ class OverlayPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = ThemeScope.of(context);
-    final (title, subtitle) = panelHeading(id);
     return Semantics(
       container: true,
       explicitChildNodes: true,
@@ -47,26 +49,7 @@ class OverlayPanel extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           spacing: 12,
           children: [
-            Row(
-              spacing: 8,
-              children: [
-                ErmiasIcon(panelIcon(id), color: t.ink),
-                Expanded(
-                  child: Text(title, style: ErmiasType.heading(t, size: 16)),
-                ),
-                Flexible(
-                  child: Text(
-                    subtitle,
-                    style: ErmiasType.muted(t, size: 12),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                _CloseButton(
-                  label: 'Close ${title.toLowerCase()}',
-                  onTap: onClose,
-                ),
-              ],
-            ),
+            _PanelHeader(id: id, onClose: onClose),
             Flexible(child: SingleChildScrollView(child: body)),
           ],
         ),
@@ -75,42 +58,50 @@ class OverlayPanel extends StatelessWidget {
   }
 }
 
-class _CloseButton extends StatelessWidget {
-  const _CloseButton({required this.label, required this.onTap});
+/// Icon, title, subtitle and close button. At full panel width the title
+/// keeps its full length and the subtitle takes what is left.
+class _PanelHeader extends StatelessWidget {
+  const _PanelHeader({required this.id, required this.onClose});
 
-  final String label;
-  final VoidCallback onTap;
+  final PanelId id;
+  final VoidCallback onClose;
 
   @override
   Widget build(BuildContext context) {
     final t = ThemeScope.of(context);
-    return Semantics(
-      container: true,
-      button: true,
-      label: label,
-      excludeSemantics: true,
-      child: FocusableActionDetector(
-        mouseCursor: SystemMouseCursors.click,
-        actions: {
-          ActivateIntent: CallbackAction<ActivateIntent>(
-            onInvoke: (_) => onTap(),
-          ),
-        },
-        child: GestureDetector(
-          onTap: onTap,
-          child: Container(
-            width: ShellLayout.minTarget,
-            height: ShellLayout.minTarget,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: t.btnBg,
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: t.btnBorder),
+    final (title, subtitle) = panelHeading(id);
+    return LayoutBuilder(
+      builder: (context, box) {
+        final wide = box.maxWidth >= _wideHeaderWidth;
+        final heading = Text(
+          title,
+          style: ErmiasType.heading(t, size: 15),
+          maxLines: 1,
+          overflow: wide ? null : TextOverflow.ellipsis,
+        );
+        return Row(
+          spacing: 6,
+          children: [
+            ErmiasIcon(panelIcon(id), color: t.ink),
+            if (wide) heading else Expanded(child: heading),
+            if (wide)
+              Expanded(
+                child: Text(
+                  subtitle,
+                  style: ErmiasType.muted(t, size: 11),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.end,
+                ),
+              ),
+            ErmiasButton(
+              icon: ErmiasIconData.close,
+              semanticsLabel: 'Close ${title.toLowerCase()}',
+              onTap: onClose,
             ),
-            child: ErmiasIcon(ErmiasIconData.close, color: t.ink),
-          ),
-        ),
-      ),
+          ],
+        );
+      },
     );
   }
 }

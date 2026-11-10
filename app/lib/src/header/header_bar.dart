@@ -54,9 +54,9 @@ class _HeaderBarState extends State<HeaderBar> {
   @override
   void initState() {
     super.initState();
-    _subscription = widget.resources
-        .readings(resourceInterval)
-        .listen((r) => setState(() => _reading = r));
+    _subscription = widget.resources.readings(resourceInterval).listen((r) {
+      if (mounted) setState(() => _reading = r);
+    });
     unawaited(_checkModel());
   }
 

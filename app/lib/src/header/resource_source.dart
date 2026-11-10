@@ -55,12 +55,23 @@ abstract interface class ResourceSource {
   Future<ModelCheck> checkModel(ModelIdentity model);
 }
 
+/// Wait after the CPU baseline sample; above sysinfo's minimum (200 ms).
+const cpuBaselineInterval = Duration(milliseconds: 250);
+
 /// Reads memory, CPU and file hashes from the Rust core.
 class RustResourceSource implements ResourceSource {
   const RustResourceSource();
 
   @override
   Stream<ResourceReading> readings(Duration every) async* {
+    // CPU usage is a delta between two samples. Take a baseline first so
+    // the first reading shown is a real measurement, not ~0%.
+    try {
+      await rust_system.cpuPercent();
+    } catch (_) {
+      // The next sample reports the same failure in ResourceReading.error.
+    }
+    await Future<void>.delayed(cpuBaselineInterval);
     while (true) {
       yield await _sample();
       await Future<void>.delayed(every);

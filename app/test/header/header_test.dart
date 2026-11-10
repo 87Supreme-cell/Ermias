@@ -93,6 +93,15 @@ void main() {
       ),
     );
     expect(find.text('unavailable'), findsNWidgets(2));
+    // The cause is announced, not discarded.
+    expect(
+      find.bySemanticsLabel(RegExp(r'Memory unavailable: boom')),
+      findsOneWidget,
+    );
+    expect(
+      find.bySemanticsLabel(RegExp(r'CPU unavailable: boom')),
+      findsOneWidget,
+    );
   });
 
   testWidgets('a matching model hash shows a check mark', (tester) async {

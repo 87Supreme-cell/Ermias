@@ -52,6 +52,9 @@ class ResourceStrip extends StatelessWidget {
                       : (r.memory == null
                             ? unavailable
                             : formatMemory(r.memory!)),
+                  spoken: r != null && r.memory == null
+                      ? 'Memory unavailable: ${r.error}'
+                      : null,
                 ),
                 _Segment(
                   label: 'CPU',
@@ -60,6 +63,9 @@ class ResourceStrip extends StatelessWidget {
                       : (r.cpuPercent == null
                             ? unavailable
                             : '${r.cpuPercent!.round()}%'),
+                  spoken: r != null && r.cpuPercent == null
+                      ? 'CPU unavailable: ${r.error}'
+                      : null,
                 ),
                 const _Segment(
                   label: 'Network',
@@ -77,16 +83,19 @@ class ResourceStrip extends StatelessWidget {
 }
 
 class _Segment extends StatelessWidget {
-  const _Segment({required this.label, this.value, this.child});
+  const _Segment({required this.label, this.value, this.child, this.spoken});
 
   final String label;
   final String? value;
   final Widget? child;
 
+  /// Screen-reader text that replaces the visible text, e.g. a failure cause.
+  final String? spoken;
+
   @override
   Widget build(BuildContext context) {
     final t = ThemeScope.of(context);
-    return Row(
+    final row = Row(
       mainAxisSize: MainAxisSize.min,
       spacing: 7,
       children: [
@@ -94,6 +103,10 @@ class _Segment extends StatelessWidget {
         child ?? Text(value!, style: ErmiasType.data(t)),
       ],
     );
+    final text = spoken;
+    return text == null
+        ? row
+        : Semantics(label: text, excludeSemantics: true, child: row);
   }
 }
 

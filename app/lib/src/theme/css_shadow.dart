@@ -22,8 +22,15 @@ BoxShadow _parseLayer(String layer) {
   final values = lengths.map(parsePx).toList();
   return BoxShadow(
     offset: Offset(values[0], values[1]),
-    blurRadius: values[2],
+    blurRadius: _flutterBlurRadius(values[2]),
     spreadRadius: values.length == 4 ? values[3] : 0,
     color: parseCssColor(layer.substring(colorStart)),
   );
+}
+
+/// CSS shadow blur B is a Gaussian with sigma B/2. Flutter derives sigma from
+/// blurRadius as r * 0.57735 + 0.5, so invert that to match the CSS shadow.
+double _flutterBlurRadius(double cssBlur) {
+  final sigma = cssBlur / 2;
+  return sigma <= 0.5 ? 0 : (sigma - 0.5) / 0.57735;
 }

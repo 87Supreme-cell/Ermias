@@ -14,7 +14,8 @@ class ThemeBackgroundPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final rect = Offset.zero & size;
     canvas.drawRect(rect, Paint()..color = background.base);
-    for (final glow in background.glows) {
+    // CSS paints the first listed layer on top, so draw bottom-up.
+    for (final glow in background.glows.reversed) {
       canvas.drawRect(rect, Paint()..shader = _shaderFor(glow, size));
     }
   }

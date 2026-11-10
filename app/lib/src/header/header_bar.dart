@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 
 import '../audit/audit_sink.dart';
+import '../workspace/workspace_controller.dart';
 import '../icons/ermias_icon.dart';
 import '../icons/ermias_icons.dart';
 import '../mock/mock_data.dart';
@@ -26,21 +27,25 @@ class HeaderBar extends StatefulWidget {
   const HeaderBar({
     super.key,
     required this.resources,
-    required this.audit,
+    required this.workspace,
     required this.model,
     required this.catalog,
     required this.activeTheme,
     required this.onTheme,
     required this.onSettings,
+    required this.onOpenAuditLog,
   });
 
   final ResourceSource resources;
-  final AuditSink audit;
+
+  /// Workspace: audit sink for the hash check, source of connections.
+  final WorkspaceController workspace;
   final ModelIdentity model;
   final ThemeCatalog catalog;
   final String activeTheme;
   final ValueChanged<String> onTheme;
   final VoidCallback onSettings;
+  final VoidCallback onOpenAuditLog;
 
   @override
   State<HeaderBar> createState() => _HeaderBarState();
@@ -65,7 +70,7 @@ class _HeaderBarState extends State<HeaderBar> {
     if (!mounted) return;
     setState(() => _check = check);
     if (check != ModelCheck.ok) {
-      widget.audit.record(
+      widget.workspace.record(
         AuditEntry(
           time: DateTime.now(),
           kind: check == ModelCheck.mismatch
@@ -107,10 +112,14 @@ class _HeaderBarState extends State<HeaderBar> {
                   const _SessionPill(),
                 ],
               ),
-              ResourceStrip(
-                model: widget.model,
-                check: _check,
-                reading: _reading,
+              ValueListenableBuilder(
+                valueListenable: widget.workspace,
+                builder: (context, state, _) => ResourceStrip(
+                  model: widget.model,
+                  check: _check,
+                  reading: _reading,
+                  networkSummary: state.networkSummary,
+                ),
               ),
             ],
           ),
@@ -156,7 +165,11 @@ class _HeaderBarState extends State<HeaderBar> {
           },
         ),
       ),
-      const ConnectionsBox(key: ValueKey('connections-box')),
+      ConnectionsBox(
+        key: const ValueKey('connections-box'),
+        controller: widget.workspace,
+        onOpenAuditLog: widget.onOpenAuditLog,
+      ),
       const Expanded(child: SizedBox.shrink()),
     ],
   );

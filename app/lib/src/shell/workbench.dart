@@ -26,6 +26,7 @@ class Workbench extends StatelessWidget {
     required this.header,
     this.figures = const MockShellFigures(),
     this.center = const CenterPlaceholder(),
+    this.panelBody,
   });
 
   final ShellState state;
@@ -33,6 +34,9 @@ class Workbench extends StatelessWidget {
   final Widget header;
   final ShellFigures figures;
   final Widget center;
+
+  /// Contents of each overlay panel; MOCK placeholders when null.
+  final Widget Function(PanelId id)? panelBody;
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +96,7 @@ class Workbench extends StatelessWidget {
                     key: ValueKey('panel-${id.name}'),
                     id: id,
                     onClose: () => onChanged((s) => s.close(side)),
-                    body: MockPanelBody(id: id),
+                    body: panelBody?.call(id) ?? MockPanelBody(id: id),
                   ),
                 ),
               ),

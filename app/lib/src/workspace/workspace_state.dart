@@ -45,6 +45,13 @@ class WorkspaceState {
   int countOf(ConnectionTier tier) =>
       connections.where((c) => c.tier == tier).length;
 
+  /// Header network summary: active external calls are the exposed tier.
+  String get networkSummary {
+    final calls = countOf(ConnectionTier.exposed);
+    if (calls == 0) return 'loopback only';
+    return 'loopback only · $calls external ${calls == 1 ? 'call' : 'calls'}';
+  }
+
   /// 04: Claim n · samples disagreed, Scope, Sources (open question 3).
   List<DriftFlag> get driftFlags {
     final sentences = conversation.expand((t) => t.answer).toList();

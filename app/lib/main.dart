@@ -6,8 +6,10 @@ import 'package:flutter/widgets.dart';
 import 'src/app.dart';
 import 'src/header/resource_source.dart';
 import 'src/mock/mock_data.dart';
+import 'src/mock/mock_workspace.dart';
 import 'src/rust/frb_generated.dart';
 import 'src/theme/theme_catalog.dart';
+import 'src/workspace/workspace_controller.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +21,7 @@ Future<void> main() async {
     ErmiasApp(
       catalog: catalog,
       resources: const RustResourceSource(),
-      audit: MockAuditSink(),
+      workspace: WorkspaceController(mockWorkspace()),
       model: mockModelAt(await _writeMockModel()),
     ),
   );

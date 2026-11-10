@@ -6,8 +6,9 @@ import '../theme/ermias_theme.dart';
 import '../theme/theme_scope.dart';
 import '../theme/typography.dart';
 
-/// plain: outlined. accent: filled, the one primary action. warn: needs a human.
-enum ErmiasButtonTone { plain, accent, warn }
+/// plain: outlined. accent: filled, the one primary action. warn: needs a
+/// human. inverted: on the high-contrast connections surfaces.
+enum ErmiasButtonTone { plain, accent, warn, inverted }
 
 /// 44 px button used across the app: icon, label, or both.
 /// Keyboard: focusable, Enter/Space activate. [onTap] null still renders the
@@ -97,5 +98,6 @@ class ErmiasButton extends StatelessWidget {
     ErmiasButtonTone.plain => (t.btnBg, t.btnBorder, t.ink),
     ErmiasButtonTone.accent => (t.accent, t.accent, t.onAccent),
     ErmiasButtonTone.warn => (t.btnBg, t.warnText, t.warnText),
+    ErmiasButtonTone.inverted => (t.invBtn, t.invBorder, t.invInk),
   };
 }

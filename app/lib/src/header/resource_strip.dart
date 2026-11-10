@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 
 import '../icons/risk_shape.dart';
-import '../mock/mock_data.dart';
 import '../theme/ermias_theme.dart';
 import '../theme/theme_scope.dart';
 import '../theme/typography.dart';
@@ -24,11 +23,15 @@ class ResourceStrip extends StatelessWidget {
     required this.model,
     required this.check,
     required this.reading,
+    required this.networkSummary,
   });
 
   final ModelIdentity model;
   final ModelCheck? check;
   final ResourceReading? reading;
+
+  /// From the connections monitor (MOCK until WO-6).
+  final String networkSummary;
 
   @override
   Widget build(BuildContext context) {
@@ -67,10 +70,7 @@ class ResourceStrip extends StatelessWidget {
                       ? 'CPU unavailable: ${r.error}'
                       : null,
                 ),
-                const _Segment(
-                  label: 'Network',
-                  value: '$mockNetworkSummary · MOCK',
-                ),
+                _Segment(label: 'Network', value: '$networkSummary · MOCK'),
                 _Segment(
                   label: 'Clock',
                   value: r == null ? '—' : formatClock(r.at),

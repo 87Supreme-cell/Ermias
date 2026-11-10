@@ -37,10 +37,10 @@ class ContextColumn extends StatelessWidget {
         if (oneOff.isNotEmpty) const SizedBox(height: 8),
         for (final f in oneOff)
           _FileRow(label: f.label, trailing: 'one-off · unranked', warn: true),
-        const SizedBox(height: 12),
+        const SizedBox(height: 8),
         heading('Drift flags'),
         for (final flag in state.driftFlags) _FlagRow(flag: flag),
-        const SizedBox(height: 12),
+        const SizedBox(height: 8),
         heading('Steps'),
         for (final step in state.steps) _StepRow(step: step),
       ],
@@ -63,7 +63,7 @@ class _FileRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = ThemeScope.of(context);
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
+      padding: const EdgeInsets.symmetric(vertical: 3),
       child: Row(
         children: [
           Expanded(
@@ -96,8 +96,8 @@ class _FlagRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = ThemeScope.of(context);
     return Container(
-      margin: const EdgeInsets.only(bottom: 6),
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+      margin: const EdgeInsets.only(bottom: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
       decoration: BoxDecoration(
         color: flag.needsHuman ? t.warnSoft : t.subtle,
         borderRadius: BorderRadius.circular(8),
@@ -126,7 +126,7 @@ class _StepRow extends StatelessWidget {
       label: '${step.name}, ${step.state.name}',
       excludeSemantics: true,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4),
+        padding: const EdgeInsets.symmetric(vertical: 3),
         child: Row(
           spacing: 7,
           children: [

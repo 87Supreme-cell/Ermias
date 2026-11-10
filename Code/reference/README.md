@@ -18,5 +18,5 @@ How to read these files:
 - `<sc-if>` shows its content when the value is true. `<sc-for>` repeats its content for each item.
 - `support.js` is the design tool's runtime and is not included. These files are a visual spec; rebuild them in the chosen stack.
 - The logo appears in the design as `/_blob/...`, a design-tool asset address. Use `assets/ermias-logo.png`.
-- Fonts load from Google Fonts in the design only. The app must bundle Inter and JetBrains Mono locally.
+- Fonts load from Google Fonts in the design only. The app uses Monaco from the operating system (changed 2026-11-10, see `DESIGN_DECISIONS.md` → Changes).
 - All numbers, names and log entries are mock data.

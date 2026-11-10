@@ -353,7 +353,7 @@ Model identity (name, quantization, path, pinned hash), session pill text, netwo
 
 | ID | Found | Drift | Status |
 |---|---|---|---|
-| F-1 | 2026-11-10 | `00_shell/README.md` (Locked) says panels sit 104 px from the top; reference code and screenshots (commit `da17c0d`) use 164 px. | Built as "aligned with the strips" (D-026). **Owner to confirm** the README line. |
+| F-1 | 2026-11-10 | Raised: `00_shell` README says 104 px, reference says 164 px. | **Withdrawn (D-028).** The README already said 164 px; my diff output was truncated. |
 | F-2 | 2026-11-10 | 01_themes grayscale acceptance test failed for Earth tones and was weak for Blues. | Resolved by D-013 (yellow); verified by Task 4. |
 | F-3 | 2026-11-10 | Locked fonts Inter + JetBrains Mono replaced by Monaco. | Owner decision D-015; recorded in `DESIGN_DECISIONS.md` in Task 1. |
 | F-4 | 2026-11-10 | Header session pill text predates password sign-in. | Shown as `MOCK` until sign-in exists (WO-3). |

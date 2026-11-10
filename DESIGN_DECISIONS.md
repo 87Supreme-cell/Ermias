@@ -39,3 +39,9 @@ Agreed in design review on 2026-11-10. Change only with the owner's approval, an
 - **Sign-in:** username and password for now, checked locally.
 - **Cloud models:** API keys only. Subscription sign-in is excluded: Anthropic's terms (updated February 2026) do not allow consumer-plan sign-in in third-party apps.
 - **Local model providers:** LM Studio, Ollama and llama.cpp, with editable endpoints.
+
+## Changes
+Each change to a decision above, with its date and reason. Full trail in `DECISION_LOG.md`.
+
+- **2026-11-10 · Warning color (Blues, Earth tones) → yellow.** Owner decision (D-013). The original warning colors could not be told from the accent in grayscale (Earth tones ratio 1.00, Blues 1.28), failing the 01_themes acceptance test. New values in `Code/shared/themes.json`; text on a warning fill uses the theme's dark ink (D-014).
+- **2026-11-10 · Font → Monaco**, replacing Inter and JetBrains Mono. Owner decision (D-015). Monaco is supplied by the operating system and never bundled, because its license does not permit redistribution; fallbacks are Menlo, Consolas and DejaVu Sans Mono (D-016). Nothing is fetched at runtime.

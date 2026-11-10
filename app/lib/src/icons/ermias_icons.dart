@@ -45,7 +45,10 @@ enum ErmiasIconData {
     ovals: [Rect.fromLTRB(9, 9, 15, 15)],
   ),
   chevronDown(['m6 9 6 6 6-6']),
-  chevronLeft(['m15 18-6-6 6-6']);
+  chevronLeft(['m15 18-6-6 6-6']),
+  chevronUp(['m18 15-6-6-6 6']),
+  minus(['M5 12h14']),
+  plus(['M5 12h14', 'M12 5v14']);
 
   const ErmiasIconData(this.paths, {this.ovals = const []});
 

@@ -58,4 +58,13 @@ void main() {
       const ShellState(left: PanelId.databases),
     );
   });
+
+  test('open() opens a panel without toggling it closed', () {
+    const open = ShellState(left: PanelId.auditLog);
+    expect(open.open(PanelId.auditLog), open);
+    expect(
+      const ShellState(left: PanelId.databases).open(PanelId.auditLog).left,
+      PanelId.auditLog,
+    );
+  });
 }

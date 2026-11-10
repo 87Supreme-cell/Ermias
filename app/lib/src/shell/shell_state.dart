@@ -49,6 +49,9 @@ class ShellState {
 
   ShellState close(PanelSide side) => _withSide(side, null);
 
+  /// Opens [id] (replacing its side); unlike [toggle], never closes it.
+  ShellState open(PanelId id) => _withSide(id.side, id);
+
   ShellState _withSide(PanelSide side, PanelId? id) => side == PanelSide.left
       ? ShellState(left: id, right: right)
       : ShellState(left: left, right: id);

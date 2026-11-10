@@ -19,7 +19,7 @@ Do not change without owner approval.
 - Each theme has a soft multi-glow background (`bg`) so the glass reads as glass.
 - Accent = verified or active. Warning = needs a human. Warnings always carry text or a symbol as well as color.
 - Connections box and its windows use the inverted `inv*` colors.
-- Type: Inter for text, JetBrains Mono for data. Weights used: 400 and 500 for text, 600 for headings and buttons, 700 for the PRIMARY FOCUS title in capitals.
+- Type: Monaco for text and data (from the operating system, not bundled; fallbacks Menlo, Consolas, DejaVu Sans Mono). Changed 2026-11-10, see `DESIGN_DECISIONS.md` → Changes. Weights used: 400 and 500 for text, 600 for headings and buttons, 700 for the PRIMARY FOCUS title in capitals.
 
 ## Behavior and states
 - The theme switch is a row of swatch buttons in the header. Switching applies instantly to every screen.
@@ -28,7 +28,7 @@ Do not change without owner approval.
 `Code/shared/themes.json`. Adding a custom theme means adding one entry with every key.
 
 ## Security rules
-- Fonts and icons are bundled with the app.
+- Icons are bundled with the app. Monaco comes from the operating system; no font is fetched at runtime.
 
 ## Acceptance tests
 - [ ] Every color on every screen comes from `themes.json`.

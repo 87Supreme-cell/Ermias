@@ -32,24 +32,27 @@ class _RiskPainter extends CustomPainter {
         canvas.drawCircle(Offset(w / 2, h / 2), w * 0.45, paint);
       case RiskShape.diamond:
         canvas.drawPath(
-            Path()
-              ..moveTo(w / 2, h * 0.05)
-              ..lineTo(w * 0.95, h / 2)
-              ..lineTo(w / 2, h * 0.95)
-              ..lineTo(w * 0.05, h / 2)
-              ..close(),
-            paint);
+          Path()
+            ..moveTo(w / 2, h * 0.05)
+            ..lineTo(w * 0.95, h / 2)
+            ..lineTo(w / 2, h * 0.95)
+            ..lineTo(w * 0.05, h / 2)
+            ..close(),
+          paint,
+        );
       case RiskShape.triangle:
         canvas.drawPath(
-            Path()
-              ..moveTo(w / 2, h * 0.05)
-              ..lineTo(w * 0.96, h * 0.93)
-              ..lineTo(w * 0.04, h * 0.93)
-              ..close(),
-            paint);
+          Path()
+            ..moveTo(w / 2, h * 0.05)
+            ..lineTo(w * 0.96, h * 0.93)
+            ..lineTo(w * 0.04, h * 0.93)
+            ..close(),
+          paint,
+        );
     }
   }
 
   @override
-  bool shouldRepaint(_RiskPainter old) => old.shape != shape || old.color != color;
+  bool shouldRepaint(_RiskPainter old) =>
+      old.shape != shape || old.color != color;
 }

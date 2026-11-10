@@ -44,14 +44,15 @@ const mockConnectionCounts = (local: 4, hybrid: 2, exposed: 1);
 /// SHA-256, so the header's hash check runs for real against a mock file.
 /// Real models come from Settings → model providers (13, WO-3).
 const mockModelContents = 'Ermias MOCK model file v1\n';
-const mockModelSha256 = 'af8890cd28043edb95b8ddaa702c68424531628b7d8e106fc548ee3434391fe7';
+const mockModelSha256 =
+    'af8890cd28043edb95b8ddaa702c68424531628b7d8e106fc548ee3434391fe7';
 
 ModelIdentity mockModelAt(String path) => ModelIdentity(
-      name: 'Olmo-3-7B-Instruct',
-      quantization: 'Q4',
-      path: path,
-      pinnedSha256: mockModelSha256,
-    );
+  name: 'Olmo-3-7B-Instruct',
+  quantization: 'Q4',
+  path: path,
+  pinnedSha256: mockModelSha256,
+);
 
 /// Mock model identity for tests and previews.
 final mockModel = mockModelAt('mock-model.bin');

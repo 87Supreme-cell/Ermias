@@ -74,8 +74,7 @@ class _NeedsYouBadge extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.only(top: 4),
         constraints: const BoxConstraints(minWidth: 22, minHeight: 22),
-        alignment: Alignment.center,
-        padding: const EdgeInsets.symmetric(horizontal: 6),
+        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
         decoration: BoxDecoration(
           color: t.warn,
           borderRadius: BorderRadius.circular(11),

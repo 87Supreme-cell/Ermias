@@ -73,7 +73,10 @@ class RustResourceSource implements ResourceSource {
     double? cpu;
     try {
       final m = await rust_system.memorySnapshot();
-      memory = MemoryReading(usedBytes: m.usedBytes.toInt(), totalBytes: m.totalBytes.toInt());
+      memory = MemoryReading(
+        usedBytes: m.usedBytes.toInt(),
+        totalBytes: m.totalBytes.toInt(),
+      );
     } catch (e) {
       errors.add('memory: $e');
     }
@@ -93,7 +96,10 @@ class RustResourceSource implements ResourceSource {
   @override
   Future<ModelCheck> checkModel(ModelIdentity model) async {
     try {
-      final matches = await rust_hash.verifyPinned(path: model.path, expectedHex: model.pinnedSha256);
+      final matches = await rust_hash.verifyPinned(
+        path: model.path,
+        expectedHex: model.pinnedSha256,
+      );
       return matches ? ModelCheck.ok : ModelCheck.mismatch;
     } catch (_) {
       // Unreadable or missing file: never treated as a pass.

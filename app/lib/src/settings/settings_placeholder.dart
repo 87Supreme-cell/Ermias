@@ -23,17 +23,30 @@ class SettingsPlaceholder extends StatelessWidget {
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 640),
             child: SolidSurface(
-              child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, spacing: 12, children: [
-                ErmiasButton(
-                  icon: ErmiasIconData.chevronLeft,
-                  semanticsLabel: 'Back to workbench',
-                  label: 'Workbench',
-                  onTap: () => Navigator.of(context).pop(),
-                ),
-                Semantics(header: true, child: Text('Settings', style: ErmiasType.heading(t, size: 18))),
-                Text('MOCK · model providers (local runtimes and cloud API keys) arrive in section 13 (WO-3).',
-                    style: ErmiasType.muted(t)),
-              ]),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 12,
+                children: [
+                  ErmiasButton(
+                    icon: ErmiasIconData.chevronLeft,
+                    semanticsLabel: 'Back to workbench',
+                    label: 'Workbench',
+                    onTap: () => Navigator.of(context).pop(),
+                  ),
+                  Semantics(
+                    header: true,
+                    child: Text(
+                      'Settings',
+                      style: ErmiasType.heading(t, size: 18),
+                    ),
+                  ),
+                  Text(
+                    'MOCK · model providers (local runtimes and cloud API keys) arrive in section 13 (WO-3).',
+                    style: ErmiasType.muted(t),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

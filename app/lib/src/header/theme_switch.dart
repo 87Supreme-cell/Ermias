@@ -5,7 +5,12 @@ import '../theme/theme_scope.dart';
 
 /// Row of theme swatches (01_themes). Choosing one re-themes every screen.
 class ThemeSwitch extends StatelessWidget {
-  const ThemeSwitch({super.key, required this.catalog, required this.active, required this.onPick});
+  const ThemeSwitch({
+    super.key,
+    required this.catalog,
+    required this.active,
+    required this.onPick,
+  });
 
   final ThemeCatalog catalog;
   final String active;
@@ -13,17 +18,32 @@ class ThemeSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Semantics(
-        container: true,
-        label: 'Theme',
-        explicitChildNodes: true,
-        child: Row(mainAxisSize: MainAxisSize.min, spacing: 2, children: [
-          for (final name in catalog.names) _Swatch(catalog: catalog, name: name, active: name == active, onPick: onPick),
-        ]),
-      );
+    container: true,
+    label: 'Theme',
+    explicitChildNodes: true,
+    child: Row(
+      mainAxisSize: MainAxisSize.min,
+      spacing: 2,
+      children: [
+        for (final name in catalog.names)
+          _Swatch(
+            catalog: catalog,
+            name: name,
+            active: name == active,
+            onPick: onPick,
+          ),
+      ],
+    ),
+  );
 }
 
 class _Swatch extends StatelessWidget {
-  const _Swatch({required this.catalog, required this.name, required this.active, required this.onPick});
+  const _Swatch({
+    required this.catalog,
+    required this.name,
+    required this.active,
+    required this.onPick,
+  });
 
   final ThemeCatalog catalog;
   final String name;
@@ -50,10 +70,12 @@ class _Swatch extends StatelessWidget {
       child: FocusableActionDetector(
         mouseCursor: SystemMouseCursors.click,
         actions: {
-          ActivateIntent: CallbackAction<ActivateIntent>(onInvoke: (_) {
-            onPick(name);
-            return null;
-          }),
+          ActivateIntent: CallbackAction<ActivateIntent>(
+            onInvoke: (_) {
+              onPick(name);
+              return null;
+            },
+          ),
         },
         child: GestureDetector(
           onTap: () => onPick(name),
@@ -65,7 +87,11 @@ class _Swatch extends StatelessWidget {
               child: active
                   ? Container(
                       padding: const EdgeInsets.all(2),
-                      decoration: BoxDecoration(shape: BoxShape.circle, color: t.glass, border: Border.all(color: t.ink, width: 2)),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: t.glass,
+                        border: Border.all(color: t.ink, width: 2),
+                      ),
                       child: dot,
                     )
                   : dot,

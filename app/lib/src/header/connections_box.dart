@@ -22,13 +22,17 @@ class ConnectionsBox extends StatefulWidget {
 class _ConnectionsBoxState extends State<ConnectionsBox> {
   ConnectionTier? _open;
 
-  void _toggle(ConnectionTier tier) => setState(() => _open = _open == tier ? null : tier);
+  void _toggle(ConnectionTier tier) =>
+      setState(() => _open = _open == tier ? null : tier);
 
   @override
   Widget build(BuildContext context) {
     final t = ThemeScope.of(context);
     const c = mockConnectionCounts;
-    final label = ErmiasType.heading(t, size: 11).copyWith(color: t.invMuted, letterSpacing: 0.88);
+    final label = ErmiasType.heading(
+      t,
+      size: 11,
+    ).copyWith(color: t.invMuted, letterSpacing: 0.88);
     return DecoratedBox(
       decoration: BoxDecoration(
         color: t.invBg,
@@ -37,24 +41,53 @@ class _ConnectionsBoxState extends State<ConnectionsBox> {
       ),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(14, 4, 4, 4),
-        child: Row(mainAxisSize: MainAxisSize.min, spacing: 4, children: [
-          Padding(padding: const EdgeInsets.only(right: 6), child: Text('CONNECTIONS', style: label)),
-          Semantics(
-            label: '${c.local} Local connections, local only, not openable',
-            excludeSemantics: true,
-            child: _TierLabel(shape: RiskShape.circle, color: t.riskLocal, text: '${c.local} Local'),
-          ),
-          _TierButton(tier: ConnectionTier.hybrid, count: c.hybrid, isOpen: _open == ConnectionTier.hybrid, onTap: _toggle),
-          _TierButton(tier: ConnectionTier.exposed, count: c.exposed, isOpen: _open == ConnectionTier.exposed, onTap: _toggle),
-          Padding(padding: const EdgeInsets.symmetric(horizontal: 8), child: Text('MOCK', style: label.copyWith(fontSize: 10))),
-        ]),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          spacing: 4,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 6),
+              child: Text('CONNECTIONS', style: label),
+            ),
+            Semantics(
+              label: '${c.local} Local connections, local only, not openable',
+              excludeSemantics: true,
+              child: _TierLabel(
+                shape: RiskShape.circle,
+                color: t.riskLocal,
+                text: '${c.local} Local',
+              ),
+            ),
+            _TierButton(
+              tier: ConnectionTier.hybrid,
+              count: c.hybrid,
+              isOpen: _open == ConnectionTier.hybrid,
+              onTap: _toggle,
+            ),
+            _TierButton(
+              tier: ConnectionTier.exposed,
+              count: c.exposed,
+              isOpen: _open == ConnectionTier.exposed,
+              onTap: _toggle,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Text('MOCK', style: label.copyWith(fontSize: 10)),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
 
 class _TierLabel extends StatelessWidget {
-  const _TierLabel({required this.shape, required this.color, required this.text, this.trailing});
+  const _TierLabel({
+    required this.shape,
+    required this.color,
+    required this.text,
+    this.trailing,
+  });
 
   final RiskShape shape;
   final Color color;
@@ -68,18 +101,34 @@ class _TierLabel extends StatelessWidget {
       constraints: const BoxConstraints(minHeight: 44),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12),
-        child: Row(mainAxisSize: MainAxisSize.min, spacing: 8, children: [
-          RiskMark(shape, color: color, size: shape == RiskShape.circle ? 10 : 11),
-          Text(text, style: ErmiasType.heading(t, size: 13).copyWith(color: t.invInk)),
-          ?trailing,
-        ]),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          spacing: 8,
+          children: [
+            RiskMark(
+              shape,
+              color: color,
+              size: shape == RiskShape.circle ? 10 : 11,
+            ),
+            Text(
+              text,
+              style: ErmiasType.heading(t, size: 13).copyWith(color: t.invInk),
+            ),
+            ?trailing,
+          ],
+        ),
       ),
     );
   }
 }
 
 class _TierButton extends StatelessWidget {
-  const _TierButton({required this.tier, required this.count, required this.isOpen, required this.onTap});
+  const _TierButton({
+    required this.tier,
+    required this.count,
+    required this.isOpen,
+    required this.onTap,
+  });
 
   final ConnectionTier tier;
   final int count;
@@ -100,10 +149,12 @@ class _TierButton extends StatelessWidget {
       child: FocusableActionDetector(
         mouseCursor: SystemMouseCursors.click,
         actions: {
-          ActivateIntent: CallbackAction<ActivateIntent>(onInvoke: (_) {
-            onTap(tier);
-            return null;
-          }),
+          ActivateIntent: CallbackAction<ActivateIntent>(
+            onInvoke: (_) {
+              onTap(tier);
+              return null;
+            },
+          ),
         },
         child: GestureDetector(
           onTap: () => onTap(tier),
@@ -111,13 +162,19 @@ class _TierButton extends StatelessWidget {
             decoration: BoxDecoration(
               color: isOpen ? t.invBtn : null,
               borderRadius: BorderRadius.circular(9),
-              border: Border.all(color: isOpen ? t.invBorder : const Color(0x00000000)),
+              border: Border.all(
+                color: isOpen ? t.invBorder : const Color(0x00000000),
+              ),
             ),
             child: _TierLabel(
               shape: isHybrid ? RiskShape.diamond : RiskShape.triangle,
               color: isHybrid ? t.riskHybrid : t.riskExposed,
               text: '$count $name',
-              trailing: ErmiasIcon(ErmiasIconData.chevronDown, color: t.invInk, size: 14),
+              trailing: ErmiasIcon(
+                ErmiasIconData.chevronDown,
+                color: t.invInk,
+                size: 14,
+              ),
             ),
           ),
         ),

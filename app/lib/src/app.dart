@@ -40,24 +40,29 @@ class _ErmiasAppState extends State<ErmiasApp> {
     final theme = widget.catalog[_theme];
     return WidgetsApp(
       title: 'Ermias',
+      debugShowCheckedModeBanner: false,
       color: theme.accent,
       pageRouteBuilder: <T>(RouteSettings settings, WidgetBuilder builder) =>
-          PageRouteBuilder<T>(settings: settings, pageBuilder: (context, _, _) => builder(context)),
-      builder: (context, navigator) => ThemeScope(theme: theme, child: navigator!),
+          PageRouteBuilder<T>(
+            settings: settings,
+            pageBuilder: (context, _, _) => builder(context),
+          ),
+      builder: (context, navigator) =>
+          ThemeScope(theme: theme, child: navigator!),
       routes: {
         '/': (context) => Workbench(
-              state: _shell,
-              onChanged: (update) => setState(() => _shell = update(_shell)),
-              header: HeaderBar(
-                resources: widget.resources,
-                audit: widget.audit,
-                model: widget.model,
-                catalog: widget.catalog,
-                activeTheme: _theme,
-                onTheme: (name) => setState(() => _theme = name),
-                onSettings: () => Navigator.of(context).pushNamed('/settings'),
-              ),
-            ),
+          state: _shell,
+          onChanged: (update) => setState(() => _shell = update(_shell)),
+          header: HeaderBar(
+            resources: widget.resources,
+            audit: widget.audit,
+            model: widget.model,
+            catalog: widget.catalog,
+            activeTheme: _theme,
+            onTheme: (name) => setState(() => _theme = name),
+            onSettings: () => Navigator.of(context).pushNamed('/settings'),
+          ),
+        ),
         '/settings': (context) => const SettingsPlaceholder(),
       },
     );

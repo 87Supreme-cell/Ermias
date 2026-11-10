@@ -37,12 +37,16 @@ class ErmiasButton extends StatelessWidget {
       excludeSemantics: true,
       child: FocusableActionDetector(
         enabled: tap != null,
-        mouseCursor: tap == null ? SystemMouseCursors.basic : SystemMouseCursors.click,
+        mouseCursor: tap == null
+            ? SystemMouseCursors.basic
+            : SystemMouseCursors.click,
         actions: {
-          ActivateIntent: CallbackAction<ActivateIntent>(onInvoke: (_) {
-            tap?.call();
-            return null;
-          }),
+          ActivateIntent: CallbackAction<ActivateIntent>(
+            onInvoke: (_) {
+              tap?.call();
+              return null;
+            },
+          ),
         },
         child: GestureDetector(
           onTap: tap,
@@ -55,10 +59,18 @@ class ErmiasButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               border: Border.all(color: t.btnBorder),
             ),
-            child: Row(mainAxisSize: MainAxisSize.min, spacing: 8, children: [
-              ErmiasIcon(icon, color: t.ink, size: iconSize),
-              if (label case final text?) Text(text, style: ErmiasType.text(t, weight: FontWeight.w500)),
-            ]),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              spacing: 8,
+              children: [
+                ErmiasIcon(icon, color: t.ink, size: iconSize),
+                if (label case final text?)
+                  Text(
+                    text,
+                    style: ErmiasType.text(t, weight: FontWeight.w500),
+                  ),
+              ],
+            ),
           ),
         ),
       ),

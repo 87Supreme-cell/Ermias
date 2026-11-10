@@ -54,7 +54,9 @@ class _HeaderBarState extends State<HeaderBar> {
   @override
   void initState() {
     super.initState();
-    _subscription = widget.resources.readings(resourceInterval).listen((r) => setState(() => _reading = r));
+    _subscription = widget.resources
+        .readings(resourceInterval)
+        .listen((r) => setState(() => _reading = r));
     unawaited(_checkModel());
   }
 
@@ -63,12 +65,17 @@ class _HeaderBarState extends State<HeaderBar> {
     if (!mounted) return;
     setState(() => _check = check);
     if (check != ModelCheck.ok) {
-      widget.audit.record(AuditEntry(
-        time: DateTime.now(),
-        kind: check == ModelCheck.mismatch ? 'model_hash_mismatch' : 'model_file_missing',
-        summary: '${widget.model.name}: ${check.name} (pinned ${widget.model.pinnedSha256})',
-        needsHuman: true,
-      ));
+      widget.audit.record(
+        AuditEntry(
+          time: DateTime.now(),
+          kind: check == ModelCheck.mismatch
+              ? 'model_hash_mismatch'
+              : 'model_file_missing',
+          summary:
+              '${widget.model.name}: ${check.name} (pinned ${widget.model.pinnedSha256})',
+          needsHuman: true,
+        ),
+      );
     }
   }
 
@@ -83,47 +90,76 @@ class _HeaderBarState extends State<HeaderBar> {
     final t = ThemeScope.of(context);
     return GlassSurface(
       padding: const EdgeInsets.fromLTRB(16, 10, 12, 10),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, spacing: 10, children: [
-        Wrap(spacing: 20, runSpacing: 12, crossAxisAlignment: WrapCrossAlignment.center, children: [
-          Row(mainAxisSize: MainAxisSize.min, spacing: 12, children: [
-            Text('Ermias', style: ErmiasType.heading(t, size: 18)),
-            const _SessionPill(),
-          ]),
-          ResourceStrip(model: widget.model, check: _check, reading: _reading),
-        ]),
-        _secondRow(),
-      ]),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        spacing: 10,
+        children: [
+          Wrap(
+            spacing: 20,
+            runSpacing: 12,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                spacing: 12,
+                children: [
+                  Text('Ermias', style: ErmiasType.heading(t, size: 18)),
+                  const _SessionPill(),
+                ],
+              ),
+              ResourceStrip(
+                model: widget.model,
+                check: _check,
+                reading: _reading,
+              ),
+            ],
+          ),
+          _secondRow(),
+        ],
+      ),
     );
   }
 
   /// Equal flexible space on both sides keeps the connections box centered.
-  Widget _secondRow() => Row(children: [
-        Expanded(
-          child: LayoutBuilder(builder: (context, box) {
+  Widget _secondRow() => Row(
+    children: [
+      Expanded(
+        child: LayoutBuilder(
+          builder: (context, box) {
             final compact = box.maxWidth < 380;
             return Align(
               alignment: Alignment.centerLeft,
-              child: Row(mainAxisSize: MainAxisSize.min, spacing: 8, children: [
-                ThemeSwitch(catalog: widget.catalog, active: widget.activeTheme, onPick: widget.onTheme),
-                ErmiasButton(
-                  icon: ErmiasIconData.users,
-                  semanticsLabel: 'Briefing room',
-                  label: compact ? null : 'Briefing room',
-                  onTap: null, // Behavior is open question 6.
-                ),
-                ErmiasButton(
-                  icon: ErmiasIconData.settings,
-                  semanticsLabel: 'Settings',
-                  iconSize: 20,
-                  onTap: widget.onSettings,
-                ),
-              ]),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                spacing: 8,
+                children: [
+                  ThemeSwitch(
+                    catalog: widget.catalog,
+                    active: widget.activeTheme,
+                    onPick: widget.onTheme,
+                  ),
+                  ErmiasButton(
+                    icon: ErmiasIconData.users,
+                    semanticsLabel: 'Briefing room',
+                    label: compact ? null : 'Briefing room',
+                    onTap: null, // Behavior is open question 6.
+                  ),
+                  ErmiasButton(
+                    icon: ErmiasIconData.settings,
+                    semanticsLabel: 'Settings',
+                    iconSize: 20,
+                    onTap: widget.onSettings,
+                  ),
+                ],
+              ),
             );
-          }),
+          },
         ),
-        const ConnectionsBox(key: ValueKey('connections-box')),
-        const Expanded(child: SizedBox.shrink()),
-      ]);
+      ),
+      const ConnectionsBox(key: ValueKey('connections-box')),
+      const Expanded(child: SizedBox.shrink()),
+    ],
+  );
 }
 
 class _SessionPill extends StatelessWidget {
@@ -133,14 +169,31 @@ class _SessionPill extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = ThemeScope.of(context);
     return DecoratedBox(
-      decoration: BoxDecoration(color: t.accentSoft, borderRadius: BorderRadius.circular(999)),
+      decoration: BoxDecoration(
+        color: t.accentSoft,
+        borderRadius: BorderRadius.circular(999),
+      ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-        child: Row(mainAxisSize: MainAxisSize.min, spacing: 8, children: [
-          ErmiasIcon(ErmiasIconData.shieldCheck, color: t.accentText, size: 14),
-          Text('$mockSessionPill · MOCK',
-              style: ErmiasType.text(t, size: 13, weight: FontWeight.w500).copyWith(color: t.accentText)),
-        ]),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          spacing: 8,
+          children: [
+            ErmiasIcon(
+              ErmiasIconData.shieldCheck,
+              color: t.accentText,
+              size: 14,
+            ),
+            Text(
+              '$mockSessionPill · MOCK',
+              style: ErmiasType.text(
+                t,
+                size: 13,
+                weight: FontWeight.w500,
+              ).copyWith(color: t.accentText),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ermias/citation",
+  "title": "citation",
+  "description": "One chunk placed in context and cited by an answer sentence.",
+  "$comment": "DRAFT. Owner approval required before implementation.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "database": {
+      "type": "string"
+    },
+    "chunk_id": {
+      "type": "string"
+    },
+    "weight": {
+      "type": "number"
+    },
+    "one_off": {
+      "type": "boolean",
+      "description": "True for a document attached with the + button. Unranked."
+    },
+    "source_path": {
+      "type": "string"
+    },
+    "offset": {
+      "type": "integer"
+    }
+  },
+  "required": [
+    "database",
+    "chunk_id",
+    "one_off"
+  ]
+}

@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Ermias — settings, model providers</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:inherit}a:hover{opacity:.9}
+</style>
+</helmet>
+<div style="width: 100%; min-height: 100vh; box-sizing: border-box; padding: 20px; background: {{t.bg}}; color: {{t.ink}}; font-family: Inter, system-ui, sans-serif; font-size: 14px; line-height: 1.5; display: flex; flex-direction: column; gap: 16px">
+<header style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; padding: 12px 16px; border-radius: 14px; border: 1px solid {{t.glassBorder}}; background: {{t.glass}}; backdrop-filter: blur(18px) saturate(150%); -webkit-backdrop-filter: blur(18px) saturate(150%)">
+<div style="display: flex; align-items: baseline; gap: 12px"><span style="font-size: 18px; font-weight: 600">Ermias</span><span style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: {{t.muted}}">Settings</span></div>
+<a href="Main.dc.html" style="margin-left: auto; font-size: 13px; font-weight: 500; min-height: 44px; padding: 0 14px; display: inline-flex; align-items: center; border-radius: 10px; border: 1px solid {{t.btnBorder}}; background: {{t.btnBg}}; text-decoration: none">Back to workbench</a>
+</header>
+<div style="flex: 1 1 auto; display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start">
+<nav aria-label="Settings sections" style="flex: 1 1 220px; max-width: 280px; padding: 12px; border-radius: 14px; border: 1px solid {{t.glassBorder}}; background: {{t.glass}}; backdrop-filter: blur(18px) saturate(150%); -webkit-backdrop-filter: blur(18px) saturate(150%)"><ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px"><li><span aria-current="page" style="display: flex; justify-content: space-between; align-items: center; min-height: 44px; padding: 0 12px; border-radius: 10px; font-weight: 600; background: {{t.accentSoft}}; color: {{t.accentText}}">Model providers</span></li><li><span style="display: flex; justify-content: space-between; align-items: center; min-height: 44px; padding: 0 12px; border-radius: 10px; font-weight: 500; background: transparent; color: {{t.muted}}">Themes<span style="font-size: 11px">later</span></span></li><li><span style="display: flex; justify-content: space-between; align-items: center; min-height: 44px; padding: 0 12px; border-radius: 10px; font-weight: 500; background: transparent; color: {{t.muted}}">Connections<span style="font-size: 11px">later</span></span></li><li><span style="display: flex; justify-content: space-between; align-items: center; min-height: 44px; padding: 0 12px; border-radius: 10px; font-weight: 500; background: transparent; color: {{t.muted}}">Databases<span style="font-size: 11px">later</span></span></li><li><span style="display: flex; justify-content: space-between; align-items: center; min-height: 44px; padding: 0 12px; border-radius: 10px; font-weight: 500; background: transparent; color: {{t.muted}}">Account and security<span style="font-size: 11px">later</span></span></li></ul></nav>
+<main style="flex: 999 1 640px; min-width: 0; display: flex; flex-direction: column; gap: 24px; padding: 28px; border-radius: 16px; border: 1px solid {{t.glassBorder}}; background: {{t.solid}}">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<h1 style="margin: 0; font-size: 26px; font-weight: 600; letter-spacing: -0.01em">Model providers</h1>
+<p style="margin: 0; color: {{t.muted}}">Local runtimes are the default. Cloud models use your own API keys, need your approval for each call, and their answers are stored as data only.</p>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 14px 16px; border-radius: 12px; background: {{t.accentSoft}}; color: {{t.accentText}}"><span style="font-weight: 600">Default for new projects</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 13px">LM Studio · Olmo-3-7B-Instruct</span></div>
+
+<section aria-labelledby="local-h" style="display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap"><h2 id="local-h" style="margin: 0; font-size: 17px; font-weight: 600">Local runtimes</h2><span style="display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: {{t.invBg}}; color: {{t.invInk}}"><svg aria-hidden="true" width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="4.5" fill="{{t.riskLocal}}"></circle></svg>Local · stays on this machine</span></div>
+<div style="display: flex; flex-direction: column; gap: 12px; padding: 16px; border-radius: 12px; border: 1px solid {{t.line}}; background: {{t.subtle}}">
+<div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap"><span style="font-size: 15px; font-weight: 600">LM Studio</span><span style="font-size: 11px; font-weight: 600; color: {{t.onAccent}}; background: {{t.accent}}; border-radius: 6px; padding: 2px 8px">Default</span><span style="margin-left: auto"><span style="display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; color: {{t.ink}}"><svg aria-hidden="true" width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="4.5" fill="{{t.riskLocal}}"></circle></svg>Reachable</span></span></div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="lms-url" style="font-size: 12px; color: {{t.muted}}">Endpoint (this machine only)</label><input id="lms-url" type="text" value="http://127.0.0.1:1234/v1" style="font: inherit; font-family: 'JetBrains Mono', monospace; font-size: 13px; min-height: 44px; box-sizing: border-box; width: 100%; padding: 0 12px; border-radius: 10px; border: 1px solid {{t.btnBorder}}; background: {{t.subtle}}; color: {{t.ink}}"></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="lms-model" style="font-size: 12px; color: {{t.muted}}">Model</label><select id="lms-model" style="font: inherit; font-family: 'JetBrains Mono', monospace; font-size: 13px; min-height: 44px; box-sizing: border-box; width: 100%; padding: 0 12px; border-radius: 10px; border: 1px solid {{t.btnBorder}}; background: {{t.subtle}}; color: {{t.ink}}"><option>Olmo-3-7B-Instruct · MLX 4-bit</option></select></div>
+</div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap"><button type="button" style="font: inherit; font-size: 13px; font-weight: 500; min-height: 44px; padding: 0 14px; border-radius: 10px; border: 1px solid {{t.btnBorder}}; background: {{t.btnBg}}; color: {{t.ink}}; cursor: pointer; white-space: nowrap">Test connection</button></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px; padding: 16px; border-radius: 12px; border: 1px solid {{t.line}}; background: {{t.subtle}}">
+<div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap"><span style="font-size: 15px; font-weight: 600">Ollama</span><span style="margin-left: auto"><span style="display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; color: {{t.muted}}"><svg aria-hidden="true" width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="4" fill="none" stroke="{{t.muted}}" stroke-width="1.5"></circle></svg>Not running</span></span></div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="oll-url" style="font-size: 12px; color: {{t.muted}}">Endpoint (this machine only)</label><input id="oll-url" type="text" value="http://127.0.0.1:11434" style="font: inherit; font-family: 'JetBrains Mono', monospace; font-size: 13px; min-height: 44px; box-sizing: border-box; width: 100%; padding: 0 12px; border-radius: 10px; border: 1px solid {{t.btnBorder}}; background: {{t.subtle}}; color: {{t.ink}}"></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="oll-model" style="font-size: 12px; color: {{t.muted}}">Model</label><select id="oll-model" disabled style="font: inherit; font-family: 'JetBrains Mono', monospace; font-size: 13px; min-height: 44px; box-sizing: border-box; width: 100%; padding: 0 12px; border-radius: 10px; border: 1px solid {{t.btnBorder}}; background: {{t.subtle}}; color: {{t.ink}}; opacity: 0.6"><option>Start Ollama to list models</option></select></div>
+</div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap"><button type="button" style="font: inherit; font-size: 13px; font-weight: 500; min-height: 44px; padding: 0 14px; border-radius: 10px; border: 1px solid {{t.btnBorder}}; background: {{t.btnBg}}; color: {{t.ink}}; cursor: pointer; white-space: nowrap">Test connection</button><button type="button" style="font: inherit; font-size: 13px; font-weight: 500; min-height: 44px; padding: 0 14px; border-radius: 10px; border: 1px solid {{t.btnBorder}}; background: {{t.btnBg}}; color: {{t.ink}}; cursor: pointer; white-space: nowrap">Make default</button></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px; padding: 16px; border-radius: 12px; border: 1px solid {{t.line}}; background: {{t.subtle}}">
+<div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap"><span style="font-size: 15px; font-weight: 600">llama.cpp server</span><span style="margin-left: auto"><span style="display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; color: {{t.ink}}"><svg aria-hidden="true" width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="4.5" fill="{{t.riskLocal}}"></circle></svg>Reachable</span></span></div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="lcpp-url" style="font-size: 12px; color: {{t.muted}}">Endpoint (this machine only)</label><input id="lcpp-url" type="text" value="http://127.0.0.1:8080/v1" style="font: inherit; font-family: 'JetBrains Mono', monospace; font-size: 13px; min-height: 44px; box-sizing: border-box; width: 100%; padding: 0 12px; border-radius: 10px; border: 1px solid {{t.btnBorder}}; background: {{t.subtle}}; color: {{t.ink}}"></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="lcpp-model" style="font-size: 12px; color: {{t.muted}}">Model</label><select id="lcpp-model" style="font: inherit; font-family: 'JetBrains Mono', monospace; font-size: 13px; min-height: 44px; box-sizing: border-box; width: 100%; padding: 0 12px; border-radius: 10px; border: 1px solid {{t.btnBorder}}; background: {{t.subtle}}; color: {{t.ink}}"><option>olmo-3-7b-instruct-q4_k_m.gguf</option></select></div>
+</div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap"><button type="button" style="font: inherit; font-size: 13px; font-weight: 500; min-height: 44px; padding: 0 14px; border-radius: 10px; border: 1px solid {{t.btnBorder}}; background: {{t.btnBg}}; color: {{t.ink}}; cursor: pointer; white-space: nowrap">Test connection</button><button type="button" style="font: inherit; font-size: 13px; font-weight: 500; min-height: 44px; padding: 0 14px; border-radius: 10px; border: 1px solid {{t.btnBorder}}; background: {{t.btnBg}}; color: {{t.ink}}; cursor: pointer; white-space: nowrap">Make default</button></div>
+</div>
+<button type="button" style="font: inherit; font-size: 13px; font-weight: 500; min-height: 44px; padding: 0 14px; border-radius: 10px; border: 1px solid {{t.btnBorder}}; background: {{t.btnBg}}; color: {{t.ink}}; cursor: pointer; white-space: nowrap; align-self: flex-start">+ Add local endpoint</button>
+</section>
+
+<section aria-labelledby="cloud-h" style="display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap"><h2 id="cloud-h" style="margin: 0; font-size: 17px; font-weight: 600">Cloud models · API keys</h2><span style="display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: {{t.invBg}}; color: {{t.invInk}}"><svg aria-hidden="true" width="10" height="10" viewBox="0 0 10 10"><path d="M5 0.5 9.5 5 5 9.5 0.5 5z" fill="{{t.riskHybrid}}"></path></svg>Hybrid · data leaves the machine when used</span></div>
+<div style="display: flex; flex-direction: column; gap: 12px; padding: 16px; border-radius: 12px; border: 1px solid {{t.line}}; background: {{t.subtle}}">
+<div style="display: flex; align-items: center; gap: 10px"><span style="font-size: 15px; font-weight: 600">Anthropic API</span><span style="margin-left: auto; font-size: 12px; color: {{t.muted}}">Key saved · idle</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="ant-key" style="font-size: 12px; color: {{t.muted}}">API key</label><input id="ant-key" type="password" value="sk-placeholder-key" aria-describedby="ant-hint" style="font: inherit; font-family: 'JetBrains Mono', monospace; font-size: 13px; min-height: 44px; box-sizing: border-box; width: 100%; padding: 0 12px; border-radius: 10px; border: 1px solid {{t.btnBorder}}; background: {{t.subtle}}; color: {{t.ink}}"><span id="ant-hint" style="font-size: 12px; color: {{t.muted}}">Saved · encrypted on this machine · ends in 3f9a</span></div>
+<div style="display: flex; align-items: center; gap: 10px"><input id="ant-approve" type="checkbox" checked="checked" style="width: 20px; height: 20px; accent-color: {{t.accent}}"><label for="ant-approve" style="font-size: 13px">Ask me before every call</label></div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap"><button type="button" style="font: inherit; font-size: 13px; font-weight: 500; min-height: 44px; padding: 0 14px; border-radius: 10px; border: 1px solid {{t.btnBorder}}; background: {{t.btnBg}}; color: {{t.ink}}; cursor: pointer; white-space: nowrap">Test key</button><button type="button" style="font: inherit; font-size: 13px; font-weight: 500; min-height: 44px; padding: 0 14px; border-radius: 10px; border: 1px solid {{t.btnBorder}}; background: {{t.btnBg}}; color: {{t.ink}}; cursor: pointer; white-space: nowrap">Remove key</button></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px; padding: 16px; border-radius: 12px; border: 1px solid {{t.line}}; background: {{t.subtle}}">
+<div style="display: flex; align-items: center; gap: 10px"><span style="font-size: 15px; font-weight: 600">OpenAI API</span><span style="margin-left: auto; font-size: 12px; color: {{t.muted}}">No key</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="oai-key" style="font-size: 12px; color: {{t.muted}}">API key</label><input id="oai-key" type="password" placeholder="Paste API key" aria-describedby="oai-hint" style="font: inherit; font-family: 'JetBrains Mono', monospace; font-size: 13px; min-height: 44px; box-sizing: border-box; width: 100%; padding: 0 12px; border-radius: 10px; border: 1px solid {{t.btnBorder}}; background: {{t.subtle}}; color: {{t.ink}}"><span id="oai-hint" style="font-size: 12px; color: {{t.muted}}">Stored encrypted on this machine. Never shown again after saving.</span></div>
+
+<div style="display: flex; gap: 8px; flex-wrap: wrap"><button type="button" style="font: inherit; font-size: 13px; font-weight: 500; min-height: 44px; padding: 0 14px; border-radius: 10px; border: 1px solid {{t.btnBorder}}; background: {{t.btnBg}}; color: {{t.ink}}; cursor: pointer; white-space: nowrap">Save key</button></div>
+</div>
+<button type="button" style="font: inherit; font-size: 13px; font-weight: 500; min-height: 44px; padding: 0 14px; border-radius: 10px; border: 1px solid {{t.btnBorder}}; background: {{t.btnBg}}; color: {{t.ink}}; cursor: pointer; white-space: nowrap; align-self: flex-start">+ Add provider</button>
+</section>
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["Blues","Cyberpunk","Sunburst","Earth tones"],"default":"Blues"},"$preview":{"width":1440,"height":1180}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const T = {
+      'Blues': {
+        bg: 'radial-gradient(900px 600px at 0% 0%, rgba(59,130,246,0.38), transparent 60%), radial-gradient(800px 600px at 100% 25%, rgba(14,165,233,0.30), transparent 60%), radial-gradient(700px 500px at 50% 100%, rgba(99,102,241,0.28), transparent 60%), #EEF3FB',
+        ink: '#0F1A2E', muted: '#4B5873', glass: 'rgba(255,255,255,0.55)', glassBorder: 'rgba(255,255,255,0.8)', solid: 'rgba(255,255,255,0.94)',
+        line: '#E1E7F1', track: '#E3EAF4', accent: '#1E4FD8', onAccent: '#FFFFFF', accentSoft: '#E4ECFF', accentText: '#163BA3',
+        warn: '#C2410C', warnSoft: '#FFF0E4', warnText: '#9A3412', subtle: 'rgba(241,245,251,0.75)', btnBg: 'rgba(255,255,255,0.75)', btnBorder: '#CFD9EA', bubble: '#E9EFF8', dashed: '#E0A27A',
+        invBg: '#0E2350', invInk: '#F2F6FF', invMuted: '#AFC0E0', invBorder: 'rgba(255,255,255,0.14)', invLine: 'rgba(255,255,255,0.12)', invBtn: 'rgba(255,255,255,0.08)', riskLocal: '#4ADE80', riskHybrid: '#FDBA74', riskExposed: '#F87171', swatch: 'linear-gradient(135deg, #3B82F6, #1E3A8A)', flyout: 'rgba(255,255,255,0.82)', shadow: '0 24px 60px rgba(15,26,46,0.22)', onWarn: '#FFFFFF'
+      },
+      'Cyberpunk': {
+        bg: 'radial-gradient(900px 600px at 6% 0%, rgba(255,43,214,0.34), transparent 60%), radial-gradient(800px 600px at 100% 18%, rgba(0,229,255,0.28), transparent 60%), radial-gradient(700px 500px at 55% 100%, rgba(124,58,237,0.36), transparent 60%), #0A0A12',
+        ink: '#EDEBFF', muted: '#B3AFD6', glass: 'rgba(24,22,46,0.55)', glassBorder: 'rgba(170,150,255,0.26)', solid: 'rgba(17,16,31,0.92)',
+        line: 'rgba(255,255,255,0.10)', track: 'rgba(255,255,255,0.12)', accent: '#00E5FF', onAccent: '#031418', accentSoft: 'rgba(0,229,255,0.14)', accentText: '#7DF3FF',
+        warn: '#FF4FB0', warnSoft: 'rgba(255,79,176,0.15)', warnText: '#FFA3D4', subtle: 'rgba(255,255,255,0.05)', btnBg: 'rgba(255,255,255,0.07)', btnBorder: 'rgba(255,255,255,0.20)', bubble: 'rgba(255,255,255,0.08)', dashed: 'rgba(255,79,176,0.6)',
+        invBg: '#F1EEFF', invInk: '#14112A', invMuted: '#4A4570', invBorder: 'rgba(20,17,42,0.16)', invLine: 'rgba(20,17,42,0.12)', invBtn: 'rgba(20,17,42,0.06)', riskLocal: '#15803D', riskHybrid: '#D97706', riskExposed: '#B91C1C', swatch: 'linear-gradient(135deg, #FF2BD6, #00E5FF)', flyout: 'rgba(22,20,42,0.84)', shadow: '0 24px 60px rgba(0,0,0,0.55), 0 0 0 1px rgba(0,229,255,0.15)', onWarn: '#1A0612'
+      },
+      'Sunburst': {
+        bg: 'radial-gradient(900px 600px at 0% 0%, rgba(255,183,3,0.42), transparent 60%), radial-gradient(800px 600px at 100% 28%, rgba(251,133,0,0.32), transparent 60%), radial-gradient(700px 500px at 40% 100%, rgba(255,99,72,0.28), transparent 60%), #FFF7EC',
+        ink: '#2A1606', muted: '#6B4626', glass: 'rgba(255,250,240,0.55)', glassBorder: 'rgba(255,255,255,0.8)', solid: 'rgba(255,253,248,0.95)',
+        line: '#F0E1CC', track: '#F3E4CF', accent: '#C2410C', onAccent: '#FFFFFF', accentSoft: '#FFE8D2', accentText: '#9A3412',
+        warn: '#9D174D', warnSoft: '#FCE4EC', warnText: '#831843', subtle: 'rgba(251,241,227,0.75)', btnBg: 'rgba(255,255,255,0.75)', btnBorder: '#EBD2B2', bubble: '#F8EAD7', dashed: '#D58AA6',
+        invBg: '#3A1C06', invInk: '#FFF4E6', invMuted: '#E6C7A6', invBorder: 'rgba(255,255,255,0.14)', invLine: 'rgba(255,255,255,0.12)', invBtn: 'rgba(255,255,255,0.08)', riskLocal: '#4ADE80', riskHybrid: '#FDBA74', riskExposed: '#F87171', swatch: 'linear-gradient(135deg, #FFB703, #FB5607)', flyout: 'rgba(255,251,244,0.85)', shadow: '0 24px 60px rgba(42,22,6,0.22)', onWarn: '#FFFFFF'
+      },
+      'Earth tones': {
+        bg: 'radial-gradient(900px 600px at 0% 0%, rgba(122,140,84,0.38), transparent 60%), radial-gradient(800px 600px at 100% 25%, rgba(181,101,64,0.30), transparent 60%), radial-gradient(700px 500px at 50% 100%, rgba(196,164,108,0.38), transparent 60%), #F1EBE0',
+        ink: '#2B2A22', muted: '#5C5748', glass: 'rgba(250,246,238,0.55)', glassBorder: 'rgba(255,255,255,0.7)', solid: 'rgba(252,249,243,0.95)',
+        line: '#E5DCCB', track: '#EAE2D3', accent: '#4D6B3C', onAccent: '#FFFFFF', accentSoft: '#E4ECD9', accentText: '#3A5230',
+        warn: '#A4471F', warnSoft: '#F7E5DA', warnText: '#863915', subtle: 'rgba(243,237,226,0.75)', btnBg: 'rgba(255,255,255,0.7)', btnBorder: '#D8CCB6', bubble: '#EEE7D9', dashed: '#D19A72',
+        invBg: '#2C3622', invInk: '#F4F1E8', invMuted: '#CDD0B8', invBorder: 'rgba(255,255,255,0.14)', invLine: 'rgba(255,255,255,0.12)', invBtn: 'rgba(255,255,255,0.08)', riskLocal: '#4ADE80', riskHybrid: '#FDBA74', riskExposed: '#F87171', swatch: 'linear-gradient(135deg, #7A8C54, #B56540)', flyout: 'rgba(251,248,241,0.85)', shadow: '0 24px 60px rgba(43,42,34,0.22)', onWarn: '#FFFFFF'
+      }
+    };
+    const t = T[this.props.theme ?? 'Blues'] ?? T['Blues'];
+    return { t };
+  }
+}
+</script>
+</body>
+</html>

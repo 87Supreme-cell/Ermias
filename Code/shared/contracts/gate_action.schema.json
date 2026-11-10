@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ermias/gate_action",
+  "title": "gate_action",
+  "description": "An action the model proposes. The gate accepts only these, rejects everything else.",
+  "$comment": "DRAFT. Owner approval required before implementation.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "action": {
+      "enum": [
+        "search",
+        "get_source"
+      ]
+    },
+    "database": {
+      "type": "string",
+      "description": "Name of an active database. Required for search."
+    },
+    "query": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "chunk_id": {
+      "type": "string",
+      "description": "Required for get_source."
+    }
+  },
+  "required": [
+    "action"
+  ]
+}

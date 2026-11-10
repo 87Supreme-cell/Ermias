@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ermias/grade",
+  "title": "grade",
+  "description": "Project grade snapshot. Formula is an open question.",
+  "$comment": "DRAFT. Owner approval required before implementation.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "total": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 10
+    },
+    "change_since_milestone": {
+      "type": "number"
+    },
+    "components": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "value"
+        ]
+      }
+    },
+    "needs_human": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "total",
+    "components"
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ermias/audit_event",
+  "title": "audit_event",
+  "description": "One audit log row. Stored locally.",
+  "$comment": "DRAFT. Owner approval required before implementation.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "kind": {
+      "enum": [
+        "gate_pass",
+        "gate_reject",
+        "retrieval",
+        "left_machine",
+        "external_stored",
+        "connection_change",
+        "approval",
+        "setting_change"
+      ]
+    },
+    "summary": {
+      "type": "string"
+    },
+    "detail": {
+      "type": "object"
+    },
+    "needs_human": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "time",
+    "kind",
+    "summary",
+    "needs_human"
+  ]
+}

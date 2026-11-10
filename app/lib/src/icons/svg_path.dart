@@ -5,8 +5,9 @@ final _separators = RegExp(r'[\s,]*');
 final _numberStart = RegExp(r'[-+.\d]');
 
 /// Splits SVG number runs the way browsers do: `2.73.73-4` → 2.73, .73, -4.
-List<double> tokenizeSvgNumbers(String input) =>
-    List.unmodifiable(_number.allMatches(input).map((m) => double.parse(m[0]!)));
+List<double> tokenizeSvgNumbers(String input) => List.unmodifiable(
+  _number.allMatches(input).map((m) => double.parse(m[0]!)),
+);
 
 const _arity = {'M': 2, 'L': 2, 'H': 1, 'V': 1, 'C': 6, 'S': 4, 'A': 7, 'Z': 0};
 
@@ -52,8 +53,13 @@ class _Scanner {
 
   String readCommand() {
     final c = _data[_pos];
-    if (!_arity.containsKey(c.toUpperCase()) || c.toUpperCase() == c.toLowerCase()) {
-      throw FormatException('Expected a supported SVG path command', _data, _pos);
+    if (!_arity.containsKey(c.toUpperCase()) ||
+        c.toUpperCase() == c.toLowerCase()) {
+      throw FormatException(
+        'Expected a supported SVG path command',
+        _data,
+        _pos,
+      );
     }
     _pos++;
     return c;
@@ -92,7 +98,10 @@ class _PathBuilder {
       return;
     }
     if (args.isEmpty || args.length % arity != 0) {
-      throw FormatException('Wrong number of arguments for $command', args.toString());
+      throw FormatException(
+        'Wrong number of arguments for $command',
+        args.toString(),
+      );
     }
     final relative = command != upper;
     for (var i = 0; i < args.length; i += arity) {
@@ -119,17 +128,23 @@ class _PathBuilder {
       case 'V':
         _lineTo(Offset(_current.dx, rel ? _current.dy + a[0] : a[0]));
       case 'C':
-        _cubic(_point(a[0], a[1], rel), _point(a[2], a[3], rel), _point(a[4], a[5], rel));
+        _cubic(
+          _point(a[0], a[1], rel),
+          _point(a[2], a[3], rel),
+          _point(a[4], a[5], rel),
+        );
       case 'S':
         control = control == null ? _current : _current * 2 - control;
         _cubic(control, _point(a[0], a[1], rel), _point(a[2], a[3], rel));
       case 'A':
         final end = _point(a[5], a[6], rel);
-        path.arcToPoint(end,
-            radius: Radius.elliptical(a[0], a[1]),
-            rotation: a[2],
-            largeArc: a[3] != 0,
-            clockwise: a[4] != 0);
+        path.arcToPoint(
+          end,
+          radius: Radius.elliptical(a[0], a[1]),
+          rotation: a[2],
+          largeArc: a[3] != 0,
+          clockwise: a[4] != 0,
+        );
         _current = end;
     }
   }

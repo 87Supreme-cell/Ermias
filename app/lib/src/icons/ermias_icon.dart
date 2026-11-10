@@ -12,8 +12,11 @@ class ErmiasIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ExcludeSemantics(
-        child: CustomPaint(size: Size.square(size), painter: _IconPainter(icon, color)),
-      );
+    child: CustomPaint(
+      size: Size.square(size),
+      painter: _IconPainter(icon, color),
+    ),
+  );
 }
 
 class _IconPainter extends CustomPainter {
@@ -40,5 +43,6 @@ class _IconPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_IconPainter old) => old.icon != icon || old.color != color;
+  bool shouldRepaint(_IconPainter old) =>
+      old.icon != icon || old.color != color;
 }

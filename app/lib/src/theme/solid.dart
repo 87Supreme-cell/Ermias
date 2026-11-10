@@ -4,7 +4,11 @@ import 'theme_scope.dart';
 
 /// Solid surface for PRIMARY FOCUS and chat, so text stays readable (01_themes).
 class SolidSurface extends StatelessWidget {
-  const SolidSurface({super.key, required this.child, this.padding = const EdgeInsets.all(16)});
+  const SolidSurface({
+    super.key,
+    required this.child,
+    this.padding = const EdgeInsets.all(16),
+  });
 
   final Widget child;
   final EdgeInsetsGeometry padding;

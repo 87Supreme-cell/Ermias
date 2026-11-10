@@ -79,9 +79,14 @@ class _NeedsYouBadge extends StatelessWidget {
         decoration: BoxDecoration(
           color: t.warn,
           borderRadius: BorderRadius.circular(11),
-          border: Border.all(color: t.warnText), // D-014: visible on light glass
+          border: Border.all(
+            color: t.warnText,
+          ), // D-014: visible on light glass
         ),
-        child: Text('$count', style: ErmiasType.heading(t, size: 11).copyWith(color: t.onWarn)),
+        child: Text(
+          '$count',
+          style: ErmiasType.heading(t, size: 11).copyWith(color: t.onWarn),
+        ),
       ),
     );
   }
@@ -98,7 +103,10 @@ class _MockLabel extends StatelessWidget {
       excludeSemantics: true,
       child: RotatedBox(
         quarterTurns: 3,
-        child: Text('MOCK', style: ErmiasType.data(t, size: 10, color: t.muted)),
+        child: Text(
+          'MOCK',
+          style: ErmiasType.data(t, size: 10, color: t.muted),
+        ),
       ),
     );
   }

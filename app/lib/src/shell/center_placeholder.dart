@@ -19,21 +19,37 @@ class CenterPlaceholder extends StatelessWidget {
       children: [
         Expanded(
           child: SolidSurface(
-            child: Column(crossAxisAlignment: CrossAxisAlignment.start, spacing: 14, children: [
-              Semantics(header: true, child: Text('PRIMARY FOCUS', style: ErmiasType.title(t))),
-              Text('MOCK · conversation and cited answers arrive in section 04 (WO-2)',
-                  style: ErmiasType.muted(t)),
-            ]),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              spacing: 14,
+              children: [
+                Semantics(
+                  header: true,
+                  child: Text('PRIMARY FOCUS', style: ErmiasType.title(t)),
+                ),
+                Text(
+                  'MOCK · conversation and cited answers arrive in section 04 (WO-2)',
+                  style: ErmiasType.muted(t),
+                ),
+              ],
+            ),
           ),
         ),
         SizedBox(
           height: ShellLayout.chatHeight,
           child: SolidSurface(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            child: Column(crossAxisAlignment: CrossAxisAlignment.start, spacing: 10, children: [
-              Text('Message', style: ErmiasType.heading(t, size: 13)),
-              Text('MOCK · chat input arrives in section 05 (WO-2)', style: ErmiasType.muted(t)),
-            ]),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              spacing: 10,
+              children: [
+                Text('Message', style: ErmiasType.heading(t, size: 13)),
+                Text(
+                  'MOCK · chat input arrives in section 05 (WO-2)',
+                  style: ErmiasType.muted(t),
+                ),
+              ],
+            ),
           ),
         ),
       ],

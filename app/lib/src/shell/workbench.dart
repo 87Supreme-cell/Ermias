@@ -44,55 +44,68 @@ class Workbench extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           spacing: ShellLayout.gap,
-          children: [header, Expanded(child: _body())],
+          children: [
+            header,
+            Expanded(child: _body()),
+          ],
         ),
       ),
     );
   }
 
-  Widget _body() => LayoutBuilder(builder: (context, box) {
-        // Panels sit 96 px from the window edge; the body starts after the page padding.
-        const offset = ShellLayout.panelInset - ShellLayout.pagePadding;
-        // Never negative, even if the window is narrower than the minimum size.
-        final width = math.max(0.0, math.min(ShellLayout.panelWidth, box.maxWidth - 2 * offset));
-        return Stack(
-          clipBehavior: Clip.none,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              spacing: ShellLayout.gap,
-              children: [
-                _strip(PanelSide.left),
-                Expanded(child: KeyedSubtree(key: const ValueKey('center'), child: center)),
-                _strip(PanelSide.right),
-              ],
-            ),
-            for (final side in PanelSide.values)
-              if (state.openOn(side) case final id?)
-                Positioned(
-                  top: 0,
-                  left: side == PanelSide.left ? offset : null,
-                  right: side == PanelSide.right ? offset : null,
-                  width: width,
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(maxHeight: box.maxHeight),
-                    child: OverlayPanel(
-                      key: ValueKey('panel-${id.name}'),
-                      id: id,
-                      onClose: () => onChanged((s) => s.close(side)),
-                      body: MockPanelBody(id: id),
-                    ),
+  Widget _body() => LayoutBuilder(
+    builder: (context, box) {
+      // Panels sit 96 px from the window edge; the body starts after the page padding.
+      const offset = ShellLayout.panelInset - ShellLayout.pagePadding;
+      // Never negative, even if the window is narrower than the minimum size.
+      final width = math.max(
+        0.0,
+        math.min(ShellLayout.panelWidth, box.maxWidth - 2 * offset),
+      );
+      return Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            spacing: ShellLayout.gap,
+            children: [
+              _strip(PanelSide.left),
+              Expanded(
+                child: KeyedSubtree(
+                  key: const ValueKey('center'),
+                  child: center,
+                ),
+              ),
+              _strip(PanelSide.right),
+            ],
+          ),
+          for (final side in PanelSide.values)
+            if (state.openOn(side) case final id?)
+              Positioned(
+                top: 0,
+                left: side == PanelSide.left ? offset : null,
+                right: side == PanelSide.right ? offset : null,
+                width: width,
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(maxHeight: box.maxHeight),
+                  child: OverlayPanel(
+                    key: ValueKey('panel-${id.name}'),
+                    id: id,
+                    onClose: () => onChanged((s) => s.close(side)),
+                    body: MockPanelBody(id: id),
                   ),
                 ),
-          ],
-        );
-      });
+              ),
+        ],
+      );
+    },
+  );
 
   Widget _strip(PanelSide side) => EdgeStrip(
-        key: ValueKey('strip-${side.name}'),
-        side: side,
-        state: state,
-        figures: figures,
-        onToggle: (id) => onChanged((s) => s.toggle(id)),
-      );
+    key: ValueKey('strip-${side.name}'),
+    side: side,
+    state: state,
+    figures: figures,
+    onToggle: (id) => onChanged((s) => s.toggle(id)),
+  );
 }

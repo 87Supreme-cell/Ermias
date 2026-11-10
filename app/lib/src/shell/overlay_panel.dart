@@ -12,15 +12,20 @@ import 'strip_tab.dart';
 
 /// Panel heading and subtitle, from the reference panels in sections 06–09.
 (String, String) panelHeading(PanelId id) => switch (id) {
-      PanelId.databases => ('Active databases', 'rank · weight · grade'),
-      PanelId.auditLog => ('Audit log', 'saved locally'),
-      PanelId.taskChain => ('Task chain', mockTaskChainPath),
-      PanelId.projectGrade => ('Project grade', 'updates each step'),
-    };
+  PanelId.databases => ('Active databases', 'rank · weight · grade'),
+  PanelId.auditLog => ('Audit log', 'saved locally'),
+  PanelId.taskChain => ('Task chain', mockTaskChainPath),
+  PanelId.projectGrade => ('Project grade', 'updates each step'),
+};
 
 /// Overlay panel chrome: title, subtitle, close button and a scrolling body.
 class OverlayPanel extends StatelessWidget {
-  const OverlayPanel({super.key, required this.id, required this.onClose, required this.body});
+  const OverlayPanel({
+    super.key,
+    required this.id,
+    required this.onClose,
+    required this.body,
+  });
 
   final PanelId id;
   final VoidCallback onClose;
@@ -42,12 +47,26 @@ class OverlayPanel extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           spacing: 12,
           children: [
-            Row(spacing: 8, children: [
-              ErmiasIcon(panelIcon(id), color: t.ink),
-              Expanded(child: Text(title, style: ErmiasType.heading(t, size: 16))),
-              Flexible(child: Text(subtitle, style: ErmiasType.muted(t, size: 12), overflow: TextOverflow.ellipsis)),
-              _CloseButton(label: 'Close ${title.toLowerCase()}', onTap: onClose),
-            ]),
+            Row(
+              spacing: 8,
+              children: [
+                ErmiasIcon(panelIcon(id), color: t.ink),
+                Expanded(
+                  child: Text(title, style: ErmiasType.heading(t, size: 16)),
+                ),
+                Flexible(
+                  child: Text(
+                    subtitle,
+                    style: ErmiasType.muted(t, size: 12),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                _CloseButton(
+                  label: 'Close ${title.toLowerCase()}',
+                  onTap: onClose,
+                ),
+              ],
+            ),
             Flexible(child: SingleChildScrollView(child: body)),
           ],
         ),
@@ -72,7 +91,11 @@ class _CloseButton extends StatelessWidget {
       excludeSemantics: true,
       child: FocusableActionDetector(
         mouseCursor: SystemMouseCursors.click,
-        actions: {ActivateIntent: CallbackAction<ActivateIntent>(onInvoke: (_) => onTap())},
+        actions: {
+          ActivateIntent: CallbackAction<ActivateIntent>(
+            onInvoke: (_) => onTap(),
+          ),
+        },
         child: GestureDetector(
           onTap: onTap,
           child: Container(
@@ -108,6 +131,9 @@ class MockPanelBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = ThemeScope.of(context);
-    return Text('MOCK · contents arrive in ${_plannedIn[id]}', style: ErmiasType.muted(t));
+    return Text(
+      'MOCK · contents arrive in ${_plannedIn[id]}',
+      style: ErmiasType.muted(t),
+    );
   }
 }

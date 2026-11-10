@@ -24,10 +24,18 @@ enum PanelId {
 @immutable
 class ShellState {
   const ShellState({this.left, this.right})
-      : assert(left == null || identical(left, PanelId.databases) || identical(left, PanelId.auditLog),
-            'left must be a left-strip panel'),
-        assert(right == null || identical(right, PanelId.taskChain) || identical(right, PanelId.projectGrade),
-            'right must be a right-strip panel');
+    : assert(
+        left == null ||
+            identical(left, PanelId.databases) ||
+            identical(left, PanelId.auditLog),
+        'left must be a left-strip panel',
+      ),
+      assert(
+        right == null ||
+            identical(right, PanelId.taskChain) ||
+            identical(right, PanelId.projectGrade),
+        'right must be a right-strip panel',
+      );
 
   final PanelId? left;
   final PanelId? right;

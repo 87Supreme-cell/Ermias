@@ -1,3 +1,5 @@
+import '../audit/audit_sink.dart';
+import '../header/resource_source.dart';
 import '../shell/shell_figures.dart';
 import '../shell/shell_state.dart';
 
@@ -28,3 +30,39 @@ class MockShellFigures implements ShellFigures {
 
 /// MOCK panel subtitle that depends on project data.
 const mockTaskChainPath = 'Engineering → Code → Tech data'; // MOCK → 08 (WO-2)
+
+/// MOCK session state. Real state arrives with sign-in (12, WO-3).
+const mockSessionPill = 'Sterile session · state verified · key present';
+
+/// MOCK network summary. Real summary comes from the connections monitor (03, WO-6).
+const mockNetworkSummary = 'loopback only · 1 external call';
+
+/// MOCK connection counts per tier (03, WO-6).
+const mockConnectionCounts = (local: 4, hybrid: 2, exposed: 1);
+
+/// MOCK model file. The app writes these bytes on start-up and pins their
+/// SHA-256, so the header's hash check runs for real against a mock file.
+/// Real models come from Settings → model providers (13, WO-3).
+const mockModelContents = 'Ermias MOCK model file v1\n';
+const mockModelSha256 = 'af8890cd28043edb95b8ddaa702c68424531628b7d8e106fc548ee3434391fe7';
+
+ModelIdentity mockModelAt(String path) => ModelIdentity(
+      name: 'Olmo-3-7B-Instruct',
+      quantization: 'Q4',
+      path: path,
+      pinnedSha256: mockModelSha256,
+    );
+
+/// Mock model identity for tests and previews.
+final mockModel = mockModelAt('mock-model.bin');
+
+/// MOCK audit sink: keeps entries in memory until the persisted audit log
+/// (07, WO-2) exists.
+class MockAuditSink implements AuditSink {
+  final List<AuditEntry> _entries = [];
+
+  List<AuditEntry> get entries => List.unmodifiable(_entries);
+
+  @override
+  void record(AuditEntry entry) => _entries.add(entry);
+}

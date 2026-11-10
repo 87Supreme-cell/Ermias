@@ -35,6 +35,17 @@ void main() {
     }
   });
 
+  test('arc flags may be packed without separators (SVG grammar)', () {
+    // "a5 5 0 0010 0": rx 5, ry 5, rotation 0, large-arc 0, sweep 0, dx 10, dy 0
+    final packed = parseSvgPath('M0 0a5 5 0 0010 0').getBounds();
+    final spaced = parseSvgPath('M0 0a5 5 0 0 0 10 0').getBounds();
+    expect(packed, spaced);
+  });
+
+  test('arc flags must be 0 or 1', () {
+    expect(() => parseSvgPath('M0 0a5 5 0 2 0 10 0'), throwsFormatException);
+  });
+
   test('unsupported commands are rejected', () {
     expect(() => parseSvgPath('M0 0 Q1 1 2 2'), throwsFormatException);
   });

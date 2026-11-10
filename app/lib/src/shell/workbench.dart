@@ -53,7 +53,8 @@ class Workbench extends StatelessWidget {
   Widget _body() => LayoutBuilder(builder: (context, box) {
         // Panels sit 96 px from the window edge; the body starts after the page padding.
         const offset = ShellLayout.panelInset - ShellLayout.pagePadding;
-        final width = math.min(ShellLayout.panelWidth, box.maxWidth - 2 * offset);
+        // Never negative, even if the window is narrower than the minimum size.
+        final width = math.max(0.0, math.min(ShellLayout.panelWidth, box.maxWidth - 2 * offset));
         return Stack(
           clipBehavior: Clip.none,
           children: [

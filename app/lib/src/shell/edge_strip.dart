@@ -32,16 +32,25 @@ class EdgeStrip extends StatelessWidget {
         child: Column(
           spacing: 10,
           children: [
-            for (final id in PanelId.on(side))
-              StripTab(
-                key: ValueKey('tab-${id.name}'),
-                id: id,
-                figure: figures.figureFor(id),
-                isOpen: state.isOpen(id),
-                onToggle: () => onToggle(id),
+            // Scrolls only when the window is too short for every tab.
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  spacing: 10,
+                  children: [
+                    for (final id in PanelId.on(side))
+                      StripTab(
+                        key: ValueKey('tab-${id.name}'),
+                        id: id,
+                        figure: figures.figureFor(id),
+                        isOpen: state.isOpen(id),
+                        onToggle: () => onToggle(id),
+                      ),
+                    _NeedsYouBadge(count: figures.needsYou(side)),
+                  ],
+                ),
               ),
-            _NeedsYouBadge(count: figures.needsYou(side)),
-            const Spacer(),
+            ),
             if (figures.isMock) const _MockLabel(),
           ],
         ),

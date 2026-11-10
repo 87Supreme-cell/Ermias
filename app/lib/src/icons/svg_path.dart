@@ -1,7 +1,8 @@
 import 'dart:ui';
 
-final _token = RegExp(r'[A-Za-z]|-?(?:\d+\.?\d*|\.\d+)(?:[eE][-+]?\d+)?');
 final _number = RegExp(r'-?(?:\d+\.?\d*|\.\d+)(?:[eE][-+]?\d+)?');
+final _separators = RegExp(r'[\s,]*');
+final _numberStart = RegExp(r'[-+.\d]');
 
 /// Splits SVG number runs the way browsers do: `2.73.73-4` → 2.73, .73, -4.
 List<double> tokenizeSvgNumbers(String input) =>
@@ -12,30 +13,67 @@ const _arity = {'M': 2, 'L': 2, 'H': 1, 'V': 1, 'C': 6, 'S': 4, 'A': 7, 'Z': 0};
 /// Parses SVG path data (M L H V C S A Z, absolute and relative) into a [Path].
 /// Other commands throw [FormatException]; the icons never need them.
 Path parseSvgPath(String data) {
+  final scanner = _Scanner(data);
   final builder = _PathBuilder();
-  String? command;
-  final args = <double>[];
-  void flush() {
-    if (command != null) builder.run(command, List.unmodifiable(args));
-    args.clear();
+  while (scanner.hasMore()) {
+    final command = scanner.readCommand();
+    final upper = command.toUpperCase();
+    final arity = _arity[upper]!;
+    final args = <double>[];
+    if (arity > 0) {
+      do {
+        for (var i = 0; i < arity; i++) {
+          // Arc flags are single characters and may be packed: "a5 5 0 0010 0".
+          final isFlag = upper == 'A' && (i == 3 || i == 4);
+          args.add(isFlag ? scanner.readFlag() : scanner.readNumber());
+        }
+      } while (scanner.nextIsNumber());
+    }
+    builder.run(command, List.unmodifiable(args));
+  }
+  return builder.path;
+}
+
+/// Reads SVG path data left to right, one command, number or flag at a time.
+class _Scanner {
+  _Scanner(this._data);
+
+  final String _data;
+  int _pos = 0;
+
+  void _skip() => _pos += _separators.matchAsPrefix(_data, _pos)!.end - _pos;
+
+  bool hasMore() {
+    _skip();
+    return _pos < _data.length;
   }
 
-  for (final match in _token.allMatches(data)) {
-    final token = match[0]!;
-    if (RegExp(r'^[A-Za-z]$').hasMatch(token)) {
-      if (!_arity.containsKey(token.toUpperCase())) {
-        throw FormatException('Unsupported SVG path command', token);
-      }
-      flush();
-      command = token;
-      if (token.toUpperCase() == 'Z') flush();
-    } else {
-      if (command == null) throw FormatException('Path data must start with a command', data);
-      args.add(double.parse(token));
+  bool nextIsNumber() => hasMore() && _numberStart.hasMatch(_data[_pos]);
+
+  String readCommand() {
+    final c = _data[_pos];
+    if (!_arity.containsKey(c.toUpperCase()) || c.toUpperCase() == c.toLowerCase()) {
+      throw FormatException('Expected a supported SVG path command', _data, _pos);
     }
+    _pos++;
+    return c;
   }
-  flush();
-  return builder.path;
+
+  double readNumber() {
+    _skip();
+    final m = _number.matchAsPrefix(_data, _pos);
+    if (m == null) throw FormatException('Expected a number', _data, _pos);
+    _pos = m.end;
+    return double.parse(m[0]!);
+  }
+
+  double readFlag() {
+    _skip();
+    if (_pos >= _data.length || (_data[_pos] != '0' && _data[_pos] != '1')) {
+      throw FormatException('Arc flag must be 0 or 1', _data, _pos);
+    }
+    return _data[_pos++] == '1' ? 1 : 0;
+  }
 }
 
 class _PathBuilder {

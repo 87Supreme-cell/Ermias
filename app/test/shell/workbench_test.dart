@@ -110,6 +110,48 @@ void main() {
     expect(_panel(PanelId.databases), findsOneWidget);
   });
 
+  testWidgets('every tab and close button is reachable and usable by keyboard', (tester) async {
+    await _pumpWorkbench(tester);
+    Future<void> tabTo(String label) async {
+      for (var i = 0; i < 12; i++) {
+        await tester.sendKeyEvent(LogicalKeyboardKey.tab);
+        await tester.pump();
+        final focused = FocusManager.instance.primaryFocus?.context;
+        if (focused != null &&
+            find.descendant(of: find.bySemanticsLabel(label), matching: find.byWidget(focused.widget)).evaluate().isNotEmpty) {
+          return;
+        }
+      }
+      fail('Tab never reached $label');
+    }
+
+    await tabTo('Project grade');
+    await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+    await tester.pump();
+    expect(_panel(PanelId.projectGrade), findsOneWidget);
+
+    await tabTo('Close project grade');
+    await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+    await tester.pump();
+    expect(_panel(PanelId.projectGrade), findsNothing);
+  });
+
+  testWidgets('the smallest window width still lays out both panels', (tester) async {
+    var state = const ShellState(left: PanelId.databases, right: PanelId.taskChain);
+    await pumpThemed(
+      tester,
+      StatefulBuilder(
+        builder: (context, setState) => Workbench(
+          state: state,
+          onChanged: (update) => setState(() => state = update(state)),
+          header: const SizedBox(height: 128),
+        ),
+      ),
+      size: const Size(480, 720), // window minimum is 1024×720; 480 wide is a margin below it
+    );
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets('mock figures are labeled MOCK', (tester) async {
     await _pumpWorkbench(tester);
     expect(find.textContaining('MOCK'), findsWidgets);

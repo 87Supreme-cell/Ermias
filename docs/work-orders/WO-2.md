@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: superpowers:executing-plans. Steps use checkbox (`- [ ]`) syntax.
 
-**Status:** In progress · **Branch:** `wo-2/panels` · **PR:** one, into `main` (D-047)
+**Status:** Complete, smoke test passed 2026-11-10 · **Branch:** `wo-2/panels` · **PR:** one, into `main` (D-047)
 
 **Goal:** Fill the workbench with sections 03–09 on clearly labeled MOCK data: connections windows, PRIMARY FOCUS with cited answers, chat input, databases, audit log, task chain and project grade. Every control works against one in-memory workspace, and every action that the spec says is logged appears in the audit log.
 
@@ -74,6 +74,24 @@ Extend the smoke test (every panel, a connection revoked and seen in the audit l
 | F2-2 | 2026-11-10 | Attaching a real document (05) needs a native file dialog, i.e. a new dependency (`file_selector`). | `+` attaches a MOCK document in WO-2; dependency to be proposed with local folders (WO-5). |
 | F2-3 | 2026-11-10 | Sending produces a MOCK answer; real answers need a model runtime (WO-3) and the gate (WO-4). | Labeled MOCK. |
 | F2-4 | 2026-11-10 | Grade components and weights are open question 2; drift flag rules are open question 3. | Display only, MOCK values from the reference. |
+| F2-5 | 2026-11-10 | The `audit_event` contract's `kind` list has no entry for the model integrity check (`model_hash_mismatch`, `model_file_missing`, logged since WO-1). | Proposed for the contract review in WO-4 (with F-5: actor and hash chain). |
+| F2-6 | 2026-11-10 | Execution changes from the plan: `MockAuditSink` removed (the workspace controller is the sink); the header network summary now follows the connection data (spec 02 says it reads from the monitor; WO-1 showed fixed text). | Recorded (D-050, D-051). |
 
 ## Smoke test results
-_Recorded at the end of WO-2._
+
+**2026-11-10 · PASS** · macOS (Apple silicon), Flutter 3.47.5, Rust 1.98.1 · `flutter test integration_test -d macos` (the WO-1 checks still run first)
+
+| Check | Spec | Result |
+|---|---|---|
+| A citation chip opens its source | 04 | PASS |
+| Databases panel lists all sources; turning one off updates the strip figure (4/5 → 3/5) and is logged | 06, 07 | PASS |
+| Audit log shows the new action at the top; task chain shows stages | 07, 08 | PASS |
+| Exposed window opens from the box; End connection removes it at once; the audit log shows it | 03 | PASS |
+| External model: approval prompt appears before anything is sent; approving logs `approval` + `left_machine` | 05, 11 | PASS |
+| Full audit log route opens and returns | 07 | PASS |
+| All WO-1 checks (live readings, hash ✓ and mismatch, panels, themes, Settings) | 00–02 | PASS · 7 readings |
+| Screenshots | — | `docs/screenshots/01–09` |
+
+Automated suites at the same commit: `flutter test` 145 passing · `cargo test` 8 passing · `flutter analyze` clean.
+
+Compared with `Code/reference/screenshots/04–08`: layout, panels, the connections window and PRIMARY FOCUS match; differences are the Monaco font (WO-1 F-6) and select menus opening upward (they sit at the bottom of the window).

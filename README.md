@@ -4,7 +4,7 @@
 
 **Why:** research tools that send documents and prompts to a cloud model ask you to give up three things: your data, your compute, and the final say. Ermias keeps all three with the person. Local models and local files are the default. A small deterministic program, the *gate*, with no model inside it, decides what the model may touch. Anything that leaves the machine is visible, approved and logged.
 
-![Ermias workbench, Blues theme, with the Databases and Project grade panels open](docs/screenshots/02-panels-databases-grade.png)
+![Ermias workbench: a cited answer in PRIMARY FOCUS, files in context, drift flags and steps](docs/screenshots/01-workbench-blues.png)
 
 ## Status
 
@@ -13,14 +13,22 @@ Build 1.0 is delivered in work orders, each closed by a smoke test on the real a
 | Work order | Scope | Status |
 |---|---|---|
 | **WO-1** | Workbench shell, four themes, header with live system readings and model hash check | **Done** · [plan, drift flags, smoke results](docs/work-orders/WO-1.md) |
-| WO-2 | Panels 03–09 on mock data (connections windows, PRIMARY FOCUS, chat, databases, audit log, task chain, grade) | Planned |
+| **WO-2** | Panels 03–09 on mock data: connections windows, PRIMARY FOCUS with cited answers, chat with approval, databases, audit log, task chain, grade | **Done** · [plan, drift flags, smoke results](docs/work-orders/WO-2.md) |
 | WO-3 | Sign-in, project kickoff, Settings: model providers | Planned |
 | WO-4 | The gate: deterministic allowlist between the model and everything it can touch | Planned |
 | WO-5 | Local folders as ranked source databases | Planned |
 | WO-6 | Connections monitor (beta) | Planned |
 | WO-7 | Grading against benchmarks agreed at kickoff | Planned |
 
-**What runs today (macOS):** the full workbench frame with keyboard-accessible edge strips and overlay panels; all four themes switchable live; memory and CPU read from a Rust core every 2 seconds; a SHA-256 integrity check of the model file that fails closed (a changed or missing file is a warning and is logged as needing a human). The model, session, connections and panel contents are MOCK.
+**What runs today (macOS):**
+- The full workbench: keyboard-accessible edge strips and overlay panels, four themes switchable live.
+- Live memory and CPU from a Rust core, and a SHA-256 model integrity check that fails closed (a changed or missing file is a warning, logged as needing a human).
+- PRIMARY FOCUS: every answer sentence carries a source chip that opens its source; split samples and uncited claims raise drift flags.
+- Ranked databases you can switch on and off, reorder and re-weight; an audit log that records each of those actions, newest first.
+- Connections windows where a hybrid connection can be revoked or the exposed one ended, at once and logged.
+- Choosing an external model asks for approval before anything leaves the machine; approval and what left are logged.
+
+The model, its answers, the sources, the connections and the grade are **MOCK** data from the approved design; the interface is built so each is replaced by its real source in later work orders.
 
 ## Reviewer guide
 
@@ -29,7 +37,7 @@ Build 1.0 is delivered in work orders, each closed by a smoke test on the real a
 | How it is built and why | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) |
 | Every decision, and whether the owner or Claude made it | [DECISION_LOG.md](DECISION_LOG.md) |
 | Locked design decisions and their change history | [DESIGN_DECISIONS.md](DESIGN_DECISIONS.md) |
-| WO-1: plan, drift flags, smoke-test results | [docs/work-orders/WO-1.md](docs/work-orders/WO-1.md) |
+| Work orders: plan, drift flags, smoke-test results | [WO-1](docs/work-orders/WO-1.md) · [WO-2](docs/work-orders/WO-2.md) |
 | Every dependency, pinned, with its reason | [DEPENDENCIES.md](DEPENDENCIES.md) |
 | Questions waiting on the owner | [OPEN_QUESTIONS.md](OPEN_QUESTIONS.md) |
 | Section specs with acceptance tests | [Code/build-1.0-local-app/](Code/build-1.0-local-app/) |
@@ -43,7 +51,8 @@ Build 1.0 is delivered in work orders, each closed by a smoke test on the real a
 ```mermaid
 flowchart LR
   subgraph App["Flutter desktop app (app/)"]
-    UI["Workbench UI<br/>shell · themes · header"]
+    UI["Workbench UI<br/>shell · themes · header · panels"]
+    WS["Workspace state<br/>immutable · MOCK seed"]
     Themes["Theme catalog<br/>parsed from themes.json"]
   end
   subgraph Core["Rust core (core/)"]
@@ -51,6 +60,7 @@ flowchart LR
     Hash["hash: SHA-256, pinned check"]
   end
   Spec["Code/shared/themes.json<br/>single source of truth"] --> Themes
+  UI <--> WS
   UI -- "flutter_rust_bridge" --> Sys
   UI -- "flutter_rust_bridge" --> Hash
   Gate["Gate (WO-4, planned)<br/>deterministic allowlist"]:::planned
@@ -82,7 +92,7 @@ Requirements: macOS with Xcode, Flutter 3.47.5, and [rustup](https://rustup.rs) 
 
 ```sh
 cd app
-flutter test                            # 101 unit and widget tests
+flutter test                            # 145 unit and widget tests
 flutter test integration_test -d macos  # smoke test on the real app; writes screenshots
 flutter run -d macos                    # run the app
 
@@ -108,9 +118,13 @@ To regenerate the Dart bindings after changing `core/src/api`: `cargo install fl
 
 | | |
 |---|---|
-| ![Cyberpunk theme](docs/screenshots/04-theme-cyberpunk.png) | ![Sunburst theme](docs/screenshots/05-theme-sunburst.png) |
+| ![Databases and Project grade panels](docs/screenshots/02-panels-databases-grade.png) | ![Audit log and Task chain panels](docs/screenshots/03-panels-audit-tasks.png) |
+| Ranked databases and the project grade | Audit log and task chain |
+| ![Exposed connection window](docs/screenshots/04-connections-exposed.png) | ![Approval before an external call](docs/screenshots/05-approval-before-external-call.png) |
+| Exposed connection: what left, who approved it | Nothing leaves without approval |
+| ![Cyberpunk theme](docs/screenshots/06-theme-cyberpunk.png) | ![Sunburst theme](docs/screenshots/07-theme-sunburst.png) |
 | Cyberpunk | Sunburst |
-| ![Earth tones theme](docs/screenshots/06-theme-earth-tones.png) | ![Model hash mismatch warning](docs/screenshots/07-model-hash-mismatch.png) |
+| ![Earth tones theme](docs/screenshots/08-theme-earth-tones.png) | ![Model hash mismatch warning](docs/screenshots/09-model-hash-mismatch.png) |
 | Earth tones | Model file changed: the hash check fails and is logged |
 
 ## Build order

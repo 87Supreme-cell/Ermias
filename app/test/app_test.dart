@@ -1,5 +1,7 @@
 import 'package:ermias/src/app.dart';
 import 'package:ermias/src/mock/mock_data.dart';
+import 'package:ermias/src/mock/mock_workspace.dart';
+import 'package:ermias/src/workspace/workspace_controller.dart';
 import 'package:ermias/src/theme/glass.dart';
 import 'package:ermias/src/theme/solid.dart';
 import 'package:flutter/widgets.dart';
@@ -31,7 +33,7 @@ void main() {
       ErmiasApp(
         catalog: testCatalog,
         resources: FakeResourceSource(),
-        audit: MockAuditSink(),
+        workspace: WorkspaceController(mockWorkspace()),
         model: mockModel,
       ),
     );

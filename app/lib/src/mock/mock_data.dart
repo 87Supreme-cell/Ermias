@@ -1,4 +1,3 @@
-import '../audit/audit_sink.dart';
 import '../header/resource_source.dart';
 import '../shell/shell_figures.dart';
 import '../shell/shell_state.dart';
@@ -34,9 +33,6 @@ const mockTaskChainPath = 'Engineering → Code → Tech data'; // MOCK → 08 (
 /// MOCK session state. Real state arrives with sign-in (12, WO-3).
 const mockSessionPill = 'Sterile session · state verified · key present';
 
-/// MOCK network summary. Real summary comes from the connections monitor (03, WO-6).
-const mockNetworkSummary = 'loopback only · 1 external call';
-
 /// MOCK connection counts per tier (03, WO-6).
 const mockConnectionCounts = (local: 4, hybrid: 2, exposed: 1);
 
@@ -56,14 +52,3 @@ ModelIdentity mockModelAt(String path) => ModelIdentity(
 
 /// Mock model identity for tests and previews.
 final mockModel = mockModelAt('mock-model.bin');
-
-/// MOCK audit sink: keeps entries in memory until the persisted audit log
-/// (07, WO-2) exists.
-class MockAuditSink implements AuditSink {
-  final List<AuditEntry> _entries = [];
-
-  List<AuditEntry> get entries => List.unmodifiable(_entries);
-
-  @override
-  void record(AuditEntry entry) => _entries.add(entry);
-}

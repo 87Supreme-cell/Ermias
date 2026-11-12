@@ -3,33 +3,100 @@ import 'package:flutter/widgets.dart';
 import '../icons/ermias_icon.dart';
 import '../icons/ermias_icons.dart';
 import '../icons/risk_shape.dart';
-import '../mock/mock_data.dart';
 import '../theme/theme_scope.dart';
 import '../theme/typography.dart';
+import '../workspace/models.dart';
+import '../workspace/workspace_controller.dart';
+import 'connection_window.dart';
 
-enum ConnectionTier { hybrid, exposed }
-
-/// High-contrast connections box (03_connections), centered in header row 2.
-/// Counts are MOCK until the monitor exists (WO-6); the drill-down windows
-/// arrive with section 03 (WO-2).
+/// High-contrast connections box (03), centered in header row 2. Hybrid and
+/// Exposed open a window just below it; Local is not openable. Counts and
+/// connections are MOCK until the monitor exists (WO-6).
 class ConnectionsBox extends StatefulWidget {
-  const ConnectionsBox({super.key});
+  const ConnectionsBox({
+    super.key,
+    required this.controller,
+    required this.onOpenAuditLog,
+  });
+
+  final WorkspaceController controller;
+  final VoidCallback onOpenAuditLog;
 
   @override
   State<ConnectionsBox> createState() => _ConnectionsBoxState();
 }
 
 class _ConnectionsBoxState extends State<ConnectionsBox> {
+  final _window = OverlayPortalController();
+  final _link = LayerLink();
   ConnectionTier? _open;
 
-  void _toggle(ConnectionTier tier) =>
-      setState(() => _open = _open == tier ? null : tier);
+  void _toggle(ConnectionTier tier) {
+    setState(() => _open = _open == tier ? null : tier);
+    _open == null ? _window.hide() : _window.show();
+  }
+
+  void _close() {
+    setState(() => _open = null);
+    _window.hide();
+  }
+
+  @override
+  Widget build(BuildContext context) => CompositedTransformTarget(
+    link: _link,
+    child: OverlayPortal(
+      controller: _window,
+      overlayChildBuilder: (context) => CompositedTransformFollower(
+        link: _link,
+        targetAnchor: Alignment.bottomCenter,
+        followerAnchor: Alignment.topCenter,
+        offset: const Offset(0, 8),
+        child: Align(
+          alignment: Alignment.topCenter,
+          child: ConnectionWindow(
+            controller: widget.controller,
+            tier: _open ?? ConnectionTier.hybrid,
+            onClose: _close,
+            onOpenAuditLog: () {
+              _close();
+              widget.onOpenAuditLog();
+            },
+          ),
+        ),
+      ),
+      child: ValueListenableBuilder(
+        valueListenable: widget.controller,
+        builder: (context, state, _) => _Box(
+          local: state.countOf(ConnectionTier.local),
+          hybrid: state.countOf(ConnectionTier.hybrid),
+          exposed: state.countOf(ConnectionTier.exposed),
+          open: _open,
+          onTier: _toggle,
+        ),
+      ),
+    ),
+  );
+}
+
+class _Box extends StatelessWidget {
+  const _Box({
+    required this.local,
+    required this.hybrid,
+    required this.exposed,
+    required this.open,
+    required this.onTier,
+  });
+
+  final int local;
+  final int hybrid;
+  final int exposed;
+  final ConnectionTier? open;
+  final ValueChanged<ConnectionTier> onTier;
 
   @override
   Widget build(BuildContext context) {
     final t = ThemeScope.of(context);
-    const c = mockConnectionCounts;
-    final label = ErmiasType.heading(
+    final caption = ErmiasType.heading(
       t,
       size: 11,
     ).copyWith(color: t.invMuted, letterSpacing: 0.88);
@@ -47,32 +114,27 @@ class _ConnectionsBoxState extends State<ConnectionsBox> {
           children: [
             Padding(
               padding: const EdgeInsets.only(right: 6),
-              child: Text('CONNECTIONS', style: label),
+              child: Text('CONNECTIONS', style: caption),
             ),
             Semantics(
-              label: '${c.local} Local connections, local only, not openable',
+              label: '$local Local connections, local only, not openable',
               excludeSemantics: true,
-              child: _TierLabel(
+              child: TierLabel(
                 shape: RiskShape.circle,
                 color: t.riskLocal,
-                text: '${c.local} Local',
+                text: '$local Local',
               ),
             ),
-            _TierButton(
-              tier: ConnectionTier.hybrid,
-              count: c.hybrid,
-              isOpen: _open == ConnectionTier.hybrid,
-              onTap: _toggle,
-            ),
-            _TierButton(
-              tier: ConnectionTier.exposed,
-              count: c.exposed,
-              isOpen: _open == ConnectionTier.exposed,
-              onTap: _toggle,
-            ),
+            for (final tier in [ConnectionTier.hybrid, ConnectionTier.exposed])
+              _TierButton(
+                tier: tier,
+                count: tier == ConnectionTier.hybrid ? hybrid : exposed,
+                isOpen: open == tier,
+                onTap: onTier,
+              ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Text('MOCK', style: label.copyWith(fontSize: 10)),
+              child: Text('MOCK', style: caption.copyWith(fontSize: 10)),
             ),
           ],
         ),
@@ -81,8 +143,10 @@ class _ConnectionsBoxState extends State<ConnectionsBox> {
   }
 }
 
-class _TierLabel extends StatelessWidget {
-  const _TierLabel({
+/// Shape + count + name, on the inverted surface.
+class TierLabel extends StatelessWidget {
+  const TierLabel({
+    super.key,
     required this.shape,
     required this.color,
     required this.text,
@@ -166,7 +230,7 @@ class _TierButton extends StatelessWidget {
                 color: isOpen ? t.invBorder : const Color(0x00000000),
               ),
             ),
-            child: _TierLabel(
+            child: TierLabel(
               shape: isHybrid ? RiskShape.diamond : RiskShape.triangle,
               color: isHybrid ? t.riskHybrid : t.riskExposed,
               text: '$count $name',

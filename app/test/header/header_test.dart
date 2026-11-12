@@ -1,6 +1,8 @@
 import 'package:ermias/src/header/header_bar.dart';
 import 'package:ermias/src/header/resource_source.dart';
 import 'package:ermias/src/mock/mock_data.dart';
+import 'package:ermias/src/mock/mock_workspace.dart';
+import 'package:ermias/src/workspace/workspace_controller.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -22,23 +24,24 @@ ResourceReading _reading({
   at: at,
 );
 
-Future<(FakeResourceSource, MockAuditSink, List<String>)> _pump(
+Future<(FakeResourceSource, WorkspaceController, List<String>)> _pump(
   WidgetTester tester, {
   ModelCheck check = ModelCheck.ok,
 }) async {
   final source = FakeResourceSource(check: check);
-  final audit = MockAuditSink();
+  final audit = WorkspaceController(mockWorkspace());
   final picked = <String>[];
   await pumpThemed(
     tester,
     HeaderBar(
       resources: source,
-      audit: audit,
+      workspace: audit,
       model: mockModel,
       catalog: testCatalog,
       activeTheme: 'Blues',
       onTheme: picked.add,
       onSettings: () => picked.add('settings'),
+      onOpenAuditLog: () => picked.add('audit'),
     ),
   );
   await tester.pump();
@@ -117,9 +120,8 @@ void main() {
     final warning = tester.widget<Text>(find.textContaining('hash mismatch'));
     expect(warning.style?.color, testCatalog.defaultTheme.warnText);
     expect(find.bySemanticsLabel(RegExp('warning')), findsWidgets);
-    expect(audit.entries, hasLength(1));
-    expect(audit.entries.single.needsHuman, isTrue);
-    expect(audit.entries.single.kind, 'model_hash_mismatch');
+    expect(audit.value.audit.first.needsHuman, isTrue);
+    expect(audit.value.audit.first.kind, 'model_hash_mismatch');
   });
 
   testWidgets('a missing model file is also a warning, never a pass', (
@@ -127,7 +129,8 @@ void main() {
   ) async {
     final (_, audit, _) = await _pump(tester, check: ModelCheck.missing);
     expect(find.textContaining('model file missing'), findsOneWidget);
-    expect(audit.entries.single.needsHuman, isTrue);
+    expect(audit.value.audit.first.kind, 'model_file_missing');
+    expect(audit.value.audit.first.needsHuman, isTrue);
   });
 
   testWidgets('the gear opens Settings', (tester) async {
@@ -183,6 +186,14 @@ void main() {
                 .decoration
             as BoxDecoration;
     expect(deco.color, testCatalog.defaultTheme.invBg);
+  });
+
+  testWidgets('the network summary follows the connections', (tester) async {
+    final (_, workspace, _) = await _pump(tester);
+    expect(find.text('loopback only · 1 external call · MOCK'), findsOneWidget);
+    workspace.endConnection('e1');
+    await tester.pump();
+    expect(find.text('loopback only · MOCK'), findsOneWidget);
   });
 
   testWidgets('mock values are labeled MOCK', (tester) async {
